@@ -1,0 +1,43 @@
+Package: CluMSID
+Type: Package
+Title: Clustering of MS2 Spectra for Metabolite Identification
+Version: 0.1.0
+Authors@R: c(person("Tobias", "Depke", email = "tobias.depke@helmholtz-hzi.de", 
+    role = c("aut", "cre")),
+    person("Raimo", "Franke", email = "raimo.franke@helmholtz-hzi.de",
+    role = "ctb"),
+    person("Mark", "Broenstrup", email = "mark.broenstrup@helmholtz-hzi.de",
+    role = "ths"))
+Maintainer: Tobias Depke <tobias.depke@helmholtz-hzi.de>
+Description: CluMSID is a tool that aids the identification of features 
+    in untargeted LC-MS/MS analysis by the use of MS2 spectra similarity 
+    and unsupervised statistical methods. It offers functions for a complete 
+    and customisable workflow from raw data to visualisations and is
+    interfaceable with the xmcs family of preprocessing packages.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    mzR,
+    S4Vectors,
+    dbscan,
+    RColorBrewer,
+    ape,
+    network,
+    GGally,
+    ggplot2,
+    plotly,
+    methods,
+    stats,
+    sna,
+    grDevices,
+    graphics,
+    Biobase,
+    dplyr,
+    readr,
+    magrittr
+RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
