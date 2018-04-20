@@ -64,6 +64,6 @@ CluMSID_OPTICSplot <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 
   opal <- grDevices::palette()
   grDevices::palette(c(opal, rep(c("orange", opal[-1]),10)))
-  graphics::plot(res)
+  graphics::plot(res, main = NULL)
   grDevices::palette(opal)
 }
