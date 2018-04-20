@@ -49,9 +49,9 @@ mergeTolerance <- function(x, y, tolerance = 1e-5) {
 #'
 #' @param recalibrate_precursor Logical, defaults to \code{FALSE}. Applicable
 #'   only for files that were exported to mzXML using a deprecated version of
-#'   Bruker Compass Xport. If set to \code{TRUE}, the precursor m/z will be
-#'   recalculated from the respective fragment m/z in the MS2 spectrum. For
-#'   details, see Depke et al. 2017.
+#'   Bruker Compass Xport (< 3.0.13). If set to \code{TRUE}, the precursor m/z
+#'   will be recalculated from the respective fragment m/z in the MS2 spectrum.
+#'   For details, see Depke et al. 2017.
 #'
 #' @param RTlims Retention time interval for the extraction of spectra. Provide
 #'   as numeric vector of length 2. Spectra with retention time <
@@ -112,7 +112,7 @@ extractMS2spectra <- function(MSfile, min_peaks = 2,
         }
       }
       if (x == 0 ||
-          ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 100) {
+          ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 200) {
         new.pmz[i] <- x
       } else {
         new.pmz[i] <- NA
