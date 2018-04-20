@@ -122,6 +122,7 @@ extractMS2spectra <- function(MSfile, min_peaks = 2,
     new.pmz <- pmz
   }
 
+
   precursor <- cbind(new.pmz, mzR::header(aa)$retentionTime)
   precursor2 <- precursor[ms2log,][vec,]
 
@@ -268,6 +269,9 @@ mergeMS2spectra <- function(ms2list,
   }
 
   mz1 <- cbind(mz, rt)
+  if(any(is.na(mz1))){
+    stop("NAs in either mz or rt slot in at least one object!")
+  }
 
   #if no sample table is provided, the original
   #algorithm is used to summarise spectra/features
