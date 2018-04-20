@@ -17,6 +17,10 @@
 #'
 #' @keywords internal
 mergeTolerance <- function(x, y, tolerance = 1e-5) {
+  colnames(x) <-
+    c("V1", 2:ncol(x)) #suppresses error warning 'duplicate column names'
+  colnames(y) <-
+    c("V1", 2:ncol(y)) #suppresses error warning 'duplicate column names'
   mrg <- merge(x, y, by = "V1", all = T)
   mrg[is.na(mrg)] <- 0
   i <- 1
