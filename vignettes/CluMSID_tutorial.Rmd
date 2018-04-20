@@ -30,7 +30,7 @@ For the demonstrations in this tutorial, we will mainly use data from pooled *Ps
 The package can be loaded as follows:
 
 ```{r load_package_0, eval=FALSE}
-devtools::install_github("tdepke/CluMSID")
+devtools::install_github("tdepke/CluMSID", ref = "package", build_vignettes = TRUE)
 ```
 ```{r load_package_1, eval=TRUE}
 library(CluMSID)
