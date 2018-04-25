@@ -327,6 +327,12 @@ mergeMS2spectra <- function(ms2list,
 
   } else { #when a peak table is used ...
 
+    #problems arise when the ID column is factor,
+    #so it will be converted to character first
+
+    if(is.factor(peaktable[,1])){
+      peaktable[,1] <- as.character(peaktable[,1])
+    }
 
     matr <- matrix(data = NA, ncol = 3, nrow = nrow(mz1))
     for(e in 1:nrow(mz1)){
