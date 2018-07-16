@@ -144,14 +144,14 @@ head(ptable)
 We can now use this peaktable as an argument for `mergeMS2spectra()`. You can choose whether you want to keep or exclude MS^2^ spectra that do not match any peak in the peaktable. These can occur in regions of the chromatogramm where there are no clear peaks but the auto-MS/MS still fragments the most abundant ions. These unmatched spectra are merged following the same rules as described above (method without peaktable). In this example, we keep the unmatched spectra. We use the default values for *m/z* and retention time tolerance and thus do not need to specify them.
 
 ```{r mergeMS2spectra_7, warning=FALSE}
-featlist2 <- mergeMS2spectra(ms2list, 
+featlist2 <- mergeMS2spectra(ms2list2, 
                              peaktable = ptable,
                              exclude_unmatched = FALSE)
 
 head(featlist2, 4)
 ```
 
-Note that the 4^th^ entry in `featlist2` is marked with an 'x' which means that it could not be assigned to a feature in the peaktable.
+Note that the 2^nd^ entry in `featlist2` is marked with an 'x' which means that it could not be assigned to a feature in the peaktable.
 
 For the sake of simplicity, only the data generated from the stand-alone procedure will be used for the following examples. Be assured that all of them would also work with the data generated with the help of an external peaktable (`featlist2`).
 
