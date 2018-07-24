@@ -97,7 +97,7 @@ CluMSID_MDS <- function(distmat, interactive = FALSE, highlight_annotated = FALS
   }
 
   if(interactive == FALSE) return(q) else {
-    suppressMessages(p <- plotly::ggplotly(q, tooltip = "anno"))
+    suppressMessages(p <- plotly::ggplotly(q, tooltip = "text"))
     return (p)
   }
 }
