@@ -10,27 +10,27 @@
 #' @param interactive Logical, defaults to \code{FALSE}. If \code{TRUE}, an
 #'   interactive visualisation is generated using \pkg{plotly}.
 #'
-#' @param show_labels Logical, defaults to \code{FALSE}. If \code{TRUE}, feature
-#'   IDs are printed as labels in the network plot. Argument has no effect if
-#'   \code{interactive} is \code{TRUE} (because in this case, labels are
-#'   displayed on mouse-over).
+#' @param show_labels Logical, defaults to \code{FALSE}. If \code{TRUE},
+#'   feature IDs are printed as labels in the network plot. Argument has no
+#'   effect if \code{interactive} is \code{TRUE} (because in this case, labels
+#'   are displayed on mouse-over).
 #'
 #' @param label_size Numeric, defaults to \code{1.5}. If \code{show_labels} is
 #'   \code{TRUE} and \code{interactive} is \code{FALSE}, \code{label_size}
 #'   defines the size of labels in the plot.
 #'
-#' @param highlight_annotated Logical, defaults to \code{FALSE}. If \code{TRUE},
-#'   points for features for which an annotation was added before using
-#'   \code{\link{distanceMatrix}} are highlighted by red colour, while other
-#'   points are grey in the network plot.
+#' @param highlight_annotated Logical, defaults to \code{FALSE}. If
+#'   \code{TRUE}, points for features for which an annotation was added before
+#'   using \code{\link{distanceMatrix}} are highlighted by red colour, while
+#'   other points are grey in the network plot.
 #'
 #' @param min_similarity Numeric, defaults to \code{0.1}. The minimum spectral
 #'   contrast angle (see\code{\link{cossim}}) that is considered a spectral
 #'   similarity and hence a connection in the network.
 #'
 #' @param exclude_singletons Logical, defaults to \code{FALSE}. If \code{TRUE},
-#'   features that have no connection to any other feature will not be displayed
-#'   in the network plot.
+#'   features that have no connection to any other feature will not be
+#'   displayed in the network plot.
 #'
 #' @return A network plot generated with the help of
 #'   \code{\link[network]{network}}, \code{\link[GGally]{ggnet2}} and, if
@@ -65,7 +65,7 @@ CluMSID_network <- function(distmat, interactive = FALSE, show_labels = FALSE,
 
   elist <- network::as.edgelist(spec_net)
   eweights <- c()
-  for (i in 1:nrow(elist)){
+  for (i in seq_len(nrow(elist))){
     x <- elist[i,1]; y <- elist[i,2]
     eweights[i] <- simmat[x,y]
   }

@@ -8,7 +8,8 @@ extractPseudospectra(x, min_peaks = 1, intensity_columns = NULL)
 }
 \arguments{
 \item{x}{\pkg{CAMERA} output that contains information on pseudospectra.
-Can either be of class \code{data.frame} or \code{\link[CAMERA]{xsAnnotate}}.
+Can either be of class \code{data.frame} or
+\code{\link[CAMERA]{xsAnnotate}}.
 It is recommended to use either \code{xsAnnotate} objects or
 \code{data.frame}s generated from XCMSonline results tables but
 other \code{data.frame}s are possible.}

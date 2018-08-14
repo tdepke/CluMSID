@@ -46,14 +46,14 @@ CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram"){
   clust <- stats::hclust(stats::as.dist(distmat), method = "average")
   hclusttree <- stats::cutree(clust, h = h)
   hclustmat <- cbind(names(hclusttree), hclusttree)
-  clustorder <- hclusttree[clust$order] # YES, this is right!!!
+  clustorder <- hclusttree[clust$order]
 
   nc <- round(max(hclusttree)/8)
 
   if(type == "heatmap") {
     stats::heatmap(as.matrix(distmat),
             Rowv = stats::as.dendrogram(clust), Colv = "Rowv",
-            distfun = NULL, symm = T, margins = c(16,8))
+            distfun = NULL, symm = TRUE, margins = c(16,8))
   } else if(type == "dendrogram") {
     clr <- RColorBrewer::brewer.pal(n = 8, name = "Dark2")
     graphics::plot(

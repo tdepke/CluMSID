@@ -8,8 +8,8 @@ extractMS2spectra(MSfile, min_peaks = 2, recalibrate_precursor = FALSE,
   RTlims = NULL)
 }
 \arguments{
-\item{MSfile}{An LC-MS/MS raw data file in one of the non-proprietary formats
-that can be parsed by \code{mzR}, e.g. mzXML or mzML.}
+\item{MSfile}{An LC-MS/MS raw data file in one of the non-proprietary
+formats that can be parsed by \code{mzR}, e.g. mzXML or mzML.}
 
 \item{min_peaks}{Minimum number of peaks in MS2 spectrum, defaults to
 \code{2}. Spectra with less than \code{min_peaks} fragment peaks will be

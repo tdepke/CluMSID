@@ -1,7 +1,7 @@
 #' Match one spectrum against a set of spectra
 #'
-#' \code{getSimilarities} calculates the similarities of one spectrum or neutral
-#' loss pattern to a set of other spectra or neutral loss patterns.
+#' \code{getSimilarities} calculates the similarities of one spectrum or
+#' neutral loss pattern to a set of other spectra or neutral loss patterns.
 #'
 #' @param spec The spectrum to be compared to other spectra. Can be either an
 #'   object of class \code{\linkS4class{MS2spectrum}} or a two-column numerical
@@ -26,7 +26,10 @@
 #'   neutral loss patterns in \code{speclist}.
 #'
 #' @export
-getSimilarities <- function(spec, speclist, type = "spectrum", hits_only = FALSE){
+getSimilarities <- function(spec,
+                            speclist,
+                            type = "spectrum",
+                            hits_only = FALSE){
   if(!(type %in% c("spectrum", "neutral_losses"))){
     stop("'type' must be either 'spectrum' (default) or 'neutral_losses'!")
   }
@@ -38,7 +41,7 @@ getSimilarities <- function(spec, speclist, type = "spectrum", hits_only = FALSE
     }
   }
   simvec <- c()
-  for(k in 1:length(speclist)){
+  for(k in seq_along(speclist)){
     simvec[k] <- cossim(spec, speclist[[k]], type = type)
     names(simvec)[k] <- speclist[[k]]@id
   }
@@ -70,7 +73,7 @@ getSimilarities <- function(spec, speclist, type = "spectrum", hits_only = FALSE
 #' @export
 findFragment <- function(featlist, mz, tolerance = 1E-05){
   subsetter <- c()
-  for(i in 1:length(featlist)){
+  for(i in seq_along(featlist)){
     m <- featlist[[i]]@spectrum
     subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
   }
@@ -102,12 +105,13 @@ findFragment <- function(featlist, mz, tolerance = 1E-05){
 #' @export
 findNL <- function(featlist, mz, tolerance = 1E-05){
   subsetter <- c()
-  for(i in 1:length(featlist)){
+  for(i in seq_along(featlist)){
     m <- featlist[[i]]@neutral_losses
     subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
   }
   message(cat(sum(subsetter),
-              "neutral loss patterns were found that contain a neutral loss of m/z",
+              "neutral loss patterns were found that
+              contain a neutral loss of m/z",
               mz, "+/-", tolerance * 1E06, "ppm."))
   return(featlist[subsetter])
 }
@@ -147,17 +151,17 @@ getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
   subsetter <- c()
 
   if(slot %in% c("id", "annotation")){
-    for(i in 1:length(featlist)){
+    for(i in seq_along(featlist)){
       m <- methods::slot(featlist[[i]], slot)
       subsetter[i] <- what %in% m
     }
   } else if(slot == "precursor"){
-    for(i in 1:length(featlist)){
+    for(i in seq_along(featlist)){
       m <- methods::slot(featlist[[i]], slot)
       subsetter[i] <- abs(what - m) <= mz.tol
     }
   } else if(slot == "rt"){
-    for(i in 1:length(featlist)){
+    for(i in seq_along(featlist)){
       m <- methods::slot(featlist[[i]], slot)
       subsetter[i] <- abs(what - m) <= rt.tol
     }

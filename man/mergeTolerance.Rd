@@ -20,8 +20,8 @@ A matrix with m/z in the first column and separate columns for
   corresponds to the mean of the two original m/z.
 }
 \description{
-\code{mergeTolerance()} merges two spectra by identifying common peaks with a
-given m/z tolerance. It can be used with \code{Reduce()} to merge more than
-two spectra.
+\code{mergeTolerance()} merges two spectra by identifying common peaks with
+a given m/z tolerance. It can be used with \code{Reduce()} to merge more
+than two spectra.
 }
 \keyword{internal}

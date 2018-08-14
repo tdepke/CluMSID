@@ -7,8 +7,8 @@
 convertSpectrum(x)
 }
 \arguments{
-\item{x}{An object of class \code{\link[MSnbase:Spectrum-class]{Spectrum}} or
-\code{\link[MSnbase:Spectrum-class]{Spectrum2}}}
+\item{x}{An object of class \code{\link[MSnbase:Spectrum-class]{Spectrum}}
+or \code{\link[MSnbase:Spectrum-class]{Spectrum2}}}
 }
 \value{
 An object of class \code{\linkS4class{MS2spectrum}}

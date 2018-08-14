@@ -4,7 +4,8 @@
 #' \pkg{CAMERA} output.
 #'
 #' @param x \pkg{CAMERA} output that contains information on pseudospectra.
-#' Can either be of class \code{data.frame} or \code{\link[CAMERA]{xsAnnotate}}.
+#' Can either be of class \code{data.frame} or
+#' \code{\link[CAMERA]{xsAnnotate}}.
 #' It is recommended to use either \code{xsAnnotate} objects or
 #' \code{data.frame}s generated from XCMSonline results tables but
 #' other \code{data.frame}s are possible.
@@ -42,19 +43,22 @@ extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
       rt <- x$rt
     } else if("rtmed" %in% colnames(x)){
       rt <- x$rtmed
-    } else stop("The column name for retention time must be either 'rt' or 'rtmed'!")
+    } else stop("The column name for retention time
+                must be either 'rt' or 'rtmed'!")
 
-    #XCMSonline output has maximum intensity as a column, this is easiest to use for intensity
+    #XCMSonline output has maximum intensity as a column,
+    #this is easiest to use for intensity
     #otherwise, intensity columns have to be indicated!
     if("maxint" %in% colnames(x)){
       maxint <- x$maxint
     } else if(!is.null(intensity_columns)){
       maxint <- c()
-      for(i in 1:nrow(x)){
-        maxint[i] <- max(x[i, intensity_columns], na.rm = T)
+      for(i in seq_len(nrow(x))){
+        maxint[i] <- max(x[i, intensity_columns], na.rm = TRUE)
       }
     } else stop("If x does not contain a 'maxint' column,
-                please indicate the indices of the columns that contain intensity values!")
+                please indicate the indices of the columns
+                that contain intensity values!")
 
     #Create actual list of pseudospectra
     pseudospeclist <- list()
@@ -79,22 +83,25 @@ extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
     if("maxo" %in% colnames(x@groupInfo)){
 
       pseudospeclist <- list()
-      for(i in 1:length(x@pspectra)){
+      for(i in seq_along(x@pspectra)){
 
         spc <- cbind(x@groupInfo[x@pspectra[[i]],"mz"],
-                     max(x@groupInfo[x@pspectra[[i]],"maxo"], na.rm = T))
+                     max(x@groupInfo[x@pspectra[[i]],"maxo"], na.rm = TRUE))
 
         pseudospeclist[[i]] <- methods::new("pseudospectrum",
                                    id = i,
-                                   rt = stats::median(x@groupInfo[x@pspectra[[i]],"rt"]),
+                                   rt =
+                                     stats::median(x@groupInfo[x@pspectra[[i]],
+                                                               "rt"]),
                                    spectrum = spc)
       }
     } else {
 
       #automatically find intensity columns by fuzzy matching of sample names
       temp <- list()
-      for(j in 1:length(rownames(x@xcmsSet@phenoData))){
-        temp[[j]] <- agrep(rownames(x@xcmsSet@phenoData)[j], colnames(x@groupInfo))
+      for(j in seq_along(rownames(x@xcmsSet@phenoData))){
+        temp[[j]] <- agrep(rownames(x@xcmsSet@phenoData)[j],
+                           colnames(x@groupInfo))
       }
       sv <- unique(unlist(temp))
 
@@ -102,27 +109,30 @@ extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
       x@groupInfo[,sv][is.na(x@groupInfo[,sv])] <- 0
 
       pseudospeclist <- list()
-      for(i in 1:length(x@pspectra)){
+      for(i in seq_along(x@pspectra)){
         if(length(x@pspectra[[i]])>1){
           spc <- cbind(x@groupInfo[x@pspectra[[i]],"mz"],
                        Biobase::rowMax(x@groupInfo[x@pspectra[[i]],sv]))
         } else {
           spc <- cbind(x@groupInfo[x@pspectra[[i]],"mz"],
-                       max(x@groupInfo[x@pspectra[[i]],sv], na.rm = T))
+                       max(x@groupInfo[x@pspectra[[i]],sv], na.rm = TRUE))
         }
         pseudospeclist[[i]] <- methods::new("pseudospectrum",
                                    id = i,
-                                   rt = stats::median(x@groupInfo[x@pspectra[[i]],"rt"]),
+                                   rt =
+                                     stats::median(x@groupInfo[x@pspectra[[i]],
+                                                               "rt"]),
                                    spectrum = spc)
       }
 
     }
 
-  } else stop("'x' must be either a data.frame or an object of class 'xsAnnotate'!")
+  } else stop("'x' must be either a data.frame
+              or an object of class 'xsAnnotate'!")
 
   #Possibility to filter pseudospectra by minimum number of peaks
   psvec <- c()
-  for(i in 1:length(pseudospeclist)) {
+  for(i in seq_along(pseudospeclist)) {
     psvec[i] <- nrow(pseudospeclist[[i]]@spectrum) > min_peaks
   }
 

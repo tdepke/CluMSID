@@ -7,8 +7,8 @@
 neutrallossPatterns(x)
 }
 \arguments{
-\item{x}{an object of class \code{\linkS4class{MS2spectrum}} that contains an
-MS2 spectrum in the \code{spectrum} slot}
+\item{x}{an object of class \code{\linkS4class{MS2spectrum}} that contains
+an MS2 spectrum in the \code{spectrum} slot}
 }
 \value{
 an object of class \code{\linkS4class{MS2spectrum}} with a neutral

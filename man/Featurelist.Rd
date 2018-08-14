@@ -17,8 +17,8 @@ A \code{data.frame} that contains feature ID, precurosur \emph{m/z}
 }
 \description{
 \code{Featurelist} generates a \code{data.frame} that contains feature ID,
-precurosur \emph{m/z} and retention time for all features contained in a list
-of \code{MS2spectrum} objects as produced by \code{extractMS2spectra} and
-\code{mergeSpecList}. \code{Featurelist} is used internally by
+precurosur \emph{m/z} and retention time for all features contained in a
+list of \code{MS2spectrum} objects as produced by \code{extractMS2spectra}
+and \code{mergeSpecList}. \code{Featurelist} is used internally by
 \code{\link{writeFeaturelist}}.
 }

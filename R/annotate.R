@@ -2,9 +2,9 @@
 #' \code{MS2spectrum} objects
 #'
 #' \code{Featurelist} generates a \code{data.frame} that contains feature ID,
-#' precurosur \emph{m/z} and retention time for all features contained in a list
-#' of \code{MS2spectrum} objects as produced by \code{extractMS2spectra} and
-#' \code{mergeSpecList}. \code{Featurelist} is used internally by
+#' precurosur \emph{m/z} and retention time for all features contained in a
+#' list of \code{MS2spectrum} objects as produced by \code{extractMS2spectra}
+#' and \code{mergeSpecList}. \code{Featurelist} is used internally by
 #' \code{\link{writeFeaturelist}}.
 #'
 #' @param featlist A list of \code{MS2spectrum} objects as produced by
@@ -50,7 +50,7 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
     df,
     file = filename,
     sep = ",",
-    row.names = F
+    row.names = FALSE
   )
 }
 
@@ -72,8 +72,9 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
 #'   e.g. in Excel, is used to generate \code{annolist}.
 #'
 #' @return A list of \code{MS2spectrum} objects as produced by
-#'   \code{extractMS2spectra} and \code{mergeSpecList} with external annotations
-#'   added to the \code{annotation} slot of each \code{MS2spectrum} object.
+#'   \code{extractMS2spectra} and \code{mergeSpecList} with external
+#'   annotations added to the \code{annotation} slot of each \code{MS2spectrum}
+#'   object.
 #'
 #' @export
 addAnnotations <- function(featlist, annolist, annotationColumn = 4){
@@ -81,10 +82,10 @@ addAnnotations <- function(featlist, annolist, annotationColumn = 4){
     ident <- annolist
   } else {
     ident <-
-      utils::read.csv(file = annolist, stringsAsFactors = F)
+      utils::read.csv(file = annolist, stringsAsFactors = FALSE)
   }
   stopifnot(length(featlist) == nrow(annolist))
-  for(i in 1:length(featlist)){
+  for(i in seq_along(featlist)){
     if(ident[i, annotationColumn] != ""){
       featlist[[i]]@annotation <- ident[i, annotationColumn]
     }

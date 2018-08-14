@@ -15,7 +15,8 @@
 #' OPTICS order for each feature in \code{distmat}.
 #'
 #' @details The function internally uses \code{\link[dbscan]{optics}}
-#' and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan} package.
+#' and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan}
+#' package.
 #'
 #' @seealso CluMSID_OPTICSplot
 #'
@@ -49,7 +50,8 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #' see code{\link[dbscan:optics]{extractDBSCAN}}.
 #'
 #' @details The function internally uses \code{\link[dbscan]{optics}}
-#' and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan} package.
+#' and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan}
+#' package.
 #'
 #' @seealso CluMSID_OPTICStbl
 #'

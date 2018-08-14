@@ -1,7 +1,7 @@
 Package: CluMSID
 Type: Package
 Title: Clustering of MS2 Spectra for Metabolite Identification
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(person("Tobias", "Depke", email = "tobias.depke@helmholtz-hzi.de", 
     role = c("aut", "cre")),
     person("Raimo", "Franke", email = "raimo.franke@helmholtz-hzi.de",
@@ -18,8 +18,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 3.3.0)
-biocViews:
+    R (>= 3.5)
+biocViews: Metabolomics, Preprocessing, Clustering
 Imports:
     mzR,
     S4Vectors,
@@ -36,7 +36,7 @@ Imports:
     grDevices,
     graphics,
     Biobase
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown,
     testthat,

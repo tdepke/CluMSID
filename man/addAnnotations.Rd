@@ -21,8 +21,9 @@ e.g. in Excel, is used to generate \code{annolist}.}
 }
 \value{
 A list of \code{MS2spectrum} objects as produced by
-  \code{extractMS2spectra} and \code{mergeSpecList} with external annotations
-  added to the \code{annotation} slot of each \code{MS2spectrum} object.
+  \code{extractMS2spectra} and \code{mergeSpecList} with external
+  annotations added to the \code{annotation} slot of each \code{MS2spectrum}
+  object.
 }
 \description{
 \code{addAnnotations} is used to add annotations that have been assigned

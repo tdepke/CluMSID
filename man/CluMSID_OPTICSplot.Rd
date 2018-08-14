@@ -28,7 +28,8 @@ of spectral similarity data using the OPTICS algorithm like
 }
 \details{
 The function internally uses \code{\link[dbscan]{optics}}
-and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan} package.
+and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan}
+package.
 }
 \seealso{
 CluMSID_OPTICStbl

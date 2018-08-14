@@ -31,6 +31,6 @@ A named vector with similarities of \code{spec} to all spectra or
   neutral loss patterns in \code{speclist}.
 }
 \description{
-\code{getSimilarities} calculates the similarities of one spectrum or neutral
-loss pattern to a set of other spectra or neutral loss patterns.
+\code{getSimilarities} calculates the similarities of one spectrum or
+neutral loss pattern to a set of other spectra or neutral loss patterns.
 }

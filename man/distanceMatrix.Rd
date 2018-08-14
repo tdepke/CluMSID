@@ -20,14 +20,14 @@ or \code{"neutral_losses"} for neutral loss patterns.}
 \value{
 A numeric \code{length(speclist)} by \code{length(speclist)} matrix
   containing pairwise distances (1 - similarity) between all features in
-  \code{speclist}. Row and column names are taken from the \code{id} slot or,
-  if present, pasted from the \code{id} and \code{annotation} slots of the
-  \code{\linkS4class{MS2spectrum}} or \code{\linkS4class{pseudospectrum}}
-  objects.
+  \code{speclist}. Row and column names are taken from the \code{id} slot
+  or, if present, pasted from the \code{id} and \code{annotation} slots of
+  the \code{\linkS4class{MS2spectrum}} or
+  \code{\linkS4class{pseudospectrum}} objects.
 }
 \description{
-\code{distanceMatrix()} creates a distance matrix from a list of MS2 spectra,
-MS1 pseudospectra or neutral loss patterns by pairwise comparison using the
-specified distance function. This distance matrix is the basis for CluMSID's
-data mining functions.
+\code{distanceMatrix()} creates a distance matrix from a list of MS2
+spectra, MS1 pseudospectra or neutral loss patterns by pairwise comparison
+using the specified distance function. This distance matrix is the basis for
+CluMSID's data mining functions.
 }

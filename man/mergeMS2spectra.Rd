@@ -10,29 +10,35 @@ mergeMS2spectra(ms2list, mz_tolerance = 1e-05, rt_tolerance = 30,
 \arguments{
 \item{ms2list}{A \code{list} of \code{MS2spectrum} objects to be merged.}
 
-\item{mz_tolerance}{The \emph{m/z} tolerance to be used for merging, default is \code{1e-5},
-i.e. +/- 10ppm. If the mass-to-charge ratios of two peaks differ less than
-\emph{mz_tolerance}, they are assumed to have the same \emph{m/z}}
+\item{mz_tolerance}{The \emph{m/z} tolerance to be used for merging, default
+is \code{1e-5}, i.e. +/- 10ppm. If the mass-to-charge ratios of two peaks
+differ less than \emph{mz_tolerance}, they are assumed to have the same
+\emph{m/z}}
 
-\item{rt_tolerance}{The retention time tolerance used for merging features. If used without
-a peak table, \code{rt_tolerance} is the maximum retention time difference between to subsequent
-spectra of the same precursor \emph{m/z} with which they are still assumed to belong to the same feature
-If used with an external peak table, \code{rt_tolerance} is the maximum retention time difference between
-a spectrum and a peak in the peak table with which the spectrum is still considered to belong to that peak.}
+\item{rt_tolerance}{The retention time tolerance used for merging features.
+If used without a peak table, \code{rt_tolerance} is the maximum retention
+time difference between to subsequent spectra of the same precursor
+\emph{m/z} with which they are still assumed to belong to the same feature
+If used with an external peak table, \code{rt_tolerance} is the maximum
+retention time difference between a spectrum and a peak in the peak table
+with which the spectrum is still considered to belong to that peak.}
 
-\item{peaktable}{An external peak table, e.g. from XCMS, that serves as a template for grouping spectra.
-The peaktable must be a three-column \code{data.frame} with feature ID, \emph{m/z} and retention time for each
+\item{peaktable}{An external peak table, e.g. from XCMS, that serves as a
+template for grouping spectra. The peaktable must be a three-column
+\code{data.frame} with feature ID, \emph{m/z} and retention time for each
 peak/feature.}
 
-\item{exclude_unmatched}{If an external peak table is used: Should spectra that do not match
-to any peak/feature in the peak table be exclude from the resulting list?}
+\item{exclude_unmatched}{If an external peak table is used: Should spectra
+that do not match to any peak/feature in the peak table be exclude from
+the resulting list?}
 }
 \value{
 A merged list of \code{\linkS4class{MS2spectrum}} objects.
 }
 \description{
-\code{mergeMS2spectra} is used to merge MS2 spectra that come from the same precursor.
-It does so either by grouping spectra of the same precursor \emph{m/z} that fall into
-a defined retention time window (\code{rt_tolerance}) or by grouping spectra to peaks
-from an externally supplied peak table. Please see the vignette for more details.
+\code{mergeMS2spectra} is used to merge MS2 spectra that come from the same
+precursor. It does so either by grouping spectra of the same precursor
+\emph{m/z} that fall into a defined retention time window
+(\code{rt_tolerance}) or by grouping spectra to peaks from an externally
+supplied peak table. Please see the vignette for more details.
 }

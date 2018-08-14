@@ -13,13 +13,14 @@ CluMSID_MDS(distmat, interactive = FALSE, highlight_annotated = FALSE)
 \item{interactive}{Logical, defaults to \code{FALSE}. If \code{TRUE}, an
 interactive visualisation is generated using \pkg{plotly}.}
 
-\item{highlight_annotated}{Logical, defaults to \code{FALSE}. If \code{TRUE},
-points for features for which an annotation was added before using
-\code{\link{distanceMatrix}} are highlighted by red colour, while other
-points are grey in the MDS plot.}
+\item{highlight_annotated}{Logical, defaults to \code{FALSE}.
+If \code{TRUE}, points for features for which an annotation was added
+before using \code{\link{distanceMatrix}} are highlighted by red colour,
+while other points are grey in the MDS plot.}
 }
 \value{
-An MDS plot generated with the help of \code{\link[stats]{cmdscale}},
+An MDS plot generated with the help of
+  \code{\link[stats]{cmdscale}},
   \code{\link[ggplot2]{ggplot}} and, if interactive,
   \code{\link[plotly]{ggplotly}}.
 }
