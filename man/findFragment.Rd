@@ -17,9 +17,9 @@ Default is \code{1E-05}, i.e. +/- 10ppm.}
 }
 \value{
 If the respective fragment is only found in one spectrum, the output
-  is an object of class \code{\linkS4class{MS2spectrum}}; if it is found in
-  more than one spectrum, the output is a list of
-  \code{\linkS4class{MS2spectrum}} objects.
+    is an object of class \code{\linkS4class{MS2spectrum}}; if it is found in
+    more than one spectrum, the output is a list of
+    \code{\linkS4class{MS2spectrum}} objects.
 }
 \description{
 \code{findFragment} is used to find spectra that contain a specific fragment

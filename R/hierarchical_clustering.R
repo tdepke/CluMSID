@@ -17,12 +17,12 @@
 #'
 #' @export
 CluMSID_HCtbl <- function(distmat, h = 0.95){
-  clust <- stats::hclust(stats::as.dist(distmat), method = "average")
-  hclusttree <- stats::cutree(clust, h = h)
-  hclustmat <- data.frame(feature = names(hclusttree),
-                          cluster_ID = unname(hclusttree))
+    clust <- stats::hclust(stats::as.dist(distmat), method = "average")
+    hclusttree <- stats::cutree(clust, h = h)
+    hclustmat <- data.frame(feature = names(hclusttree),
+                            cluster_ID = unname(hclusttree))
 
-  return(hclustmat)
+    return(hclustmat)
 }
 
 #' Generate cluster dendrogram or heatmap from spectral similarity data
@@ -43,25 +43,25 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 #'
 #' @export
 CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram"){
-  clust <- stats::hclust(stats::as.dist(distmat), method = "average")
-  hclusttree <- stats::cutree(clust, h = h)
-  hclustmat <- cbind(names(hclusttree), hclusttree)
-  clustorder <- hclusttree[clust$order]
+    clust <- stats::hclust(stats::as.dist(distmat), method = "average")
+    hclusttree <- stats::cutree(clust, h = h)
+    hclustmat <- cbind(names(hclusttree), hclusttree)
+    clustorder <- hclusttree[clust$order]
 
-  nc <- round(max(hclusttree)/8)
+    nc <- round(max(hclusttree)/8)
 
-  if(type == "heatmap") {
-    stats::heatmap(as.matrix(distmat),
-            Rowv = stats::as.dendrogram(clust), Colv = "Rowv",
-            distfun = NULL, symm = TRUE, margins = c(16,8))
-  } else if(type == "dendrogram") {
-    clr <- RColorBrewer::brewer.pal(n = 8, name = "Dark2")
-    graphics::plot(
-      ape::as.phylo(clust),
-      type = "fan",
-      cex = 0.7,
-      tip.color = rep(clr, nc)[clustorder][hclusttree],
-      no.margin = TRUE
-    )
-  } else stop("'type' muste be either 'dendrogram' (default) or 'heatmap'.")
+    if(type == "heatmap") {
+        stats::heatmap( as.matrix(distmat),
+                        Rowv = stats::as.dendrogram(clust), Colv = "Rowv",
+                        distfun = NULL, symm = TRUE, margins = c(16,8))
+    } else if(type == "dendrogram") {
+        clr <- RColorBrewer::brewer.pal(n = 8, name = "Dark2")
+        graphics::plot(
+            ape::as.phylo(clust),
+            type = "fan",
+            cex = 0.7,
+            tip.color = rep(clr, nc)[clustorder][hclusttree],
+            no.margin = TRUE
+        )
+    } else stop("'type' muste be either 'dendrogram' (default) or 'heatmap'.")
 }

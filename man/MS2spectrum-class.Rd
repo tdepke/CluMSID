@@ -14,7 +14,7 @@ respective metainformation}
 }
 \value{
 Prints information from the object slots with exception of
-  'spectrum' and 'neutral_losses' where only a summary is given.
+    'spectrum' and 'neutral_losses' where only a summary is given.
 }
 \description{
 A custom S4 class for MS2 spectra, neutral loss patterns and
@@ -28,11 +28,11 @@ respective metainformation
 \section{Slots}{
 
 \describe{
-\item{\code{id}}{a character string similar to the ID used by XCMSonline or the ID
-given in a predefined peak list}
+\item{\code{id}}{a character string similar to the ID used by XCMSonline
+or the ID given in a predefined peak list}
 
-\item{\code{annotation}}{a character string containing a user-defined annotation,
-defaults to empty}
+\item{\code{annotation}}{a character string containing a user-defined
+annotation, defaults to empty}
 
 \item{\code{precursor}}{(median) \emph{m/z} of the spectrum's precursor ion}
 

@@ -22,20 +22,21 @@
 #'
 #' @export
 CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
-  opt <- dbscan::optics(stats::as.dist(distmat),
-                        eps = eps,
-                        minPts = minPts,
-                        search = "dist")
+    opt <- dbscan::optics(  stats::as.dist(distmat),
+                            eps = eps,
+                            minPts = minPts,
+                            search = "dist")
 
-  res <- dbscan::extractDBSCAN(opt, eps_cl = eps_cl)
+    res <- dbscan::extractDBSCAN(opt, eps_cl = eps_cl)
 
-  clustmat <- data.frame(
-    feature = colnames(as.matrix(distmat)),
-    cluster_ID = res$cluster,
-    OPTICS_order = match(seq_along(colnames(as.matrix(distmat))), res$order)
-  )
+    clustmat <- data.frame(
+        feature = colnames(as.matrix(distmat)),
+        cluster_ID = res$cluster,
+        OPTICS_order = match(seq_along(colnames(as.matrix(distmat))),
+                                res$order)
+    )
 
-  return(clustmat)
+    return(clustmat)
 }
 
 #' Visualisation of density-based clustering of spectral similarity data
@@ -57,15 +58,15 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #'
 #' @export
 CluMSID_OPTICSplot <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
-  opt <- dbscan::optics(stats::as.dist(distmat),
-                        eps = eps,
-                        minPts = minPts,
-                        search = "dist")
+    opt <- dbscan::optics(  stats::as.dist(distmat),
+                            eps = eps,
+                            minPts = minPts,
+                            search = "dist")
 
-  res <- dbscan::extractDBSCAN(opt, eps_cl = eps_cl)
+    res <- dbscan::extractDBSCAN(opt, eps_cl = eps_cl)
 
-  opal <- grDevices::palette()
-  grDevices::palette(c(opal, rep(c("orange", opal[-1]),10)))
-  graphics::plot(res, main = NULL)
-  grDevices::palette(opal)
+    opal <- grDevices::palette()
+    grDevices::palette(c(opal, rep(c("orange", opal[-1]),10)))
+    graphics::plot(res, main = NULL)
+    grDevices::palette(opal)
 }

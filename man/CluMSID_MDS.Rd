@@ -20,9 +20,9 @@ while other points are grey in the MDS plot.}
 }
 \value{
 An MDS plot generated with the help of
-  \code{\link[stats]{cmdscale}},
-  \code{\link[ggplot2]{ggplot}} and, if interactive,
-  \code{\link[plotly]{ggplotly}}.
+    \code{\link[stats]{cmdscale}},
+    \code{\link[ggplot2]{ggplot}} and, if interactive,
+    \code{\link[plotly]{ggplotly}}.
 }
 \description{
 \code{CluMSID_MDS()} is used to generate multidimensional scaling plots from

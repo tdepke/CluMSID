@@ -15,8 +15,8 @@ writeFeaturelist(featlist, filename = "pre_anno.csv")
 }
 \value{
 A csv file that contains feature ID, precurosur \emph{m/z} and
-  retention time. The file has a header but no row names and is separated by
-  \code{','}.
+    retention time. The file has a header but no row names and is separated by
+    \code{','}.
 }
 \description{
 \code{writeFeaturelist} uses \code{\link{Featurelist}} to generate a

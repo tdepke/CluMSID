@@ -30,8 +30,8 @@ measure for the similarity of two spectra.
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{x = MS2spectrum,y = MS2spectrum}: \code{cossim} method for \code{\linkS4class{MS2spectrum}}
-objects
+\item \code{x = MS2spectrum,y = MS2spectrum}: \code{cossim} method for
+\code{\linkS4class{MS2spectrum}} objects
 
 \item \code{x = pseudospectrum,y = pseudospectrum}: \code{cossim} method for
 \code{\linkS4class{pseudospectrum}} objects

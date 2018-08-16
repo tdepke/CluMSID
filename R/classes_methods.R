@@ -1,11 +1,11 @@
 #' A custom S4 class for MS2 spectra, neutral loss patterns and
 #' respective metainformation
 #'
-#' @slot id a character string similar to the ID used by XCMSonline or the ID
-#'   given in a predefined peak list
+#' @slot id a character string similar to the ID used by XCMSonline
+#'   or the ID given in a predefined peak list
 #'
-#' @slot annotation a character string containing a user-defined annotation,
-#'   defaults to empty
+#' @slot annotation a character string containing a user-defined
+#'   annotation, defaults to empty
 #'
 #' @slot precursor (median) \emph{m/z} of the spectrum's precursor ion
 #'
@@ -21,33 +21,34 @@
 #'
 #' @export
 setClass("MS2spectrum",
-         slots = list(id = "character",
-                      annotation = "character",
-                      precursor = "numeric",
-                      rt = "numeric",
-                      spectrum = "matrix",
-                      neutral_losses = "matrix"))
+        slots = list(   id = "character",
+                        annotation = "character",
+                        precursor = "numeric",
+                        rt = "numeric",
+                        spectrum = "matrix",
+                        neutral_losses = "matrix"))
 
 #' A custom S4 class for MS1 pseudospectra and respective
 #' metainformation
 #'
 #' @slot id a the \code{"pcgroup"} number assigned by \pkg{CAMERA}
 #'
-#' @slot annotation a character string containing a user-defined annotation,
-#'   defaults to empty
+#' @slot annotation a character string containing a user-defined
+#'   annotation, defaults to empty
 #'
-#' @slot rt (median) retention time of the ions contained in the pseudospectrum
+#' @slot rt (median) retention time of the ions contained in the
+#'   pseudospectrum
 #'
 #' @slot spectrum the actual MS1 pseudospectrum as two-column
-#'   matrix (column 1 is (median) \emph{m/z}, column 2 is (median) intensity of
-#'   the ions)
+#'   matrix (column 1 is (median) \emph{m/z}, column 2 is (median)
+#'   intensity of the ions)
 #'
 #' @export
 setClass("pseudospectrum",
-         slots = list(id = "numeric",
-                      annotation = "character",
-                      rt = "numeric",
-                      spectrum = "matrix"))
+        slots = list(   id = "numeric",
+                        annotation = "character",
+                        rt = "numeric",
+                        spectrum = "matrix"))
 
 #' @describeIn MS2spectrum A show generic for \code{MS2spectra}.
 #'
@@ -58,18 +59,20 @@ setClass("pseudospectrum",
 #'
 #' @exportMethod show
 setMethod("show",
-          "MS2spectrum",
-          function(object){
-            cat('An object of class "MS2spectrum"', '\n',
-                'id:', object@id, '\n',
-                'annotation:', object@annotation, '\n',
-                'precursor:', format(object@precursor, nsmall = 4), '\n',
-                'retention time:', object@rt, '\n',
-                'MS2 spectrum with', nrow(object@spectrum), 'fragment peaks',
-                '\n', 'neutral loss pattern with', nrow(object@neutral_losses),
-                'neutral losses'
-            )
-          })
+            "MS2spectrum",
+            function(object){
+                cat('An object of class "MS2spectrum"', '\n',
+                    'id:', object@id, '\n',
+                    'annotation:', object@annotation, '\n',
+                    'precursor:', format(object@precursor, nsmall = 4), '\n',
+                    'retention time:', object@rt, '\n',
+                    'MS2 spectrum with', nrow(object@spectrum),
+                    'fragment peaks',
+                    '\n', 'neutral loss pattern with',
+                    nrow(object@neutral_losses),
+                    'neutral losses'
+                )
+            })
 
 
 #' Convert spectra from \pkg{MSnbase} classes
@@ -81,11 +84,11 @@ setMethod("show",
 #'
 #' @export
 convertSpectrum <- function(x){
-  stopifnot(class(x) %in% c("Spectrum", "Spectrum2"))
-  methods::new("MS2spectrum",
-      precursor = x@precursorMz,
-      rt = x@rt,
-      spectrum = cbind(x@mz, x@intensity))
+    stopifnot(class(x) %in% c("Spectrum", "Spectrum2"))
+    methods::new("MS2spectrum",
+                precursor = x@precursorMz,
+                rt = x@rt,
+                spectrum = cbind(x@mz, x@intensity))
 }
 
 #' Calculate cosine similarity between two spectra
@@ -104,37 +107,37 @@ convertSpectrum <- function(x){
 #'
 #' @export
 cossim <- function(x, y, type = "spectrum") {
-  colnames(x) <- NULL
-  colnames(y) <- NULL
-  mm <- mergeTolerance(x, y)
-  sum(sqrt(mm[, 2]) * sqrt(mm[, 3])) /
-    (sqrt(sum(mm[, 2])) * sqrt(sum(mm[, 3])))
+    colnames(x) <- NULL
+    colnames(y) <- NULL
+    mm <- mergeTolerance(x, y)
+    sum(sqrt(mm[, 2]) * sqrt(mm[, 3])) /
+        (sqrt(sum(mm[, 2])) * sqrt(sum(mm[, 3])))
 }
 setGeneric("cossim")
 
-#' @describeIn cossim \code{cossim} method for \code{\linkS4class{MS2spectrum}}
-#'   objects
+#' @describeIn cossim \code{cossim} method for
+#'   \code{\linkS4class{MS2spectrum}} objects
 #'
 #' @exportMethod cossim
 setMethod("cossim",
-          c(x = "MS2spectrum", y = "MS2spectrum"),
-          function(x, y, type){
-            if(type == "spectrum"){
-              cossim(x@spectrum, y@spectrum, type = type)
-            } else if(type == "neutral_losses"){
-              cossim(x@neutral_losses, y@neutral_losses, type = type)
-            } else stop("'type' must be either 'spectrum' (default)
-                        or 'neutral_losses'")
-          })
+            c(x = "MS2spectrum", y = "MS2spectrum"),
+            function(x, y, type){
+                if(type == "spectrum"){
+                    cossim(x@spectrum, y@spectrum, type = type)
+                } else if(type == "neutral_losses"){
+                    cossim(x@neutral_losses, y@neutral_losses, type = type)
+                } else stop("'type' must be either 'spectrum' (default)
+                            or 'neutral_losses'")
+            })
 
 #' @describeIn cossim \code{cossim} method for
 #'   \code{\linkS4class{pseudospectrum}} objects
 #'
 #' @exportMethod cossim
-setMethod("cossim",
-          c(x = "pseudospectrum", y = "pseudospectrum"),
-          function(x, y, type){
-            if(type == "spectrum"){
-              cossim(x@spectrum, y@spectrum, type = type)
-            } else stop("with pseudospectra, 'type' must be 'spectrum'!")
-          })
+setMethod(  "cossim",
+            c(x = "pseudospectrum", y = "pseudospectrum"),
+            function(x, y, type){
+                if(type == "spectrum"){
+                    cossim(x@spectrum, y@spectrum, type = type)
+                } else stop("with pseudospectra, 'type' must be 'spectrum'!")
+            })

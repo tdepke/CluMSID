@@ -5,7 +5,7 @@
 \title{Extract MS2 spectra from raw data files}
 \usage{
 extractMS2spectra(MSfile, min_peaks = 2, recalibrate_precursor = FALSE,
-  RTlims = NULL)
+    RTlims = NULL)
 }
 \arguments{
 \item{MSfile}{An LC-MS/MS raw data file in one of the non-proprietary
@@ -27,7 +27,7 @@ as numeric vector of length 2. Spectra with retention time <
 }
 \value{
 A \code{list} with objects of class \code{MS2spectrum}, containing
-  MS2 spectra extracted from the raw data.
+    MS2 spectra extracted from the raw data.
 }
 \description{
 \code{extractMS2spectra()} is used to extract MS2 spectra from raw data

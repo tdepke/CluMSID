@@ -13,7 +13,7 @@ Featurelist(featlist)
 }
 \value{
 A \code{data.frame} that contains feature ID, precurosur \emph{m/z}
-  and retention time
+    and retention time
 }
 \description{
 \code{Featurelist} generates a \code{data.frame} that contains feature ID,

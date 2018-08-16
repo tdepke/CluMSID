@@ -24,38 +24,39 @@
 #'
 #' @export
 distanceMatrix <- function(speclist, distFun = "cossim", type = "spectrum"){
-  if(distFun == "cossim"){
-    if(!(type %in% c("spectrum", "neutral_losses"))) {
-      stop("'type' must be either 'spectrum' (default) or 'neutral_losses'")
-    }
-    distmat <-
-      matrix(nrow = length(speclist), ncol = length(speclist))
-    for (m in seq_along(speclist)) {
-      for (l in m:length(speclist)) {
-        if (is.na(distmat[m, l])) {
-          distmat[m, l] <- 1 - cossim(speclist[[m]],
-                                      speclist[[l]],
-                                      type = type)
-          distmat[l, m] <- distmat[m, l]
+    if(distFun == "cossim"){
+        if(!(type %in% c("spectrum", "neutral_losses"))) {
+            stop("'type' must be either 'spectrum' (default)
+                or 'neutral_losses'")
         }
-      }
+        distmat <-
+            matrix(nrow = length(speclist), ncol = length(speclist))
+        for (m in seq_along(speclist)) {
+            for (l in m:length(speclist)) {
+                if (is.na(distmat[m, l])) {
+                    distmat[m, l] <- 1 - cossim(speclist[[m]],
+                                                speclist[[l]],
+                                                type = type)
+                    distmat[l, m] <- distmat[m, l]
+                }
+            }
+        }
     }
-  }
-  featnames <- c()
-  for(e in 1:length(speclist)){
-    if(S4Vectors::isEmpty(speclist[[e]]@annotation)
-       || speclist[[e]]@annotation == ""){
-      featnames[e] <- speclist[[e]]@id
-    } else {
-      featnames[e] <- paste(speclist[[e]]@id,
-                            speclist[[e]]@annotation,
-                            sep = " - ")
+    featnames <- c()
+    for(e in seq_along(speclist)){
+        if(S4Vectors::isEmpty(speclist[[e]]@annotation)
+            || speclist[[e]]@annotation == ""){
+            featnames[e] <- speclist[[e]]@id
+        } else {
+            featnames[e] <- paste(speclist[[e]]@id,
+                                    speclist[[e]]@annotation,
+                                    sep = " - ")
+        }
     }
-  }
-  row.names(distmat) <- featnames
-  colnames(distmat) <- featnames
-  distmat[is.na(distmat)] <- 1
-  return(distmat)
+    row.names(distmat) <- featnames
+    colnames(distmat) <- featnames
+    distmat[is.na(distmat)] <- 1
+    return(distmat)
 }
 
 #' Multidimensional scaling of spectral similarity data
@@ -84,29 +85,33 @@ distanceMatrix <- function(speclist, distFun = "cossim", type = "spectrum"){
 CluMSID_MDS <- function(distmat,
                         interactive = FALSE,
                         highlight_annotated = FALSE){
-  if(class(distmat) != "dist") distmat <- stats::as.dist(distmat)
-  fit <- stats::cmdscale(distmat, k = 2)
-  fitx <- fity <- anno <- NULL #only to appease CRAN check
-  fit <- data.frame(fitx = fit[,1], fity = fit[,2], anno = row.names(fit))
+    if(class(distmat) != "dist") distmat <- stats::as.dist(distmat)
+    fit <- stats::cmdscale(distmat, k = 2)
+    fitx <- fity <- anno <- NULL #only to appease CRAN check
+    fit <- data.frame(fitx = fit[,1], fity = fit[,2], anno = row.names(fit))
 
-  if(highlight_annotated == TRUE){
-    q <- ggplot2::ggplot(fit, ggplot2::aes(x = fitx, y = fity, text = anno)) +
-      ggplot2::geom_point(pch = 16, alpha = 0.5, size = 2,
-                          colour = as.numeric(grepl(pattern = " - ",
-                                                    x = fit$anno))+1) +
-      ggplot2::xlab("Coordinate 1") +
-      ggplot2::ylab("Coordinate 2") +
-      ggplot2::theme_light()
-  } else {
-    q <- ggplot2::ggplot(fit, ggplot2::aes(x = fitx, y = fity, text = anno)) +
-      ggplot2::geom_point(pch = 16, alpha = 0.5, size = 2) +
-      ggplot2::xlab("Coordinate 1") +
-      ggplot2::ylab("Coordinate 2") +
-      ggplot2::theme_light()
-  }
+    if(highlight_annotated == TRUE){
+        q <- ggplot2::ggplot(fit, ggplot2::aes( x = fitx,
+                                                y = fity,
+                                                text = anno)) +
+            ggplot2::geom_point(pch = 16, alpha = 0.5, size = 2,
+                                colour = as.numeric(grepl(pattern = " - ",
+                                                        x = fit$anno))+1) +
+            ggplot2::xlab("Coordinate 1") +
+            ggplot2::ylab("Coordinate 2") +
+            ggplot2::theme_light()
+    } else {
+        q <- ggplot2::ggplot(fit, ggplot2::aes( x = fitx,
+                                                y = fity,
+                                                text = anno)) +
+            ggplot2::geom_point(pch = 16, alpha = 0.5, size = 2) +
+            ggplot2::xlab("Coordinate 1") +
+            ggplot2::ylab("Coordinate 2") +
+            ggplot2::theme_light()
+    }
 
-  if(interactive == FALSE) return(q) else {
-    suppressMessages(p <- plotly::ggplotly(q, tooltip = "text"))
-    return (p)
-  }
+    if(interactive == FALSE) return(q) else {
+        suppressMessages(p <- plotly::ggplotly(q, tooltip = "text"))
+        return (p)
+    }
 }

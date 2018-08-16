@@ -14,13 +14,14 @@ metainformation
 \describe{
 \item{\code{id}}{a the \code{"pcgroup"} number assigned by \pkg{CAMERA}}
 
-\item{\code{annotation}}{a character string containing a user-defined annotation,
-defaults to empty}
+\item{\code{annotation}}{a character string containing a user-defined
+annotation, defaults to empty}
 
-\item{\code{rt}}{(median) retention time of the ions contained in the pseudospectrum}
+\item{\code{rt}}{(median) retention time of the ions contained in the
+pseudospectrum}
 
 \item{\code{spectrum}}{the actual MS1 pseudospectrum as two-column
-matrix (column 1 is (median) \emph{m/z}, column 2 is (median) intensity of
-the ions)}
+matrix (column 1 is (median) \emph{m/z}, column 2 is (median)
+intensity of the ions)}
 }}
 

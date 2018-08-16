@@ -17,26 +17,27 @@
 #'
 #' @keywords internal
 mergeTolerance <- function(x, y, tolerance = 1e-5) {
-  colnames(x) <-
-    c("V1", 2:ncol(x)) #suppresses error warning 'duplicate column names'
-  colnames(y) <-
-    c("V1", 2:ncol(y)) #suppresses error warning 'duplicate column names'
-  mrg <- merge(x, y, by = "V1", all = TRUE)
-  mrg[is.na(mrg)] <- 0
-  i <- 1
-  while (!is.na(mrg[(i + 1), 1])) {
-    if (abs(mrg[i, 1] - mrg[(i + 1), 1]) <= mrg[i, 1] * tolerance) {
-      mrg[i, 1] <- (mrg[i, 1] + mrg[(i + 1), 1]) / 2
-      mrg[i,-1] <- mrg[i,-1] + mrg[(i + 1),-1]
-      mrg <- mrg[-(i + 1),]
-      i <- i + 1
-      colnames(mrg) <-
-        c("V1", 2:ncol(mrg)) #suppresses error warning 'duplicate column names'
-    } else {
-      i <- i + 1
+    colnames(x) <-
+        c("V1", 2:ncol(x)) #suppresses error warning 'duplicate column names'
+    colnames(y) <-
+        c("V1", 2:ncol(y)) #suppresses error warning 'duplicate column names'
+    mrg <- merge(x, y, by = "V1", all = TRUE)
+    mrg[is.na(mrg)] <- 0
+    i <- 1
+    while (!is.na(mrg[(i + 1), 1])) {
+        if (abs(mrg[i, 1] - mrg[(i + 1), 1]) <= mrg[i, 1] * tolerance) {
+            mrg[i, 1] <- (mrg[i, 1] + mrg[(i + 1), 1]) / 2
+            mrg[i,-1] <- mrg[i,-1] + mrg[(i + 1),-1]
+            mrg <- mrg[-(i + 1),]
+            i <- i + 1
+            colnames(mrg) <-
+                c("V1", 2:ncol(mrg))
+            ##suppresses error warning 'duplicate column names'
+        } else {
+            i <- i + 1
+        }
     }
-  }
-  mrg
+    mrg
 }
 
 #' Extract MS2 spectra from raw data files
@@ -65,94 +66,97 @@ mergeTolerance <- function(x, y, tolerance = 1e-5) {
 #'   MS2 spectra extracted from the raw data.
 #'
 #' @export
-extractMS2spectra <- function(MSfile, min_peaks = 2,
-                              recalibrate_precursor = FALSE,
-                              RTlims = NULL){
-  aa <- mzR::openMSfile(MSfile, backend = "Ramp")
+extractMS2spectra <- function(  MSfile, min_peaks = 2,
+                                recalibrate_precursor = FALSE,
+                                RTlims = NULL){
+    aa <- mzR::openMSfile(MSfile, backend = "Ramp")
 
-  mslvl <- c()
-  for (z in seq_along(aa)) {
-    mslvl[z] <- mzR::header(aa, z)$msLevel
-  }
-  try(if(length(mslvl[mslvl == 2]) < 1) stop("The file does not
-                                             contain MS2 spectra."))
-
-  spectra <- list()
-  for (z in seq_along(aa)) {
-    spectra[[z]] <- mzR::peaks(aa, z)
-  }
-  ms2log <- mslvl == 2
-  ms2spectra <- spectra[ms2log]
-
-  vec <- c()
-  for (k in seq_along(ms2spectra)) {
-    vec[k] <- (nrow(ms2spectra[[k]]) >= min_peaks)
-  }
-  ms2spectra2 <- ms2spectra[vec]
-
-  pmz <- mzR::header(aa)$precursorMZ
-
-  if(recalibrate_precursor == TRUE){
-    new.pmz <- 0
-    for (i in 2:length(pmz)) {
-      if (pmz[i] == 0) {
-        x <-
-          0
-      } else {
-        if (pmz[(i - 1)] == 0) {
-          x <-
-            mzR::peaks(aa, (i - 1))[which.min(
-              abs(pmz[i] - mzR::peaks(aa, (i - 1))[, 1])), 1]
-        } else {
-          if (pmz[(i - 2)] == 0) {
-            x <-
-              mzR::peaks(aa, (i - 2))[which.min(
-                abs(pmz[i] - mzR::peaks(aa, (i - 2))[, 1])), 1]
-          } else {
-            if (pmz[(i - 3)] == 0) {
-              x <-
-                mzR::peaks(aa, (i - 3))[which.min(
-                  abs(pmz[i] - mzR::peaks(aa, (i - 3))[, 1])), 1]
-            } else {
-              x <- NA
-            }
-          }
-        }
-      }
-      if (x == 0 ||
-          ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 200) {
-        new.pmz[i] <- x
-      } else {
-        new.pmz[i] <- NA
-      }
+    mslvl <- c()
+    for (z in seq_along(aa)) {
+        mslvl[z] <- mzR::header(aa, z)$msLevel
     }
-  } else {
-    new.pmz <- pmz
-  }
+    try(if(length(mslvl[mslvl == 2]) < 1) stop("The file does not
+                                            contain MS2 spectra."))
+
+    spectra <- list()
+    for (z in seq_along(aa)) {
+        spectra[[z]] <- mzR::peaks(aa, z)
+    }
+    ms2log <- mslvl == 2
+    ms2spectra <- spectra[ms2log]
+
+    vec <- c()
+    for (k in seq_along(ms2spectra)) {
+        vec[k] <- (nrow(ms2spectra[[k]]) >= min_peaks)
+    }
+    ms2spectra2 <- ms2spectra[vec]
+
+    pmz <- mzR::header(aa)$precursorMZ
+
+    if(recalibrate_precursor == TRUE){
+        new.pmz <- 0
+        for (i in 2:length(pmz)) {
+            if (pmz[i] == 0) {
+                x <-
+                    0
+            } else {
+                if (pmz[(i - 1)] == 0) {
+                    x <-
+                        mzR::peaks(aa, (i - 1))[which.min(
+                            abs(pmz[i] - mzR::peaks(aa,
+                                                    (i - 1))[, 1])), 1]
+                } else {
+                    if (pmz[(i - 2)] == 0) {
+                        x <-
+                            mzR::peaks(aa, (i - 2))[which.min(
+                                abs(pmz[i] - mzR::peaks(aa,
+                                                        (i - 2))[, 1])), 1]
+                    } else {
+                        if (pmz[(i - 3)] == 0) {
+                            x <-
+                                mzR::peaks(aa, (i - 3))[which.min(
+                                    abs(pmz[i] - mzR::peaks(aa,
+                                                            (i - 3))[, 1])), 1]
+                        } else {
+                            x <- NA
+                        }
+                    }
+                }
+            }
+            if (x == 0 ||
+                ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 200) {
+                new.pmz[i] <- x
+            } else {
+                new.pmz[i] <- NA
+            }
+        }
+    } else {
+        new.pmz <- pmz
+    }
 
 
-  precursor <- cbind(new.pmz, mzR::header(aa)$retentionTime)
-  precursor2 <- precursor[ms2log,][vec,]
+    precursor <- cbind(new.pmz, mzR::header(aa)$retentionTime)
+    precursor2 <- precursor[ms2log,][vec,]
 
-  if(!is.null(RTlims)){
-    cutrt <- precursor2[, 2] < (RTlims[2] * 60) &
-      precursor2[, 2] > (RTlims[1] * 60)
-    precursormzrt <- precursor2[cutrt,]
-    ms2list <- ms2spectra2[cutrt]
-  } else {
-    precursormzrt <- precursor2
-    ms2list <- ms2spectra2
-  }
+    if(!is.null(RTlims)){
+        cutrt <- precursor2[, 2] < (RTlims[2] * 60) &
+            precursor2[, 2] > (RTlims[1] * 60)
+        precursormzrt <- precursor2[cutrt,]
+        ms2list <- ms2spectra2[cutrt]
+    } else {
+        precursormzrt <- precursor2
+        ms2list <- ms2spectra2
+    }
 
-  output <- list()
-  for(e in seq_along(ms2list)){
-    output[[e]] <- methods::new("MS2spectrum",
-                       precursor = as.numeric(precursormzrt[e,1]),
-                       rt = as.numeric(precursormzrt[e,2]),
-                       spectrum = ms2list[[e]])
-  }
-  return(output)
-  close(aa)
+    output <- list()
+    for(e in seq_along(ms2list)){
+        output[[e]] <- methods::new("MS2spectrum",
+                                    precursor = as.numeric(precursormzrt[e,1]),
+                                    rt = as.numeric(precursormzrt[e,2]),
+                                    spectrum = ms2list[[e]])
+    }
+    return(output)
+    close(aa)
 }
 
 #' Merge list of spectra
@@ -172,44 +176,47 @@ extractMS2spectra <- function(MSfile, min_peaks = 2,
 #'
 #' @keywords internal
 mergeSpecList <- function(speclist, tolerance = 1e-5) {
-  mergeToleranceX <- function(x,y){
-    mergeTolerance(x,y,tolerance = tolerance)
-  } #to circumvent the problem that Reduce() cannot handle additional arguments
-  mrgls <- list()
-  ident <- c()
-  for (s in seq_along(speclist)) {
-    ident[s] <- speclist[[s]]@id
-  }
-  for (z in seq_along(speclist)) {
-    z0 <- c()
-    for (j in seq_len(z - 1)) {
-      z0[j] <- ident[z] == ident[j]
+    mergeToleranceX <- function(x,y){
+        mergeTolerance(x,y,tolerance = tolerance)
+    }#to circumvent the problem that Reduce() can't handle additional arguments
+    mrgls <- list()
+    ident <- c()
+    for (s in seq_along(speclist)) {
+        ident[s] <- speclist[[s]]@id
     }
-    if (z != 1 & any(z0)) {
-      mrgls[[z]] <- mrgls[[which(z0 == TRUE)[1]]]
-    } else {
-      if (sum(ident == ident[z]) > 1) {
-        zl <- speclist[ident == ident[z]]
-        for(d in seq_along(zl)){
-          zl[[d]] <- zl[[d]]@spectrum
+    for (z in seq_along(speclist)) {
+        z0 <- c()
+        for (j in seq_len(z - 1)) {
+            z0[j] <- ident[z] == ident[j]
         }
-        z1 <- as.matrix(Reduce(mergeToleranceX, zl))
-          #Problem: cannot include "tolerance" arg in Reduce
-        z1[is.na(z1)] <- 0
-        z2 <-
-          cbind(z1[, 1], round((rowSums(z1) - z1[, 1]) / ncol(z1[,-1])))
-        dimnames(z2) <- NULL
-        mrgls[[z]] <- methods::new("MS2spectrum",
-                          id = ident[z],
-                          precursor = as.numeric(speclist[[z]]@precursor),
-                          rt = as.numeric(speclist[[z]]@rt),
-                          spectrum = z2)
-      } else {
-        mrgls[[z]] <- speclist[[z]]
-      }
+        if (z != 1 & any(z0)) {
+            mrgls[[z]] <- mrgls[[which(z0 == TRUE)[1]]]
+        } else {
+            if (sum(ident == ident[z]) > 1) {
+                zl <- speclist[ident == ident[z]]
+                for(d in seq_along(zl)){
+                    zl[[d]] <- zl[[d]]@spectrum
+                }
+                z1 <- as.matrix(Reduce(mergeToleranceX, zl))
+                #Problem: cannot include "tolerance" arg in Reduce
+                z1[is.na(z1)] <- 0
+                z2 <-
+                    cbind(z1[, 1],
+                        round((rowSums(z1) - z1[, 1]) / ncol(z1[,-1])))
+                dimnames(z2) <- NULL
+                mrgls[[z]] <- methods::new( "MS2spectrum",
+                                            id = ident[z],
+                                            precursor =
+                                                as.numeric(
+                                                    speclist[[z]]@precursor),
+                                            rt = as.numeric(speclist[[z]]@rt),
+                                            spectrum = z2)
+            } else {
+                mrgls[[z]] <- speclist[[z]]
+            }
+        }
     }
-  }
-  mrgls
+    mrgls
 }
 
 #' Generate neutral loss patterns from MS2 spectra
@@ -226,12 +233,12 @@ mergeSpecList <- function(speclist, tolerance = 1e-5) {
 #'
 #' @keywords internal
 neutrallossPatterns <- function(x){
-  temp.nl <- cbind((x@precursor - x@spectrum[, 1]),
-                   x@spectrum[, 2])
-  temp.nl <- subset(temp.nl, temp.nl[, 1] >= (x@precursor * 1e-5))
-  #include unfragmented precursor??
-  x@neutral_losses <- temp.nl
-  return(x)
+    temp.nl <- cbind((x@precursor - x@spectrum[, 1]),
+                        x@spectrum[, 2])
+    temp.nl <- subset(temp.nl, temp.nl[, 1] >= (x@precursor * 1e-5))
+    #include unfragmented precursor??
+    x@neutral_losses <- temp.nl
+    return(x)
 }
 
 #' Merge MS2 spectra with or without external peak table
@@ -274,158 +281,158 @@ mergeMS2spectra <- function(ms2list,
                             rt_tolerance = 30,
                             peaktable = NULL,
                             exclude_unmatched = FALSE){
-  flist <- list()
-  mz <- c()
-  for(k in seq_along(ms2list)){
-    mz[k] <- ms2list[[k]]@precursor
-  }
-  rt <- c()
-  for(k in seq_along(ms2list)){
-    rt[k] <- ms2list[[k]]@rt
-  }
-
-  mz1 <- cbind(mz, rt)
-  if(any(is.na(mz1))){
-    stop("NAs in either mz or rt slot in at least one object!")
-  }
-
-  #if no sample table is provided, the original
-  #algorithm is used to summarise spectra/features
-  if(is.null(peaktable)){
-    while (nrow(mz1) >= 1) {
-      l1 <- abs(mz1[1, 1] - mz1[, 1]) <= mz1[1, 1] * mz_tolerance
-      l2 <- matrix(mz1[c(l1, l1)], ncol = 2)
-      l3 <- diff(l2[, 2])
-      l4 <- c(0, which(l3 > 30), nrow(l2))
-      l5 <- list()
-      for (i in seq_len(length(l4) - 1)) {
-        l5[[i]] <- l2[(l4[i] + 1):(l4[i + 1]),]
-      }
-      flist <- append(flist, l5)
-      mz1 <- matrix(mz1[c(!l1, !l1)], ncol = 2)
+    flist <- list()
+    mz <- c()
+    for(k in seq_along(ms2list)){
+        mz[k] <- ms2list[[k]]@precursor
+    }
+    rt <- c()
+    for(k in seq_along(ms2list)){
+        rt[k] <- ms2list[[k]]@rt
     }
 
-
-    for (i in seq_along(flist)) {
-      if (is.matrix(flist[[i]])) {
-        flist[[i]] <- cbind(flist[[i]],
-                            rep(stats::median(flist[[i]][, 1]),
-                                times = nrow(flist[[i]])),
-                            rep(stats::median(flist[[i]][, 2]),
-                                times = nrow(flist[[i]])))
-      } else {
-        flist[[i]] <- c(flist[[i]], flist[[i]])
-      }
-    }
-    medmzrt <- c()
-    for (i in seq_along(flist)) {
-      medmzrt <- rbind(medmzrt, flist[[i]])
-    }
-    medmzrt <-
-      as.data.frame(medmzrt)
-    colnames(medmzrt) <- c("mz", "rt", "med.mz", "med.rt")
-
-    medmzrt$id <- paste("M", round((medmzrt$med.mz), 2),
-                        "T", round((medmzrt$med.rt), 2), sep = "")
-
-    medmzrt <- medmzrt[order(medmzrt$rt),]
-
-    for (g in seq_along(ms2list)){
-      temp <- which((ms2list[[g]]@precursor == medmzrt$mz)
-                    & (ms2list[[g]]@rt == medmzrt$rt))
-      ms2list[[g]]@id <- medmzrt$id[temp]
-      ms2list[[g]]@precursor <- round(medmzrt$med.mz[temp], 4)
-      ms2list[[g]]@rt <- round(medmzrt$med.rt[temp], 2)
+    mz1 <- cbind(mz, rt)
+    if(any(is.na(mz1))){
+        stop("NAs in either mz or rt slot in at least one object!")
     }
 
+    #if no sample table is provided, the original
+    #algorithm is used to summarise spectra/features
+    if(is.null(peaktable)){
+        while (nrow(mz1) >= 1) {
+            l1 <- abs(mz1[1, 1] - mz1[, 1]) <= mz1[1, 1] * mz_tolerance
+            l2 <- matrix(mz1[c(l1, l1)], ncol = 2)
+            l3 <- diff(l2[, 2])
+            l4 <- c(0, which(l3 > 30), nrow(l2))
+            l5 <- list()
+            for (i in seq_len(length(l4) - 1)) {
+                l5[[i]] <- l2[(l4[i] + 1):(l4[i + 1]),]
+            }
+            flist <- append(flist, l5)
+            mz1 <- matrix(mz1[c(!l1, !l1)], ncol = 2)
+        }
 
-  } else { #when a peak table is used ...
 
-    #problems arise when the ID column is factor,
-    #so it will be converted to character first
+        for (i in seq_along(flist)) {
+            if (is.matrix(flist[[i]])) {
+                flist[[i]] <- cbind(flist[[i]],
+                                    rep(stats::median(flist[[i]][, 1]),
+                                        times = nrow(flist[[i]])),
+                                    rep(stats::median(flist[[i]][, 2]),
+                                        times = nrow(flist[[i]])))
+            } else {
+                flist[[i]] <- c(flist[[i]], flist[[i]])
+            }
+        }
+        medmzrt <- c()
+        for (i in seq_along(flist)) {
+            medmzrt <- rbind(medmzrt, flist[[i]])
+        }
+        medmzrt <-
+            as.data.frame(medmzrt)
+        colnames(medmzrt) <- c("mz", "rt", "med.mz", "med.rt")
 
-    if(is.factor(peaktable[,1])){
-      peaktable[,1] <- as.character(peaktable[,1])
+        medmzrt$id <- paste("M", round((medmzrt$med.mz), 2),
+                            "T", round((medmzrt$med.rt), 2), sep = "")
+
+        medmzrt <- medmzrt[order(medmzrt$rt),]
+
+        for (g in seq_along(ms2list)){
+            temp <- which((ms2list[[g]]@precursor == medmzrt$mz)
+                            & (ms2list[[g]]@rt == medmzrt$rt))
+            ms2list[[g]]@id <- medmzrt$id[temp]
+            ms2list[[g]]@precursor <- round(medmzrt$med.mz[temp], 4)
+            ms2list[[g]]@rt <- round(medmzrt$med.rt[temp], 2)
+        }
+
+
+    } else { #when a peak table is used ...
+
+        ##problems arise when the ID column is factor,
+        ##so it will be converted to character first
+
+        if(is.factor(peaktable[,1])){
+            peaktable[,1] <- as.character(peaktable[,1])
+        }
+
+        matr <- matrix(data = NA, ncol = 3, nrow = nrow(mz1))
+        for(e in seq_len(nrow(mz1))){
+            l1 <- abs(mz1[e, 1] - peaktable[,2]) <= mz1[e, 1] * mz_tolerance &
+                abs(mz1[e, 2] - peaktable[, 3]) <= rt_tolerance
+            if(sum(l1) == 0){
+                matr[e,] <- c(paste0("no_match_", e), mz1[e, 1], mz1[e, 2])
+            } else if(sum(l1) == 1){
+                matr[e,] <- unlist(peaktable[l1,])
+            } else if(sum(l1) > 1){
+                matr[e,] <- unlist(peaktable[l1,][which.min(
+                    unlist(abs(peaktable[l1,3] - mz1[e, 2]))),])
+            }
+        }
+
+        mz2 <- matr[grepl(pattern = "no_match_", x = matr[,1]),2:3]
+        mz2 <- matrix(data = vapply(mz2, as.numeric, double(1)), ncol = 2)
+
+        while (nrow(mz2) >= 1) {
+            l1 <- abs(mz2[1, 1] - mz2[, 1]) <= mz2[1, 1] * mz_tolerance
+            l2 <- matrix(mz2[c(l1, l1)], ncol = 2)
+            l3 <- diff(l2[, 2])
+            l4 <- c(0, which(l3 > 30), nrow(l2))
+            l5 <- list()
+            for (i in seq_len(length(l4) - 1)) {
+                l5[[i]] <- l2[(l4[i] + 1):(l4[i + 1]),]
+            }
+            flist <- append(flist, l5)
+            mz2 <- matrix(mz2[c(!l1, !l1)], ncol = 2)
+        }
+
+        for (i in seq_along(flist)) {
+            if (is.matrix(flist[[i]])) {
+                flist[[i]] <- cbind(flist[[i]],
+                                    rep(stats::median(flist[[i]][, 1]),
+                                        times = nrow(flist[[i]])),
+                                    rep(stats::median(flist[[i]][, 2]),
+                                        times = nrow(flist[[i]])))
+            } else {
+                flist[[i]] <- c(flist[[i]], flist[[i]])
+            }
+        }
+        medmzrt <- c()
+        for (i in seq_along(flist)) {
+            medmzrt <- rbind(medmzrt, flist[[i]])
+        }
+        medmzrt <-
+            as.data.frame(medmzrt)
+        colnames(medmzrt) <- c("mz", "rt", "med.mz", "med.rt")
+
+        medmzrt$id <- paste("xM", round((medmzrt$med.mz), 2),
+                            "T", round((medmzrt$med.rt), 2), sep = "")
+
+        matr2 <- as.matrix(medmzrt)[,c(5,3,4)]
+
+        matr[grepl(pattern = "no_match_", x = matr[,1]),] <- matr2
+
+        for (g in seq_along(ms2list)){
+            ms2list[[g]]@id <- matr[g,1]
+            ms2list[[g]]@precursor <- round(as.numeric(matr[g,2]), 4)
+            ms2list[[g]]@rt <- round(as.numeric(matr[g,3]), 2)
+        }
     }
 
-    matr <- matrix(data = NA, ncol = 3, nrow = nrow(mz1))
-    for(e in seq_len(nrow(mz1))){
-      l1 <- abs(mz1[e, 1] - peaktable[,2]) <= mz1[e, 1] * mz_tolerance &
-        abs(mz1[e, 2] - peaktable[, 3]) <= rt_tolerance
-      if(sum(l1) == 0){
-        matr[e,] <- c(paste0("no_match_", e), mz1[e, 1], mz1[e, 2])
-      } else if(sum(l1) == 1){
-        matr[e,] <- unlist(peaktable[l1,])
-      } else if(sum(l1) > 1){
-        matr[e,] <- unlist(peaktable[l1,][which.min(
-          unlist(abs(peaktable[l1,3] - mz1[e, 2]))),])
-      }
+    mergedlist <- mergeSpecList(ms2list, tolerance = mz_tolerance)
+    shortlist <- mergedlist[!duplicated(mergedlist)]
+
+    for(u in seq_along(shortlist)){
+        shortlist[[u]] <- neutrallossPatterns(shortlist[[u]])
     }
 
-    mz2 <- matr[grepl(pattern = "no_match_", x = matr[,1]),2:3]
-    mz2 <- matrix(data = vapply(mz2, as.numeric, double(1)), ncol = 2)
-
-    while (nrow(mz2) >= 1) {
-      l1 <- abs(mz2[1, 1] - mz2[, 1]) <= mz2[1, 1] * mz_tolerance
-      l2 <- matrix(mz2[c(l1, l1)], ncol = 2)
-      l3 <- diff(l2[, 2])
-      l4 <- c(0, which(l3 > 30), nrow(l2))
-      l5 <- list()
-      for (i in seq_len(length(l4) - 1)) {
-        l5[[i]] <- l2[(l4[i] + 1):(l4[i + 1]),]
-      }
-      flist <- append(flist, l5)
-      mz2 <- matrix(mz2[c(!l1, !l1)], ncol = 2)
+    if(exclude_unmatched == TRUE){
+        w <- 1
+        while(w <= length(shortlist)){
+            if(grepl(pattern = "xM", x = shortlist[[w]]@id)){
+                shortlist[w] <- NULL
+            } else w <- w+1
+        }
     }
 
-    for (i in seq_along(flist)) {
-      if (is.matrix(flist[[i]])) {
-        flist[[i]] <- cbind(flist[[i]],
-                            rep(stats::median(flist[[i]][, 1]),
-                                times = nrow(flist[[i]])),
-                            rep(stats::median(flist[[i]][, 2]),
-                                times = nrow(flist[[i]])))
-      } else {
-        flist[[i]] <- c(flist[[i]], flist[[i]])
-      }
-    }
-    medmzrt <- c()
-    for (i in seq_along(flist)) {
-      medmzrt <- rbind(medmzrt, flist[[i]])
-    }
-    medmzrt <-
-      as.data.frame(medmzrt)
-    colnames(medmzrt) <- c("mz", "rt", "med.mz", "med.rt")
-
-    medmzrt$id <- paste("xM", round((medmzrt$med.mz), 2),
-                        "T", round((medmzrt$med.rt), 2), sep = "")
-
-    matr2 <- as.matrix(medmzrt)[,c(5,3,4)]
-
-    matr[grepl(pattern = "no_match_", x = matr[,1]),] <- matr2
-
-    for (g in seq_along(ms2list)){
-      ms2list[[g]]@id <- matr[g,1]
-      ms2list[[g]]@precursor <- round(as.numeric(matr[g,2]), 4)
-      ms2list[[g]]@rt <- round(as.numeric(matr[g,3]), 2)
-    }
-  }
-
-  mergedlist <- mergeSpecList(ms2list, tolerance = mz_tolerance)
-  shortlist <- mergedlist[!duplicated(mergedlist)]
-
-  for(u in seq_along(shortlist)){
-    shortlist[[u]] <- neutrallossPatterns(shortlist[[u]])
-  }
-
-  if(exclude_unmatched == TRUE){
-    w <- 1
-    while(w <= length(shortlist)){
-      if(grepl(pattern = "xM", x = shortlist[[w]]@id)){
-        shortlist[w] <- NULL
-      } else w <- w+1
-    }
-  }
-
-  return(shortlist)
+    return(shortlist)
 }

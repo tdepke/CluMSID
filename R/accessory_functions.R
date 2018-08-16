@@ -30,25 +30,25 @@ getSimilarities <- function(spec,
                             speclist,
                             type = "spectrum",
                             hits_only = FALSE){
-  if(!(type %in% c("spectrum", "neutral_losses"))){
-    stop("'type' must be either 'spectrum' (default) or 'neutral_losses'!")
-  }
-  if(is.matrix(spec)){
-    if(type == "spectrum"){
-      spec <- methods::new("MS2spectrum", spectrum = spec)
-    } else {
-      spec <- methods::new("MS2spectrum", neutral_losses = spec)
+    if(!(type %in% c("spectrum", "neutral_losses"))){
+        stop("'type' must be either 'spectrum' (default) or 'neutral_losses'!")
     }
-  }
-  simvec <- c()
-  for(k in seq_along(speclist)){
-    simvec[k] <- cossim(spec, speclist[[k]], type = type)
-    names(simvec)[k] <- speclist[[k]]@id
-  }
-  if(hits_only == TRUE){
-    simvec <- simvec[simvec > 0]
-  }
-  return(simvec)
+    if(is.matrix(spec)){
+        if(type == "spectrum"){
+            spec <- methods::new("MS2spectrum", spectrum = spec)
+        } else {
+            spec <- methods::new("MS2spectrum", neutral_losses = spec)
+        }
+    }
+    simvec <- c()
+    for(k in seq_along(speclist)){
+        simvec[k] <- cossim(spec, speclist[[k]], type = type)
+        names(simvec)[k] <- speclist[[k]]@id
+    }
+    if(hits_only == TRUE){
+        simvec <- simvec[simvec > 0]
+    }
+    return(simvec)
 }
 
 #' Find spectra that contain a specific fragment
@@ -72,15 +72,15 @@ getSimilarities <- function(spec,
 #'
 #' @export
 findFragment <- function(featlist, mz, tolerance = 1E-05){
-  subsetter <- c()
-  for(i in seq_along(featlist)){
-    m <- featlist[[i]]@spectrum
-    subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
-  }
-  message(cat(sum(subsetter),
-              "spectra were found that contain a fragment of m/z",
-              mz, "+/-", tolerance * 1E06, "ppm."))
-  return(featlist[subsetter])
+    subsetter <- c()
+    for(i in seq_along(featlist)){
+        m <- featlist[[i]]@spectrum
+        subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
+    }
+    message(cat(sum(subsetter),
+                "spectra were found that contain a fragment of m/z",
+                mz, "+/-", tolerance * 1E06, "ppm."))
+    return(featlist[subsetter])
 }
 
 #' Find spectra that contain a specific neutral loss
@@ -104,16 +104,16 @@ findFragment <- function(featlist, mz, tolerance = 1E-05){
 #'
 #' @export
 findNL <- function(featlist, mz, tolerance = 1E-05){
-  subsetter <- c()
-  for(i in seq_along(featlist)){
-    m <- featlist[[i]]@neutral_losses
-    subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
-  }
-  message(cat(sum(subsetter),
-              "neutral loss patterns were found that
-              contain a neutral loss of m/z",
-              mz, "+/-", tolerance * 1E06, "ppm."))
-  return(featlist[subsetter])
+    subsetter <- c()
+    for(i in seq_along(featlist)){
+        m <- featlist[[i]]@neutral_losses
+        subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
+    }
+    message(cat(sum(subsetter),
+                "neutral loss patterns were found that
+                contain a neutral loss of m/z",
+                mz, "+/-", tolerance * 1E06, "ppm."))
+    return(featlist[subsetter])
 }
 
 #' Access individual spectra from a list of spectra by various slot entries
@@ -148,31 +148,31 @@ findNL <- function(featlist, mz, tolerance = 1E-05){
 #'
 #' @export
 getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
-  subsetter <- c()
+    subsetter <- c()
 
-  if(slot %in% c("id", "annotation")){
-    for(i in seq_along(featlist)){
-      m <- methods::slot(featlist[[i]], slot)
-      subsetter[i] <- what %in% m
-    }
-  } else if(slot == "precursor"){
-    for(i in seq_along(featlist)){
-      m <- methods::slot(featlist[[i]], slot)
-      subsetter[i] <- abs(what - m) <= mz.tol
-    }
-  } else if(slot == "rt"){
-    for(i in seq_along(featlist)){
-      m <- methods::slot(featlist[[i]], slot)
-      subsetter[i] <- abs(what - m) <= rt.tol
-    }
-  } else stop("invalid slot selected")
+    if(slot %in% c("id", "annotation")){
+        for(i in seq_along(featlist)){
+            m <- methods::slot(featlist[[i]], slot)
+            subsetter[i] <- what %in% m
+        }
+    } else if(slot == "precursor"){
+        for(i in seq_along(featlist)){
+            m <- methods::slot(featlist[[i]], slot)
+            subsetter[i] <- abs(what - m) <= mz.tol
+        }
+    } else if(slot == "rt"){
+        for(i in seq_along(featlist)){
+            m <- methods::slot(featlist[[i]], slot)
+            subsetter[i] <- abs(what - m) <= rt.tol
+        }
+    } else stop("invalid slot selected")
 
 
-  if(sum(subsetter) == 0){
-    cat("No spectrum with that ", slot, ".", sep = "")
-  } else if(sum(subsetter) == 1){
-    return(featlist[subsetter][[1]])
-  } else {
-    return(featlist[subsetter])
-  }
+    if(sum(subsetter) == 0){
+        cat("No spectrum with that ", slot, ".", sep = "")
+    } else if(sum(subsetter) == 1){
+        return(featlist[subsetter][[1]])
+    } else {
+        return(featlist[subsetter])
+    }
 }

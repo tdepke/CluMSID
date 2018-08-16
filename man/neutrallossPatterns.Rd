@@ -12,7 +12,7 @@ an MS2 spectrum in the \code{spectrum} slot}
 }
 \value{
 an object of class \code{\linkS4class{MS2spectrum}} with a neutral
-  loss pattern in the \code{neutral_losses} slot
+    loss pattern in the \code{neutral_losses} slot
 }
 \description{
 \code{neutrallossPatterns} generates neutral loss patterns from MS2 spectra

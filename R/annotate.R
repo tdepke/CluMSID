@@ -15,14 +15,14 @@
 #'
 #' @export
 Featurelist <- function(featlist){
-  id <- c(); mz <- c(); rt <- c()
-  for(i in 1:length(featlist)){
-    id[i] <- featlist[[i]]@id
-    mz[i] <- featlist[[i]]@precursor
-    rt[i] <- featlist[[i]]@rt
-  }
-  df <- data.frame(id, mz, rt, stringsAsFactors = FALSE)
-  return(df)
+    id <- c(); mz <- c(); rt <- c()
+    for(i in seq_along(featlist)){
+        id[i] <- featlist[[i]]@id
+        mz[i] <- featlist[[i]]@precursor
+        rt[i] <- featlist[[i]]@rt
+    }
+    df <- data.frame(id, mz, rt, stringsAsFactors = FALSE)
+    return(df)
 }
 
 #' Write feature information from list of \code{MS2spectrum} objects
@@ -44,14 +44,14 @@ Featurelist <- function(featlist){
 #'
 #' @export
 writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
-  df <- Featurelist(featlist)
-  df$annotation <- rep("", length(featlist))
-  utils::write.table(
-    df,
-    file = filename,
-    sep = ",",
-    row.names = FALSE
-  )
+    df <- Featurelist(featlist)
+    df$annotation <- rep("", length(featlist))
+    utils::write.table(
+        df,
+        file = filename,
+        sep = ",",
+        row.names = FALSE
+    )
 }
 
 #' Adding external annotations to list of \code{MS2spectrum} objects
@@ -78,17 +78,17 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
 #'
 #' @export
 addAnnotations <- function(featlist, annolist, annotationColumn = 4){
-  if(is.data.frame(annolist)){
-    ident <- annolist
-  } else {
-    ident <-
-      utils::read.csv(file = annolist, stringsAsFactors = FALSE)
-  }
-  stopifnot(length(featlist) == nrow(annolist))
-  for(i in seq_along(featlist)){
-    if(ident[i, annotationColumn] != ""){
-      featlist[[i]]@annotation <- ident[i, annotationColumn]
+    if(is.data.frame(annolist)){
+        ident <- annolist
+    } else {
+        ident <-
+            utils::read.csv(file = annolist, stringsAsFactors = FALSE)
     }
-  }
-  return(featlist)
+    stopifnot(length(featlist) == nrow(annolist))
+    for(i in seq_along(featlist)){
+        if(ident[i, annotationColumn] != ""){
+            featlist[[i]]@annotation <- ident[i, annotationColumn]
+        }
+    }
+    return(featlist)
 }
