@@ -103,13 +103,17 @@ convertSpectrum <- function(x){
 #' @param type Whether similarity between spectra (\code{"spectrum"}, default)
 #'   or neutral loss patterns (\code{"neutral_losses"}) is to be compared
 #'
+#' @param mzTolerance The m/z tolerance used for merging. If two fragment peaks
+#'   are within tolerance, they are regarded as the same. Defaults to
+#'   \code{1e-5}, i.e. 10ppm.
+#'
 #' @return The cosine similarity of \code{x} and \code{y}
 #'
 #' @export
-cossim <- function(x, y, type = "spectrum") {
+cossim <- function(x, y, type = "spectrum", mzTolerance = 1e-5) {
     colnames(x) <- NULL
     colnames(y) <- NULL
-    mm <- mergeTolerance(x, y)
+    mm <- mergeTolerance(x, y, tolerance = mzTolerance)
     sum(sqrt(mm[, 2]) * sqrt(mm[, 3])) /
         (sqrt(sum(mm[, 2])) * sqrt(sum(mm[, 3])))
 }
@@ -125,7 +129,8 @@ setMethod("cossim",
                 if(type == "spectrum"){
                     cossim(x@spectrum, y@spectrum, type = type)
                 } else if(type == "neutral_losses"){
-                    cossim(x@neutral_losses, y@neutral_losses, type = type)
+                    cossim(x@neutral_losses, y@neutral_losses,
+                           type = type, mzTolerance = mzTolerance)
                 } else stop("'type' must be either 'spectrum' (default)
                             or 'neutral_losses'")
             })
@@ -136,8 +141,9 @@ setMethod("cossim",
 #' @exportMethod cossim
 setMethod(  "cossim",
             c(x = "pseudospectrum", y = "pseudospectrum"),
-            function(x, y, type){
+            function(x, y, type, mzTolerance){
                 if(type == "spectrum"){
-                    cossim(x@spectrum, y@spectrum, type = type)
+                    cossim(x@spectrum, y@spectrum,
+                           type = type, mzTolerance = mzTolerance)
                 } else stop("with pseudospectra, 'type' must be 'spectrum'!")
             })

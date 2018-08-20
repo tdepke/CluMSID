@@ -7,11 +7,12 @@
 \alias{cossim,pseudospectrum,pseudospectrum-method}
 \title{Calculate cosine similarity between two spectra}
 \usage{
-cossim(x, y, type = "spectrum")
+cossim(x, y, type = "spectrum", mzTolerance = 1e-05)
 
-\S4method{cossim}{MS2spectrum,MS2spectrum}(x, y, type = "spectrum")
+\S4method{cossim}{MS2spectrum,MS2spectrum}(x, y, type)
 
-\S4method{cossim}{pseudospectrum,pseudospectrum}(x, y, type = "spectrum")
+\S4method{cossim}{pseudospectrum,pseudospectrum}(x, y, type = "spectrum",
+  mzTolerance = 1e-05)
 }
 \arguments{
 \item{x, y}{MS2 spectra, either as \code{matrix},
@@ -20,6 +21,10 @@ objects. \code{x} and \code{y} must have the same class.}
 
 \item{type}{Whether similarity between spectra (\code{"spectrum"}, default)
 or neutral loss patterns (\code{"neutral_losses"}) is to be compared}
+
+\item{mzTolerance}{The m/z tolerance used for merging. If two fragment peaks
+are within tolerance, they are regarded as the same. Defaults to
+\code{1e-5}, i.e. 10ppm.}
 }
 \value{
 The cosine similarity of \code{x} and \code{y}

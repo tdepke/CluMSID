@@ -15,6 +15,11 @@
 #' @param type \code{"spectrum"} (default) for MS2 spectra or MS1 pseudospectra
 #'   or \code{"neutral_losses"} for neutral loss patterns.
 #'
+#' @param mz_tolerance The \emph{m/z} tolerance to be used for merging, default
+#'   is \code{1e-5}, i.e. +/- 10ppm. If the mass-to-charge ratios of two peaks
+#'   differ less than \emph{mz_tolerance}, they are assumed to have the same
+#'   \emph{m/z}
+#'
 #' @return A numeric \code{length(speclist)} by \code{length(speclist)} matrix
 #'   containing pairwise distances (1 - similarity) between all features in
 #'   \code{speclist}. Row and column names are taken from the \code{id} slot
@@ -23,7 +28,8 @@
 #'   \code{\linkS4class{pseudospectrum}} objects.
 #'
 #' @export
-distanceMatrix <- function(speclist, distFun = "cossim", type = "spectrum"){
+distanceMatrix <- function(speclist, distFun = "cossim",
+                           type = "spectrum", mz_tolerance = 1e-5){
     if(distFun == "cossim"){
         if(!(type %in% c("spectrum", "neutral_losses"))) {
             stop("'type' must be either 'spectrum' (default)
@@ -36,7 +42,8 @@ distanceMatrix <- function(speclist, distFun = "cossim", type = "spectrum"){
                 if (is.na(distmat[m, l])) {
                     distmat[m, l] <- 1 - cossim(speclist[[m]],
                                                 speclist[[l]],
-                                                type = type)
+                                                type = type,
+                                                mzTolerance = mz_tolerance)
                     distmat[l, m] <- distmat[m, l]
                 }
             }

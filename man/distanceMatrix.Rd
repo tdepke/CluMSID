@@ -4,7 +4,8 @@
 \alias{distanceMatrix}
 \title{Create distance matrix from list of spectra}
 \usage{
-distanceMatrix(speclist, distFun = "cossim", type = "spectrum")
+distanceMatrix(speclist, distFun = "cossim", type = "spectrum",
+  mz_tolerance = 1e-05)
 }
 \arguments{
 \item{speclist}{A list of \code{\linkS4class{MS2spectrum}} or
@@ -16,14 +17,19 @@ distanceMatrix(speclist, distFun = "cossim", type = "spectrum")
 
 \item{type}{\code{"spectrum"} (default) for MS2 spectra or MS1 pseudospectra
 or \code{"neutral_losses"} for neutral loss patterns.}
+
+\item{mz_tolerance}{The \emph{m/z} tolerance to be used for merging, default
+is \code{1e-5}, i.e. +/- 10ppm. If the mass-to-charge ratios of two peaks
+differ less than \emph{mz_tolerance}, they are assumed to have the same
+\emph{m/z}}
 }
 \value{
 A numeric \code{length(speclist)} by \code{length(speclist)} matrix
-    containing pairwise distances (1 - similarity) between all features in
-    \code{speclist}. Row and column names are taken from the \code{id} slot
-    or, if present, pasted from the \code{id} and \code{annotation} slots of
-    the \code{\linkS4class{MS2spectrum}} or
-    \code{\linkS4class{pseudospectrum}} objects.
+  containing pairwise distances (1 - similarity) between all features in
+  \code{speclist}. Row and column names are taken from the \code{id} slot
+  or, if present, pasted from the \code{id} and \code{annotation} slots of
+  the \code{\linkS4class{MS2spectrum}} or
+  \code{\linkS4class{pseudospectrum}} objects.
 }
 \description{
 \code{distanceMatrix()} creates a distance matrix from a list of MS2

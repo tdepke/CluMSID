@@ -13,10 +13,10 @@ mergeSpecList(speclist, tolerance = 1e-05)
 }
 \value{
 A \code{list} of the same length as \code{speclist} containing
-    merged spectra as \code{MS2spectrum} objects. If multiple spectra
-    contribute to one consensus spectrum, than this consensus spectrum is
-    contained in the list multiple times at the respective positions of the
-    contributing spectra.
+  merged spectra as \code{MS2spectrum} objects. If multiple spectra
+  contribute to one consensus spectrum, than this consensus spectrum is
+  contained in the list multiple times at the respective positions of the
+  contributing spectra.
 }
 \description{
 \code{mergeSpecList()} is an accessory function used only inside

@@ -28,9 +28,9 @@ defaults to 30s; high values can be used to specify retention time ranges
 }
 \value{
 If the only one spectrum matches the search criteria, the output is
-    an object of class \code{\linkS4class{MS2spectrum}}; if more than one
-    spectrum matches, the output is a list of \code{\linkS4class{MS2spectrum}}
-    objects.
+  an object of class \code{\linkS4class{MS2spectrum}}; if more than one
+  spectrum matches, the output is a list of \code{\linkS4class{MS2spectrum}}
+  objects.
 }
 \description{
 As accessing S4 objects within lists is not trivial, \code{getSpectrum} can

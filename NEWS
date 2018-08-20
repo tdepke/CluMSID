@@ -1,0 +1,3 @@
+0.1.6
+
++ added "tolerance" argument for m/z tolerance to cossim() and distanceMatrix()

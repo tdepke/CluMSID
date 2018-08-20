@@ -5,7 +5,7 @@
 \title{Merge MS2 spectra with or without external peak table}
 \usage{
 mergeMS2spectra(ms2list, mz_tolerance = 1e-05, rt_tolerance = 30,
-    peaktable = NULL, exclude_unmatched = FALSE)
+  peaktable = NULL, exclude_unmatched = FALSE)
 }
 \arguments{
 \item{ms2list}{A \code{list} of \code{MS2spectrum} objects to be merged.}
