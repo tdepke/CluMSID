@@ -1,3 +1,7 @@
 0.1.6
 
++ added a NEWS file
 + added "tolerance" argument for m/z tolerance to cossim() and distanceMatrix()
++ added accessor functions for "MS2spectrum" and "pseudospectrum" objects
++ added runnable examples for all exported functions
++ some formatting and style changes

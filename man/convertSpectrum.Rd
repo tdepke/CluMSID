@@ -16,3 +16,11 @@ An object of class \code{\linkS4class{MS2spectrum}}
 \description{
 Convert spectra from \pkg{MSnbase} classes
 }
+\examples{
+#Load a "Spectrum2" object from MSnbase
+library(MSnbase)
+sp <- itraqdata[["X1"]]
+#Convert this object to "MS2spectrum" class
+new_sp <- convertSpectrum(sp)
+
+}

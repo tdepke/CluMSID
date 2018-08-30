@@ -82,6 +82,13 @@ setMethod("show",
 #'
 #' @return An object of class \code{\linkS4class{MS2spectrum}}
 #'
+#' @examples
+#' #Load a "Spectrum2" object from MSnbase
+#' library(MSnbase)
+#' sp <- itraqdata[["X1"]]
+#' #Convert this object to "MS2spectrum" class
+#' new_sp <- convertSpectrum(sp)
+#'
 #' @export
 convertSpectrum <- function(x){
     stopifnot(class(x) %in% c("Spectrum", "Spectrum2"))
@@ -109,6 +116,13 @@ convertSpectrum <- function(x){
 #'
 #' @return The cosine similarity of \code{x} and \code{y}
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#'
+#' cossim(annotatedSpeclist[[1]], annotatedSpeclist[[2]])
+#'
 #' @export
 cossim <- function(x, y, type = "spectrum", mzTolerance = 1e-5) {
     colnames(x) <- NULL
@@ -125,12 +139,13 @@ setGeneric("cossim")
 #' @exportMethod cossim
 setMethod("cossim",
             c(x = "MS2spectrum", y = "MS2spectrum"),
-            function(x, y, type){
+            function(x, y, type, mzTolerance){
                 if(type == "spectrum"){
-                    cossim(x@spectrum, y@spectrum, type = type)
+                    cossim(x@spectrum, y@spectrum, type = type,
+                            mzTolerance = mzTolerance)
                 } else if(type == "neutral_losses"){
                     cossim(x@neutral_losses, y@neutral_losses,
-                           type = type, mzTolerance = mzTolerance)
+                            type = type, mzTolerance = mzTolerance)
                 } else stop("'type' must be either 'spectrum' (default)
                             or 'neutral_losses'")
             })
@@ -144,6 +159,6 @@ setMethod(  "cossim",
             function(x, y, type, mzTolerance){
                 if(type == "spectrum"){
                     cossim(x@spectrum, y@spectrum,
-                           type = type, mzTolerance = mzTolerance)
+                            type = type, mzTolerance = mzTolerance)
                 } else stop("with pseudospectra, 'type' must be 'spectrum'!")
             })

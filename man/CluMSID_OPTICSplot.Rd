@@ -31,6 +31,14 @@ The function internally uses \code{\link[dbscan]{optics}}
 and \code{\link[dbscan:optics]{extractDBSCAN}} from the \pkg{dbscan}
 package.
 }
+\examples{
+load(file = system.file("extdata",
+    "distmat.RData",
+    package = "CluMSID"))
+
+CluMSID_OPTICSplot(distmat[1:50,1:50], eps_cl = 0.7)
+
+}
 \seealso{
 CluMSID_OPTICStbl
 }

@@ -24,6 +24,13 @@
 #' \code{\linkS4class{pseudospectrum}}, analogous to the output of
 #' \code{\link{extractMS2spectra}}.
 #'
+#' @examples
+#' pstable <- readr::read_delim(file = system.file("extdata",
+#'                                 "TD035_XCMS.annotated.diffreport.tsv",
+#'                                 package = "CluMSID"), delim = "\t")
+#'
+#' pseudospeclist <- extractPseudospectra(pstable, min_peaks = 2)
+#'
 #' @export
 extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
     ##different actions depending on class of x

@@ -22,3 +22,11 @@ list of \code{MS2spectrum} objects as produced by \code{extractMS2spectra}
 and \code{mergeSpecList}. \code{Featurelist} is used internally by
 \code{\link{writeFeaturelist}}.
 }
+\examples{
+load(file = system.file("extdata",
+    "featlist.RData",
+    package = "CluMSID"))
+
+pre_anno <- Featurelist(featlist)
+
+}

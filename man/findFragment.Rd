@@ -26,3 +26,10 @@ If the respective fragment is only found in one spectrum, the output
 ion. Its sister function is \code{\link{findNL}}, which finds specific
 neutral losses. Both functions work analogous to \code{\link{getSpectrum}}.
 }
+\examples{
+load(file = system.file("extdata",
+    "annotatedSpeclist.RData",
+    package = "CluMSID"))
+putativeAQs <- findFragment(annotatedSpeclist, 159.068)
+
+}

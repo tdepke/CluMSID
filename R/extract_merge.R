@@ -65,6 +65,12 @@ mergeTolerance <- function(x, y, tolerance = 1e-5) {
 #' @return A \code{list} with objects of class \code{MS2spectrum}, containing
 #'   MS2 spectra extracted from the raw data.
 #'
+#' @examples
+#' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
+#'                                 "PoolA_R_SE.mzXML",
+#'                                 package = "CluMSID"),
+#'                                 min_peaks = 4, RTlims = c(0,10))
+#'
 #' @export
 extractMS2spectra <- function(  MSfile, min_peaks = 2,
                                 recalibrate_precursor = FALSE,
@@ -274,6 +280,14 @@ neutrallossPatterns <- function(x){
 #'   the resulting list?
 #'
 #' @return A merged list of \code{\linkS4class{MS2spectrum}} objects.
+#'
+#' @examples
+#' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
+#'                                 "PoolA_R_SE.mzXML",
+#'                                 package = "CluMSID"),
+#'                                 min_peaks = 4, RTlims = c(0,5))
+#'
+#' my_merged_spectra <- mergeMS2spectra(my_spectra, rt_tolerance = 20)
 #'
 #' @export
 mergeMS2spectra <- function(ms2list,

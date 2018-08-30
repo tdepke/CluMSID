@@ -37,3 +37,11 @@ spectra, MS1 pseudospectra or neutral loss patterns by pairwise comparison
 using the specified distance function. This distance matrix is the basis for
 CluMSID's data mining functions.
 }
+\examples{
+load(file = system.file("extdata",
+    "annotatedSpeclist.RData",
+    package = "CluMSID"))
+
+distanceMatrix(annotatedSpeclist[1:20])
+
+}

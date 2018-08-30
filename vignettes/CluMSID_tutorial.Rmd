@@ -76,6 +76,12 @@ The `pseudospectrum` class is very similar but it contains no information on
 precursor *m/z* and therefore no neutral loss pattern, either. By default, the 
 `id` slot contains the "pcgroup" number assigned by `CAMERA`.
 
+The individual slots of `MS2spectrum` and `pseudospectrum` objects can be 
+accessed via the standard S4 way using `object@slot`, e.g. `object@annotation`
+or by using an accessor function. These exist for all slot and are called
+`access_foo()`, where `foo` is the slot name, e.g. `access_id(object)`
+or `access_neutral_losses(object)`.
+
 # Extract MS^2^ spectra from *.mzXML file
 
 The first step in the `CluMSID` workflow is to extract MS^2^ spectra from the 
@@ -165,7 +171,7 @@ raw list are now merged to one consensus spectrum (#1 in the merged list).
 In this step, neutral loss patterns have been generated that look like this:
 
 ```{r mergeMS2spectra_4}
-featlist[[1]]@neutral_losses
+access_neutral_losses(featlist[[1]])
 ```
 
 ## Merge spectra with external peaktable, e.g. from XCMS

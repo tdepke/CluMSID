@@ -13,6 +13,13 @@
 #' @return A \code{data.frame} that contains feature ID, precurosur \emph{m/z}
 #'   and retention time
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "featlist.RData",
+#'     package = "CluMSID"))
+#'
+#' pre_anno <- Featurelist(featlist)
+#'
 #' @export
 Featurelist <- function(featlist){
     id <- c(); mz <- c(); rt <- c()
@@ -41,6 +48,13 @@ Featurelist <- function(featlist){
 #' @return A csv file that contains feature ID, precurosur \emph{m/z} and
 #'   retention time. The file has a header but no row names and is separated by
 #'   \code{','}.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "featlist.RData",
+#'     package = "CluMSID"))
+#'
+#' writeFeaturelist(featlist, filename = "pre_anno.csv")
 #'
 #' @export
 writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
@@ -75,6 +89,16 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
 #'   \code{extractMS2spectra} and \code{mergeSpecList} with external
 #'   annotations added to the \code{annotation} slot of each \code{MS2spectrum}
 #'   object.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "featlist.RData",
+#'     package = "CluMSID"))
+#'
+#' addAnnotations(featlist, system.file("extdata",
+#'                 "post_anno.csv",
+#'                 package = "CluMSID"),
+#'                 annotationColumn = 4)
 #'
 #' @export
 addAnnotations <- function(featlist, annolist, annotationColumn = 4){

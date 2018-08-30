@@ -39,6 +39,14 @@
 #'   interactive, \code{\link[plotly]{ggplotly}}. Edge weights correspond to
 #'   spectral similarities.
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "distmat.RData",
+#'     package = "CluMSID"))
+#'
+#' CluMSID_network(distmat[1:50,1:50], show_labels = TRUE,
+#'                 exclude_singletons = TRUE)
+#'
 #' @export
 CluMSID_network <- function(distmat, interactive = FALSE, show_labels = FALSE,
                             label_size = 1.5, highlight_annotated = FALSE,

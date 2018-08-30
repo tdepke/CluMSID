@@ -26,3 +26,10 @@ If the respective neutral loss is only found in one spectrum, the
 Its sister function is \code{\link{findFragment}}, which finds specific
 fragment ions. Both functions work analogous to \code{\link{getSpectrum}}.
 }
+\examples{
+load(file = system.file("extdata",
+    "annotatedSpeclist.RData",
+    package = "CluMSID"))
+findNL(annotatedSpeclist, 212.009)
+
+}

@@ -29,3 +29,11 @@ An MDS plot generated with the help of
 spectral similarity data. An interactive visualisation can be produced using
 \pkg{plotly}.
 }
+\examples{
+load(file = system.file("extdata",
+    "distmat.RData",
+    package = "CluMSID"))
+
+CluMSID_MDS(distmat, highlight_annotated = TRUE)
+
+}

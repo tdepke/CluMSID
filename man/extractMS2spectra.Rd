@@ -33,3 +33,10 @@ A \code{list} with objects of class \code{MS2spectrum}, containing
 \code{extractMS2spectra()} is used to extract MS2 spectra from raw data
 files, e.g. mzXML files.
 }
+\examples{
+my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
+                                "PoolA_R_SE.mzXML",
+                                package = "CluMSID"),
+                                min_peaks = 4, RTlims = c(0,10))
+
+}

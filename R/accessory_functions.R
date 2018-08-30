@@ -25,6 +25,13 @@
 #' @return A named vector with similarities of \code{spec} to all spectra or
 #'   neutral loss patterns in \code{speclist}.
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#' getSimilarities(annotatedSpeclist[[137]],
+#'                 annotatedSpeclist, hits_only = TRUE)
+#'
 #' @export
 getSimilarities <- function(spec,
                             speclist,
@@ -70,6 +77,12 @@ getSimilarities <- function(spec,
 #'   more than one spectrum, the output is a list of
 #'   \code{\linkS4class{MS2spectrum}} objects.
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#' putativeAQs <- findFragment(annotatedSpeclist, 159.068)
+#'
 #' @export
 findFragment <- function(featlist, mz, tolerance = 1E-05){
     subsetter <- c()
@@ -101,6 +114,12 @@ findFragment <- function(featlist, mz, tolerance = 1E-05){
 #'   output is an object of class \code{\linkS4class{MS2spectrum}}; if it is
 #'   found in more than one spectrum, the output is a list of
 #'   \code{\linkS4class{MS2spectrum}} objects.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#' findNL(annotatedSpeclist, 212.009)
 #'
 #' @export
 findNL <- function(featlist, mz, tolerance = 1E-05){
@@ -145,6 +164,19 @@ findNL <- function(featlist, mz, tolerance = 1E-05){
 #'   an object of class \code{\linkS4class{MS2spectrum}}; if more than one
 #'   spectrum matches, the output is a list of \code{\linkS4class{MS2spectrum}}
 #'   objects.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#'
+#' getSpectrum(annotatedSpeclist, "annotation", "pyocyanin")
+#'
+#' getSpectrum(annotatedSpeclist, "id", "M244.17T796.4")
+#'
+#' getSpectrum(annotatedSpeclist, "precursor", 286.18, mz.tol = 1E-03)
+#'
+#' six_eight <- getSpectrum(annotatedSpeclist, "rt", 420, rt.tol = 60)
 #'
 #' @export
 getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){

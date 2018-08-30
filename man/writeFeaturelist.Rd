@@ -25,3 +25,11 @@ retention time for all features contained in a list of \code{MS2spectrum}
 objects as produced by \code{extractMS2spectra} and \code{mergeSpecList} and
 writes it to a csv file.
 }
+\examples{
+load(file = system.file("extdata",
+    "featlist.RData",
+    package = "CluMSID"))
+
+writeFeaturelist(featlist, filename = "pre_anno.csv")
+
+}

@@ -9,7 +9,8 @@
 \usage{
 cossim(x, y, type = "spectrum", mzTolerance = 1e-05)
 
-\S4method{cossim}{MS2spectrum,MS2spectrum}(x, y, type)
+\S4method{cossim}{MS2spectrum,MS2spectrum}(x, y, type = "spectrum",
+  mzTolerance = 1e-05)
 
 \S4method{cossim}{pseudospectrum,pseudospectrum}(x, y, type = "spectrum",
   mzTolerance = 1e-05)
@@ -42,3 +43,11 @@ measure for the similarity of two spectra.
 \code{\linkS4class{pseudospectrum}} objects
 }}
 
+\examples{
+load(file = system.file("extdata",
+    "annotatedSpeclist.RData",
+    package = "CluMSID"))
+
+cossim(annotatedSpeclist[[1]], annotatedSpeclist[[2]])
+
+}

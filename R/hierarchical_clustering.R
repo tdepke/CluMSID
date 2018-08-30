@@ -15,6 +15,13 @@
 #'
 #' @seealso \code{\link{CluMSID_HCplot}}
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "distmat.RData",
+#'     package = "CluMSID"))
+#'
+#' my_HCtbl <- CluMSID_HCtbl(distmat[1:50,1:50], h = 0.8)
+#'
 #' @export
 CluMSID_HCtbl <- function(distmat, h = 0.95){
     clust <- stats::hclust(stats::as.dist(distmat), method = "average")
@@ -40,6 +47,13 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 #' \code{"heatmap"} for a combination of dendrogram and heatmap.
 #'
 #' @return A plot as specified by \code{type}.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "distmat.RData",
+#'     package = "CluMSID"))
+#'
+#' CluMSID_HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
 #'
 #' @export
 CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram"){

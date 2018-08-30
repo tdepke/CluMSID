@@ -42,5 +42,6 @@ Suggests: knitr,
     testthat,
     dplyr,
     readr,
-    magrittr
+    magrittr,
+    MSnbase
 VignetteBuilder: knitr

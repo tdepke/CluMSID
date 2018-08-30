@@ -37,3 +37,17 @@ As accessing S4 objects within lists is not trivial, \code{getSpectrum} can
 be used to access individual or several \code{\linkS4class{MS2spectrum}}
 objects by their slot entries.
 }
+\examples{
+load(file = system.file("extdata",
+    "annotatedSpeclist.RData",
+    package = "CluMSID"))
+
+getSpectrum(annotatedSpeclist, "annotation", "pyocyanin")
+
+getSpectrum(annotatedSpeclist, "id", "M244.17T796.4")
+
+getSpectrum(annotatedSpeclist, "precursor", 286.18, mz.tol = 1E-03)
+
+six_eight <- getSpectrum(annotatedSpeclist, "rt", 420, rt.tol = 60)
+
+}

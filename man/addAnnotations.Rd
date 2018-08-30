@@ -30,3 +30,14 @@ A list of \code{MS2spectrum} objects as produced by
 externally, e.g. by library search, to a list of \code{MS2spectrum} objects
 as produced by \code{extractMS2spectra} and \code{mergeSpecList}.
 }
+\examples{
+load(file = system.file("extdata",
+    "featlist.RData",
+    package = "CluMSID"))
+
+addAnnotations(featlist, system.file("extdata",
+                "post_anno.csv",
+                package = "CluMSID"),
+                annotationColumn = 4)
+
+}

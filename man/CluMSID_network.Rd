@@ -48,3 +48,12 @@ A network plot generated with the help of
 spectral similarity data. An interactive visualisation can be produced using
 \pkg{plotly}.
 }
+\examples{
+load(file = system.file("extdata",
+    "distmat.RData",
+    package = "CluMSID"))
+
+CluMSID_network(distmat[1:50,1:50], show_labels = TRUE,
+                exclude_singletons = TRUE)
+
+}

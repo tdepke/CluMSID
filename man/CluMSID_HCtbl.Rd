@@ -22,6 +22,14 @@ feature in \code{distmat}.
 of spectral similarity data using average linkage
 as agglomeration criterion.
 }
+\examples{
+load(file = system.file("extdata",
+    "distmat.RData",
+    package = "CluMSID"))
+
+my_HCtbl <- CluMSID_HCtbl(distmat[1:50,1:50], h = 0.8)
+
+}
 \seealso{
 \code{\link{CluMSID_HCplot}}
 }

@@ -42,3 +42,12 @@ precursor. It does so either by grouping spectra of the same precursor
 (\code{rt_tolerance}) or by grouping spectra to peaks from an externally
 supplied peak table. Please see the vignette for more details.
 }
+\examples{
+my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
+                                "PoolA_R_SE.mzXML",
+                                package = "CluMSID"),
+                                min_peaks = 4, RTlims = c(0,5))
+
+my_merged_spectra <- mergeMS2spectra(my_spectra, rt_tolerance = 20)
+
+}

@@ -33,3 +33,11 @@ A list of pseudospectra, stored as objects of class
 \code{extractPseudospectra()} is used to extract MS1 pseudospectra from
 \pkg{CAMERA} output.
 }
+\examples{
+pstable <- readr::read_delim(file = system.file("extdata",
+                                "TD035_XCMS.annotated.diffreport.tsv",
+                                package = "CluMSID"), delim = "\\t")
+
+pseudospeclist <- extractPseudospectra(pstable, min_peaks = 2)
+
+}

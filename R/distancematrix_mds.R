@@ -27,9 +27,16 @@
 #'   the \code{\linkS4class{MS2spectrum}} or
 #'   \code{\linkS4class{pseudospectrum}} objects.
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#'
+#' distanceMatrix(annotatedSpeclist[1:20])
+#'
 #' @export
 distanceMatrix <- function(speclist, distFun = "cossim",
-                           type = "spectrum", mz_tolerance = 1e-5){
+                            type = "spectrum", mz_tolerance = 1e-5){
     if(distFun == "cossim"){
         if(!(type %in% c("spectrum", "neutral_losses"))) {
             stop("'type' must be either 'spectrum' (default)
@@ -87,6 +94,13 @@ distanceMatrix <- function(speclist, distFun = "cossim",
 #'   \code{\link[stats]{cmdscale}},
 #'   \code{\link[ggplot2]{ggplot}} and, if interactive,
 #'   \code{\link[plotly]{ggplotly}}.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "distmat.RData",
+#'     package = "CluMSID"))
+#'
+#' CluMSID_MDS(distmat, highlight_annotated = TRUE)
 #'
 #' @export
 CluMSID_MDS <- function(distmat,

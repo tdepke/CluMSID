@@ -20,6 +20,13 @@
 #'
 #' @seealso CluMSID_OPTICSplot
 #'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "distmat.RData",
+#'     package = "CluMSID"))
+#'
+#' my_OTPICStbl <- CluMSID_OPTICStbl(distmat[1:50,1:50], eps_cl = 0.7)
+#'
 #' @export
 CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
     opt <- dbscan::optics(  stats::as.dist(distmat),
@@ -55,6 +62,13 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #' package.
 #'
 #' @seealso CluMSID_OPTICStbl
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "distmat.RData",
+#'     package = "CluMSID"))
+#'
+#' CluMSID_OPTICSplot(distmat[1:50,1:50], eps_cl = 0.7)
 #'
 #' @export
 CluMSID_OPTICSplot <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
