@@ -10,3 +10,4 @@
 
 + added polarity slot to 'MS2spectrum' class and respective show() generic
 + added polarity accessor
++ added extraction of polarity information from raw data to extractMS2spectra()
