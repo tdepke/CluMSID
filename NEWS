@@ -5,3 +5,8 @@
 + added accessor functions for "MS2spectrum" and "pseudospectrum" objects
 + added runnable examples for all exported functions
 + some formatting and style changes
+
+0.1.7
+
++ added polarity slot to 'MS2spectrum' class and respective show() generic
++ added polarity accessor

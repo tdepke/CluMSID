@@ -76,6 +76,21 @@ access_rt <- function(x){
 #'
 #' @examples
 #' load(file = system.file("extdata",
+#'      "annotatedSpeclist.RData",
+#'      package = "CluMSID"))
+#'
+#' access_polarity(annotatedSpeclist[[1]])
+#'
+#' @export
+access_polarity <- function(x){
+    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    return(x@polarity)
+}
+
+#' @rdname accessors
+#'
+#' @examples
+#' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
 #'     package = "CluMSID"))
 #'
