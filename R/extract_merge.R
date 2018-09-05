@@ -220,6 +220,8 @@ mergeSpecList <- function(speclist, tolerance = 1e-5) {
                                                 as.numeric(
                                                     speclist[[z]]@precursor),
                                             rt = as.numeric(speclist[[z]]@rt),
+                                            polarity = as.character(
+                                                    speclist[[z]]@polarity),
                                             spectrum = z2)
             } else {
                 mrgls[[z]] <- speclist[[z]]
