@@ -6,6 +6,7 @@
 \alias{access_annotation}
 \alias{access_precursor}
 \alias{access_rt}
+\alias{access_polarity}
 \alias{access_spectrum}
 \alias{access_neutral_losses}
 \title{Accessor functions for individual slots of
@@ -19,6 +20,8 @@ access_annotation(x)
 access_precursor(x)
 
 access_rt(x)
+
+access_polarity(x)
 
 access_spectrum(x)
 
@@ -62,6 +65,12 @@ load(file = system.file("extdata",
      package = "CluMSID"))
 
 access_rt(annotatedSpeclist[[1]])
+
+load(file = system.file("extdata",
+     "annotatedSpeclist.RData",
+     package = "CluMSID"))
+
+access_polarity(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",

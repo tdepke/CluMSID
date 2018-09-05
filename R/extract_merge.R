@@ -140,8 +140,11 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
         new.pmz <- pmz
     }
 
+    pol <- ifelse(mzR::header(aa)$polarity == 1, "positive",
+                  ifelse(mzR::header(aa)$polarity == 0, "negative", ""))
 
-    precursor <- cbind(new.pmz, mzR::header(aa)$retentionTime)
+
+    precursor <- cbind(new.pmz, mzR::header(aa)$retentionTime, pol)
     precursor2 <- precursor[ms2log,][vec,]
 
     if(!is.null(RTlims)){
@@ -159,6 +162,7 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
         output[[e]] <- methods::new("MS2spectrum",
                                     precursor = as.numeric(precursormzrt[e,1]),
                                     rt = as.numeric(precursormzrt[e,2]),
+                                    polarity = as.character(precursormzrt[e,3]),
                                     spectrum = ms2list[[e]])
     }
     return(output)
