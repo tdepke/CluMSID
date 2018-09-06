@@ -141,7 +141,7 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
     }
 
     pol <- ifelse(mzR::header(aa)$polarity == 1, "positive",
-                  ifelse(mzR::header(aa)$polarity == 0, "negative", ""))
+                    ifelse(mzR::header(aa)$polarity == 0, "negative", ""))
 
 
     precursor <- data.frame(new.pmz, mzR::header(aa)$retentionTime, pol)

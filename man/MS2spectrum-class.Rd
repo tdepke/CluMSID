@@ -38,7 +38,8 @@ annotation, defaults to empty}
 
 \item{\code{rt}}{(median) retention time of the spectrum's precursor ion}
 
-\item{\code{polarity}}{the ionisation polarity, \code{"positive"} or \code{"negative"}}
+\item{\code{polarity}}{the ionisation polarity,
+\code{"positive"} or \code{"negative"}}
 
 \item{\code{spectrum}}{the actual MS2 spectrum as two-column matrix
 (column 1 is (median) \emph{m/z}, column 2 is (median) intensity of the

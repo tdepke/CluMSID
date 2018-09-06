@@ -11,7 +11,8 @@
 #'
 #' @slot rt (median) retention time of the spectrum's precursor ion
 #'
-#' @slot polarity the ionisation polarity, \code{"positive"} or \code{"negative"}
+#' @slot polarity the ionisation polarity,
+#'    \code{"positive"} or \code{"negative"}
 #'
 #' @slot spectrum the actual MS2 spectrum as two-column matrix
 #'   (column 1 is (median) \emph{m/z}, column 2 is (median) intensity of the
