@@ -90,6 +90,9 @@ distanceMatrix <- function(speclist, distFun = "cossim",
 #'   before using \code{\link{distanceMatrix}} are highlighted by red colour,
 #'   while other points are grey in the MDS plot.
 #'
+#' @param ... Additional arguments passed to \code{geom_point()},
+#'   e.g. \code{pch}, \code{size} or \code{alpha}.
+#'
 #' @return An MDS plot generated with the help of
 #'   \code{\link[stats]{cmdscale}},
 #'   \code{\link[ggplot2]{ggplot}} and, if interactive,
@@ -105,31 +108,31 @@ distanceMatrix <- function(speclist, distFun = "cossim",
 #' @export
 CluMSID_MDS <- function(distmat,
                         interactive = FALSE,
-                        highlight_annotated = FALSE){
+                        highlight_annotated = FALSE,
+                        ...){
     if(class(distmat) != "dist") distmat <- stats::as.dist(distmat)
     fit <- stats::cmdscale(distmat, k = 2)
     fitx <- fity <- anno <- NULL #only to appease CRAN check
     fit <- data.frame(fitx = fit[,1], fity = fit[,2], anno = row.names(fit))
 
+    params <- list(...)
+    if(!("pch" %in% names(params))) params$pch <- 16
+    if(!("size" %in% names(params))) params$size <- 2
+    if(!("alpha" %in% names(params))) params$alpha <- 0.5
     if(highlight_annotated == TRUE){
-        q <- ggplot2::ggplot(fit, ggplot2::aes( x = fitx,
-                                                y = fity,
-                                                text = anno)) +
-            ggplot2::geom_point(pch = 16, alpha = 0.5, size = 2,
-                                colour = as.numeric(grepl(pattern = " - ",
-                                                        x = fit$anno))+1) +
-            ggplot2::xlab("Coordinate 1") +
-            ggplot2::ylab("Coordinate 2") +
-            ggplot2::theme_light()
-    } else {
-        q <- ggplot2::ggplot(fit, ggplot2::aes( x = fitx,
-                                                y = fity,
-                                                text = anno)) +
-            ggplot2::geom_point(pch = 16, alpha = 0.5, size = 2) +
-            ggplot2::xlab("Coordinate 1") +
-            ggplot2::ylab("Coordinate 2") +
-            ggplot2::theme_light()
+        params$colour <- as.numeric(
+            grepl(pattern = " - ",
+                  x = fit$anno))+1
     }
+
+    q <- ggplot2::ggplot(fit, ggplot2::aes( x = fitx,
+                                            y = fity,
+                                            text = anno)) +
+        do.call(ggplot2::geom_point, args = params) +
+        ggplot2::xlab("Coordinate 1") +
+        ggplot2::ylab("Coordinate 2") +
+        ggplot2::theme_light()
+
 
     if(interactive == FALSE) return(q) else {
         suppressMessages(p <- plotly::ggplotly(q, tooltip = "text"))

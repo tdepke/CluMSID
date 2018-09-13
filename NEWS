@@ -11,3 +11,7 @@
 + added polarity slot to 'MS2spectrum' class and respective show() generic
 + added polarity accessor
 + added extraction of polarity information from raw data to extractMS2spectra()
+
+0.1.8
+
++ added "..." to CluMSID_MDSplot() to allow for customisation of plot appearance
