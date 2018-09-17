@@ -54,6 +54,8 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #'
 #' @inheritParams CluMSID_OPTICStbl
 #'
+#' @param ... Additional graphical parameters to be passed to \code{plot()}
+#'
 #' @return A reachability distance plot as visualisation of OPTICS clustering,
 #' see code{\link[dbscan:optics]{extractDBSCAN}}.
 #'
@@ -71,7 +73,8 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #' CluMSID_OPTICSplot(distmat[1:50,1:50], eps_cl = 0.7)
 #'
 #' @export
-CluMSID_OPTICSplot <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
+CluMSID_OPTICSplot <- function(distmat, eps = 10000,
+                               minPts = 3, eps_cl = 0.5, ...){
     opt <- dbscan::optics(  stats::as.dist(distmat),
                             eps = eps,
                             minPts = minPts,
@@ -79,8 +82,11 @@ CluMSID_OPTICSplot <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 
     res <- dbscan::extractDBSCAN(opt, eps_cl = eps_cl)
 
+    params <- list(...)
+    if(!("main" %in% names(params))) params$main <- list(NULL)
+
     opal <- grDevices::palette()
     grDevices::palette(c(opal, rep(c("orange", opal[-1]),10)))
-    graphics::plot(res, main = NULL)
+    do.call(plot, append(list(x = res), params))
     grDevices::palette(opal)
 }
