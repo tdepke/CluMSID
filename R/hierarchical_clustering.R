@@ -46,6 +46,10 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 #' \code{"dendrogram"} (default) for a circular dendrogram or
 #' \code{"heatmap"} for a combination of dendrogram and heatmap.
 #'
+#' @param ... Additional graphical parameters passed to
+#' \code{plot.phylo} (for \code{type = "dendrogram"})
+#' or \code{gplots::heatmap.2} (for \code{type = "heatmap"})
+#'
 #' @return A plot as specified by \code{type}.
 #'
 #' @examples
@@ -56,7 +60,7 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 #' CluMSID_HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
 #'
 #' @export
-CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram"){
+CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram", ...){
     clust <- stats::hclust(stats::as.dist(distmat), method = "average")
     hclusttree <- stats::cutree(clust, h = h)
     hclustmat <- cbind(names(hclusttree), hclusttree)
@@ -65,17 +69,22 @@ CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram"){
     nc <- round(max(hclusttree)/8)
 
     if(type == "heatmap") {
-        stats::heatmap( as.matrix(distmat),
-                        Rowv = stats::as.dendrogram(clust), Colv = "Rowv",
-                        distfun = NULL, symm = TRUE, margins = c(16,8))
+        params <- list(...)
+        params$Rowv <- rev(stats::as.dendrogram(clust))
+        params$Colv <- stats::as.dendrogram(clust)
+        params$distfun <- list(NULL)
+        params$key.xlab <- "1 - spectral similarity"
+        params$trace <- "none"
+        if(!("margins" %in% names(params))) params$margins <- c(16,16)
+        if(!("breaks" %in% names(params))) params$breaks <- seq(0,1,0.01)
+        do.call(gplots::heatmap.2, append(list(x = distmat), params))
     } else if(type == "dendrogram") {
         clr <- RColorBrewer::brewer.pal(n = 8, name = "Dark2")
-        graphics::plot(
-            ape::as.phylo(clust),
-            type = "fan",
-            cex = 0.7,
-            tip.color = rep(clr, nc)[clustorder][hclusttree],
-            no.margin = TRUE
-        )
+        params <- list(...)
+        params$tip.color <- rep(clr, nc)[clustorder][hclusttree]
+        params$type <- "fan"
+        if(!("cex" %in% names(params))) params$cex <- 0.7
+        if(!("no.margin" %in% names(params))) params$no.margin <- TRUE
+        do.call(graphics::plot, append(list(x = ape::as.phylo(clust)), params))
     } else stop("'type' muste be either 'dendrogram' (default) or 'heatmap'.")
 }
