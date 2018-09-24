@@ -35,7 +35,8 @@ Imports:
     sna,
     grDevices,
     graphics,
-    Biobase
+    Biobase,
+    gplots
 RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown,
