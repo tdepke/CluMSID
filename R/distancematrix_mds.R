@@ -122,7 +122,7 @@ CluMSID_MDS <- function(distmat,
     if(highlight_annotated == TRUE){
         params$colour <- as.numeric(
             grepl(pattern = " - ",
-                  x = fit$anno))+1
+                    x = fit$anno))+1
     }
 
     q <- ggplot2::ggplot(fit, ggplot2::aes( x = fitx,

@@ -74,7 +74,7 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #'
 #' @export
 CluMSID_OPTICSplot <- function(distmat, eps = 10000,
-                               minPts = 3, eps_cl = 0.5, ...){
+                                minPts = 3, eps_cl = 0.5, ...){
     opt <- dbscan::optics(  stats::as.dist(distmat),
                             eps = eps,
                             minPts = minPts,
@@ -87,6 +87,6 @@ CluMSID_OPTICSplot <- function(distmat, eps = 10000,
 
     opal <- grDevices::palette()
     grDevices::palette(c(opal, rep(c("orange", opal[-1]),10)))
-    do.call(plot, append(list(x = res), params))
+    do.call(graphics::plot, append(list(x = res), params))
     grDevices::palette(opal)
 }
