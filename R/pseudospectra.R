@@ -94,8 +94,7 @@ extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
             for(i in seq_along(x@pspectra)){
 
                 spc <- cbind(x@groupInfo[x@pspectra[[i]],"mz"],
-                                max(x@groupInfo[x@pspectra[[i]],"maxo"],
-                                    na.rm = TRUE))
+                                x@groupInfo[x@pspectra[[i]],"maxo"])
 
                 pseudospeclist[[i]] <- methods::new("pseudospectrum",
                                                     id = i,

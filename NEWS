@@ -21,3 +21,4 @@
 
 + Featurelist() and writeFeaturelist() now also work with lists of
     'pseudospectrum' objects
++ bugfix for intensity extraction in extractPseudospectra()
