@@ -25,6 +25,11 @@ retention time for all features contained in a list of \code{MS2spectrum}
 objects as produced by \code{extractMS2spectra} and \code{mergeSpecList} and
 writes it to a csv file.
 }
+\details{
+Although originally designed for lists of \code{MS2spectrum}
+  objects, the function also works with lists of \code{pseudospectrum}
+  objects. In this case, \code{NA} is given for precursor \emph{m/z}.
+}
 \examples{
 load(file = system.file("extdata",
     "featlist.RData",

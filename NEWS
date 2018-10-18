@@ -14,4 +14,10 @@
 
 0.1.8
 
-+ added "..." to CluMSID_MDSplot() to allow for customisation of plot appearance
++ added "..." to CluMSID_MDSplot(), CluMSID_HCplot(), CluMSID_OPTICSplot()
+    to allow for customisation of plot appearance
+
+0.1.9
+
++ Featurelist() and writeFeaturelist() now also work with lists of
+    'pseudospectrum' objects

@@ -10,8 +10,12 @@
 #' @param featlist A list of \code{MS2spectrum} objects as produced by
 #'   \code{extractMS2spectra} and \code{mergeSpecList}
 #'
+#' @details Although originally designed for lists of \code{MS2spectrum}
+#'   objects, the function also works with lists of \code{pseudospectrum}
+#'   objects. In this case, \code{NA} is given for precursor \emph{m/z}.
+#'
 #' @return A \code{data.frame} that contains feature ID, precurosur \emph{m/z}
-#'   and retention time
+#'   (if available) and retention time
 #'
 #' @examples
 #' load(file = system.file("extdata",
@@ -25,7 +29,11 @@ Featurelist <- function(featlist){
     id <- c(); mz <- c(); rt <- c()
     for(i in seq_along(featlist)){
         id[i] <- featlist[[i]]@id
-        mz[i] <- featlist[[i]]@precursor
+        if(methods::.hasSlot(featlist[[i]], "precursor")){
+            mz[i] <- featlist[[i]]@precursor
+        } else {
+            mz[i] <- NA
+        }
         rt[i] <- featlist[[i]]@rt
     }
     df <- data.frame(id, mz, rt, stringsAsFactors = FALSE)
@@ -44,6 +52,10 @@ Featurelist <- function(featlist){
 #'
 #' @param filename The desired file name of the csv file, default is
 #'   \code{"pre_anno.csv"}
+#'
+#' @details Although originally designed for lists of \code{MS2spectrum}
+#'   objects, the function also works with lists of \code{pseudospectrum}
+#'   objects. In this case, \code{NA} is given for precursor \emph{m/z}.
 #'
 #' @return A csv file that contains feature ID, precurosur \emph{m/z} and
 #'   retention time. The file has a header but no row names and is separated by
