@@ -17,11 +17,112 @@ knitr::opts_chunk$set(
 )
 ```
 
+<style>
+p.caption {
+  font-size: 80%;
+  text-align: left;
+}
+</style>
+
+```{r captions, include=FALSE}
+fig1 <- paste("**Figure 1:**",
+                "Multidimensional scaling plot as a visualisation of",
+                "MS^2^ spectra similarities",
+                "of the example data set.",
+                "Red dots signify annotated spectra,",
+                "black dots spectra from unknown metabolites.")
+fig2 <- paste("**Figure 2:**",
+                "Multidimensional scaling plot as a visualisation of",
+                "neutral loss similarities",
+                "of the example data set.",
+                "Red dots signify annotated spectra,",
+                "black dots spectra from unknown metabolites.")
+fig3 <- paste("**Figure 3:**",
+                "Screenshot of the interactive version of the",
+                "Multidimensional scaling plot visualising",
+                "MS^2^ spectra similarities",
+                "of the example data set (cf Figure 1).",
+                "Zoomed image section with tooltip displaying",
+                "feature information upon mouse-over.")
+fig4 <- paste("**Figure 4:**",
+                "Reachability distance plot resulting from",
+                "OPTICS density based clustering of the",
+                "MS^2^ spectra similarities",
+                "of the example data set.",
+                "Bars represent features in OPTICS order",
+                "with heights corresponding to the",
+                "reachability distance to the next feature.",
+                "The dashed horizontal line marks the reachability threshold",
+                "that separates clusters.",
+                "The resulting clusters are colour-coded",
+                "with black representing noise, i.e. features not assigned",
+                "to any cluster.")
+fig5 <- paste("**Figure 5:**",
+                "Reachability distance plot resulting from",
+                "OPTICS density based clustering of the",
+                "neutral loss similarities",
+                "of the example data set",
+                "(cf Figure 4).")
+fig6 <- paste("**Figure 6:**",
+                "Symmetric heat map of the distance matrix displaying",
+                "MS^2^ spectra similarities",
+                "of the example data set",
+                "along with dendrograms resulting from",
+                "hierarchical clustering based on the distance matrix.",
+                "The colour encoding is shown in the top-left insert.")
+fig7 <- paste("**Figure 7:**",
+                "Symmetric heat map of the distance matrix displaying",
+                "neutral loss similarities",
+                "of the example data set",
+                "along with dendrograms resulting from",
+                "hierarchical clustering based on the distance matrix.",
+                "The colour encoding is shown in the top-left insert.")
+fig8 <- paste("**Figure 8:**",
+                "Circularised dendrogram as a result of",
+                "agglomerative hierarchical clustering with average linkage",
+                "as agglomeration criterion based on",
+                "MS^2^ spectra similarities",
+                "of the example data set.",
+                "Each leaf represents one feature and colours encode",
+                "cluster affiliation of the features.",
+                "Leaf labels display feature IDs, along with",
+                "feature annotations, if existent.",
+                "Distance from the central point is indicative",
+                "of the height of the dendrogram.")
+fig9 <- paste("**Figure 9:**",
+                "Correlation network plot based on",
+                "MS^2^ spectra similarities",
+                "of the example data set.",
+                "Grey dots indicate non-identified features,",
+                "orange dots identified ones.",
+                "Labels display feature IDs, along with",
+                "feature annotations, if existent.",
+                "Edge widths are proportional to spectral similarity",
+                "of the connected features.")
+fig10 <- paste("**Figure 10:**",
+                "Screenshot of the interactive version of the",
+                "Correlation network plot based on",
+                "MS^2^ spectra similarities",
+                "of the example data set (cf Figure 9).",
+                "Zoomed image section with tooltip displaying",
+                "feature information upon mouse-over.")
+fig11 <- paste("**Figure 11:**",
+                "Correlation network plot based on",
+                "neutral loss similarities",
+                "of the example data set (cf Figure 9).")
+fig12 <- paste("**Figure 12:**",
+                "Correlation network plot based on",
+                "similarities of pseudospectra",
+                "of the example data set (cf Figure 9).")
+```
+
 # Introduction
 
 This tutorial shows how to use the `CluMSID` package to help annotate 
 MS^2^ spectra from untargeted LC-MS/MS data. `CluMSID` works with MS^2^ 
-data generated by data-dependent acquisition and requires a *.mzXML file 
+data generated by data-dependent acquisition and requires an mzXML file 
+(like in this example) or any other file that can be parsed by
+`mzR`, like mzML, mzTab or netCDF,
 as input. It can be used both stand-alone and together with the XCMS suite 
 of preprocessing tools.
 
@@ -65,6 +166,8 @@ given in a predefined peak list
 defaults to empty
 * `precursor`: (median) *m/z* of the spectrum's precursor ion
 * `rt`: (median) retention time of the spectrum's precursor ion
+* `polarity`: the polarity with which the spectrum was recorded,
+either `positive` or `negative`
 * `spectrum`: the actual MS^2^ spectrum as two-column matrix 
 (column 1 is (median) *m/z*, column 2 is (median) 
 intensity of the product ions)
@@ -78,7 +181,7 @@ precursor *m/z* and therefore no neutral loss pattern, either. By default, the
 
 The individual slots of `MS2spectrum` and `pseudospectrum` objects can be 
 accessed via the standard S4 way using `object@slot`, e.g. `object@annotation`
-or by using an accessor function. These exist for all slot and are called
+or by using an accessor function. These exist for all slots and are called
 `access_foo()`, where `foo` is the slot name, e.g. `access_id(object)`
 or `access_neutral_losses(object)`.
 
@@ -384,12 +487,12 @@ generate an interactive plot using `plotly`.
 Standard MDS plots are generated as follows:
 
 For MS^2^ spectra:
-```{r CluMSID_MDSplot_1, fig.width=7, fig.asp=1}
+```{r CluMSID_MDSplot_1, fig.width=7, fig.asp=1, fig.cap=fig1}
 CluMSID_MDS(distmat, highlight_annotated = TRUE)
 ```
 
 For neutral loss patterns:
-```{r CluMSID_MDSplot_2, fig.width=7, fig.asp=1}
+```{r CluMSID_MDSplot_2, fig.width=7, fig.asp=1, fig.cap=fig2}
 CluMSID_MDS(nlmat, highlight_annotated = TRUE)
 ```
 
@@ -407,7 +510,7 @@ htmlwidgets::saveWidget(my_mds, "mds.html")
 This is how it looks like if you open the html file in 
 Firefox and mouse over a feature:
 
-```{r CluMSID_MDSplot_4, echo=FALSE, out.width="100%"}
+```{r CluMSID_MDSplot_4, echo=FALSE, out.width="100%", fig.cap=fig3}
 knitr::include_graphics(system.file("extdata", 
                                     "interactive_mds.png", 
                                     package = "CluMSID"))
@@ -444,7 +547,7 @@ and `dbscan::extractDBSCAN` functions.
 If the default parameters are used, the generation of an OPTICS reachability 
 plots is very simple, shown here for MS^2^ spectra and neutral loss patterns:
 
-```{r CluMSID_OPTICSplot, fig.width=7, fig.asp=0.6}
+```{r CluMSID_OPTICSplot, fig.width=7, fig.asp=0.6, fig.cap=c(fig4, fig5)}
 CluMSID_OPTICSplot(distmat)
 CluMSID_OPTICSplot(nlmat, eps_cl = 0.7)
 ```
@@ -486,11 +589,17 @@ cluster assignment
 ## Create a heatmap
 
 Heatmaps of our example data for MS^2^ and neutral loss pattern similarity 
-are created as follows:
+are created as follows (with reduced label font size by changing
+`cexRow` and `cexCol` as well as `margins` of the underlying 
+`heatmap.2` function):
 
-```{r CluMSID_HCplot_1, fig.width=7, fig.asp=1.2}
-CluMSID_HCplot(distmat, type = "heatmap")
-CluMSID_HCplot(nlmat, type = "heatmap")
+```{r CluMSID_HCplot_1, fig.width=7, fig.asp=1, fig.cap=c(fig6, fig7)}
+CluMSID_HCplot(distmat, type = "heatmap", 
+                cexRow = 0.1, cexCol = 0.1,
+                margins = c(6,6))
+CluMSID_HCplot(nlmat, type = "heatmap", 
+                cexRow = 0.1, cexCol = 0.1,
+                margins = c(6,6))
 ```
 
 Obviously, it makes sense to export the plots to larger pdf or png files 
@@ -509,7 +618,7 @@ dev.off()
 ```
 The plot from our example data looks like this:
 
-```{r CluMSID_HCplot_3, echo=FALSE, out.width="100%"}
+```{r CluMSID_HCplot_3, echo=FALSE, out.width="100%", fig.cap=fig8}
 knitr::include_graphics(system.file("extdata", 
                                     "CluMSID_dendro2.png", 
                                     package = "CluMSID"))
@@ -575,7 +684,7 @@ or MS^1^ pseudospectra (default is `FALSE`)
 A standard non-interactive correlation network for the MS^2^ example data 
 can be plotted like this:
 
-```{r CluMSID_network_1, message=FALSE, fig.width=7, fig.asp=1}
+```{r CluMSID_network_1, message=FALSE, fig.width=7, fig.asp=1, fig.cap=fig9}
 CluMSID_network(distmat, highlight_annotated = TRUE, 
                 show_labels = TRUE, interactive = FALSE)
 ```
@@ -594,7 +703,7 @@ htmlwidgets::saveWidget(my_net, "net.html")
 This is how it looks like if you open the html file in Firefox, 
 zoom in on a cluster and mouse over a feature:
 
-```{r CluMSID_network_3, echo=FALSE, out.width="95%"}
+```{r CluMSID_network_3, echo=FALSE, out.width="95%", fig.cap=fig10}
 knitr::include_graphics(system.file("extdata", 
                                     "interactive_net.png", 
                                     package = "CluMSID"))
@@ -620,7 +729,7 @@ This expectation justifies the exclusion of these 'singletons' from the
 correlation network analysis. 
 To do so, just set `exclude_singletons` to `TRUE`:
 
-```{r CluMSID_network_4, message=FALSE, fig.width=7, fig.asp=1}
+```{r CluMSID_network_4, message=FALSE, fig.width=7, fig.asp=1, fig.cap=fig11}
 CluMSID_network(nlmat, highlight_annotated = TRUE, 
                 show_labels = TRUE, exclude_singletons = TRUE)
 ```
@@ -852,6 +961,33 @@ them to `MS2spectrum` objects using `convertSpectrum()`:
 CluMSID_object <- convertSpectrum(MSnbase_object)
 ```
 
+## Split polarities from polarity-switching runs
+
+As polarity-switching and similar methords are gaining importance 
+in LC-MS/MS metabolomics, CluMSID offers the possibility to process 
+LC-MS/MS data containing spectra of different polarities.
+As spectra from positive and negative ionisation show different
+fragmentation mechanisms and patterns, it does not appear to be useful
+to compare spectra of different polarity to each other. Therefore,
+CluMSID provides a function to separate positive and negative spectra
+from each other. This has to be done in the very beginning of the analysis
+to not interfere with spectral merging. Positive and negative spectra
+can than be processed independently from each other as shown above.
+
+A schematic workflow would like like this:
+
+```{r polarities_1, eval=FALSE}
+raw_list_mixedpolarities <- extractMS2spectra("raw_file_mixedpolarities.mzXML")
+
+raw_list_positive <- splitPolarities(raw_list_mixedpolarities, "positive")
+raw_list_negative <- splitPolarities(raw_list_mixedpolarities, "negative")
+
+speclist_positive <- mergeMS2spectra(raw_list_positive)
+speclist_negative <- mergeMS2spectra(raw_list_negative)
+```
+
+... and so on as described in this tutorial.
+
 # Use MS^1^ pseudospectra instead of or in addition to MS^2^ data
 
 MS^1^ pseudospectra are groups of peaks/ions that derive or are assumed to 
@@ -915,7 +1051,7 @@ The distance matrix can now be used for MDS, clustering and
 correlation networks just like described above. For demonstration, 
 we generate a correlation network:
 
-```{r Pseudospectra_4, , fig.width=7, fig.asp=1}
+```{r Pseudospectra_4, , fig.width=7, fig.asp=1, fig.cap=fig12}
 CluMSID_network(pseudodistmat, show_labels = TRUE, exclude_singletons = TRUE)
 ```
 
