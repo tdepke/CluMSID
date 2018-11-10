@@ -240,3 +240,51 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
                         FUN.VALUE = character(1)) == polarity
     return(ms2list[subvec])
 }
+
+#' Create a basic plot of MS2 spectra
+#'
+#' \code{specplot} creates a very basic plot of MS2 spectra from
+#' \code{\linkS4class{MS2spectrum}} objects.
+#'
+#' @param spec An object of class \code{\linkS4class{MS2spectrum}}
+#'
+#' @return A plot of the MS2 spectrum saved in the \code{spectrum} slot of
+#'   \code{spec}.
+#'
+#' @examples
+#' load(file = system.file("extdata",
+#'     "annotatedSpeclist.RData",
+#'     package = "CluMSID"))
+#'
+#' specplot(annotatedSpeclist[[1]])
+#'
+#' @export
+specplot <- function(spec) {
+    stopifnot(class(spec) == "MS2spectrum")
+    plot(
+        x = spec@spectrum[, 1],
+        y = spec@spectrum[, 2] / max(spec@spectrum[, 2]),
+        type = "h",
+        xlim = c(0, (max(spec@spectrum[, 1]) * 1.1)),
+        xaxs = "i",
+        xlab = expression(italic(m / z)),
+        ylim = c(0, 1.1),
+        yaxs = "i",
+        ylab = "intensity relative to base peak",
+        main = paste("id:", spec@id, " - ", "rt:", spec@rt),
+        sub = spec@annotation
+    )
+    text(
+        x = (spec@spectrum[, 1])[(spec@spectrum[, 2] /
+                                      max(spec@spectrum[, 2])) > 0.1],
+        y = (spec@spectrum[, 2] /
+                 max(spec@spectrum[, 2]))[
+                     (spec@spectrum[, 2] /
+                          max(spec@spectrum[, 2])) > 0.1],
+        labels = round((spec@spectrum[, 1])[
+            (spec@spectrum[, 2] /
+                 max(spec@spectrum[, 2])) > 0.1], 4),
+        pos = 3,
+        cex = 0.75
+    )
+}

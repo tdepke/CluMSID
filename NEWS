@@ -26,4 +26,5 @@
 
 0.1.10
 
-+added splitPolarities() function
++ added splitPolarities() function
++ added specplot() function
