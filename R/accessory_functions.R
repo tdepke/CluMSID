@@ -263,7 +263,7 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #' @export
 specplot <- function(spec) {
     stopifnot(class(spec) %in% c("MS2spectrum", "pseudospectrum"))
-    plot(
+    graphics::plot(
         x = spec@spectrum[, 1],
         y = spec@spectrum[, 2] / max(spec@spectrum[, 2]),
         type = "h",
@@ -276,16 +276,16 @@ specplot <- function(spec) {
         main = paste("id:", spec@id, " - ", "rt:", spec@rt),
         sub = spec@annotation
     )
-    text(
+    graphics::text(
         x = (spec@spectrum[, 1])[(spec@spectrum[, 2] /
-                                      max(spec@spectrum[, 2])) > 0.1],
+                                    max(spec@spectrum[, 2])) > 0.1],
         y = (spec@spectrum[, 2] /
-                 max(spec@spectrum[, 2]))[
-                     (spec@spectrum[, 2] /
-                          max(spec@spectrum[, 2])) > 0.1],
+                max(spec@spectrum[, 2]))[
+                    (spec@spectrum[, 2] /
+                        max(spec@spectrum[, 2])) > 0.1],
         labels = round((spec@spectrum[, 1])[
             (spec@spectrum[, 2] /
-                 max(spec@spectrum[, 2])) > 0.1], 4),
+                max(spec@spectrum[, 2])) > 0.1], 4),
         pos = 3,
         cex = 0.75
     )

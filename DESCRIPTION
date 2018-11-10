@@ -44,5 +44,6 @@ Suggests: knitr,
     dplyr,
     readr,
     magrittr,
-    MSnbase
+    MSnbase,
+    CluMSIDdata
 VignetteBuilder: knitr
