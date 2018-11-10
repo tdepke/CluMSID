@@ -208,3 +208,35 @@ getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
         return(featlist[subsetter])
     }
 }
+
+#' Separate spectra with different polarities from the same run
+#'
+#' Using \code{splitPolarities}, spectra with different polarities from the same
+#' run can be separated, e.g. when processing spectra recorded with
+#' polarity-switching.
+#'
+#' @param ms2list A list of \code{\linkS4class{MS2spectrum}} objects as produced
+#'   by \code{\link{extractMS2spectra}}.
+#'
+#' @param polarity The polarity of spectra to be analysed, must be
+#'   \code{"positive"} or \code{"negative"}.
+#'
+#' @return A list of \code{\linkS4class{MS2spectrum}} objects that contains only
+#'   spectra with the given \code{polarity}.
+#'
+#' @examples
+#' #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
+#'                                 "PoolA_R_SE.mzXML",
+#'                                 package = "CluMSID"),
+#'                                 min_peaks = 4, RTlims = c(0,5))
+#'
+#' my_positive_spectra <- mergeMS2spectra(my_spectra, "positive")
+#'
+#' @export
+splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
+    stopifnot(polarity %in% c("positive", "negative"))
+    subvec <- vapply(FUN = access_polarity,
+                        X = ms2list,
+                        FUN.VALUE = character(1)) == polarity
+    return(ms2list[subvec])
+}
