@@ -7,7 +7,8 @@
 specplot(spec)
 }
 \arguments{
-\item{spec}{An object of class \code{\linkS4class{MS2spectrum}}}
+\item{spec}{An object of class \code{\linkS4class{MS2spectrum}} or
+\code{\linkS4class{pseudospectrum}}}
 }
 \value{
 A plot of the MS2 spectrum saved in the \code{spectrum} slot of
@@ -15,7 +16,8 @@ A plot of the MS2 spectrum saved in the \code{spectrum} slot of
 }
 \description{
 \code{specplot} creates a very basic plot of MS2 spectra from
-\code{\linkS4class{MS2spectrum}} objects.
+\code{\linkS4class{MS2spectrum}} or \code{\linkS4class{pseudospectrum}}
+objects.
 }
 \examples{
 load(file = system.file("extdata",

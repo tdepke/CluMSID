@@ -244,9 +244,11 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #' Create a basic plot of MS2 spectra
 #'
 #' \code{specplot} creates a very basic plot of MS2 spectra from
-#' \code{\linkS4class{MS2spectrum}} objects.
+#' \code{\linkS4class{MS2spectrum}} or \code{\linkS4class{pseudospectrum}}
+#' objects.
 #'
-#' @param spec An object of class \code{\linkS4class{MS2spectrum}}
+#' @param spec An object of class \code{\linkS4class{MS2spectrum}} or
+#'   \code{\linkS4class{pseudospectrum}}
 #'
 #' @return A plot of the MS2 spectrum saved in the \code{spectrum} slot of
 #'   \code{spec}.
@@ -260,7 +262,7 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #'
 #' @export
 specplot <- function(spec) {
-    stopifnot(class(spec) == "MS2spectrum")
+    stopifnot(class(spec) %in% c("MS2spectrum", "pseudospectrum"))
     plot(
         x = spec@spectrum[, 1],
         y = spec@spectrum[, 2] / max(spec@spectrum[, 2]),
