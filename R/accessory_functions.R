@@ -225,12 +225,12 @@ getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
 #'   spectra with the given \code{polarity}.
 #'
 #' @examples
-#' #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
+#' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
 #'                                 "PoolA_R_SE.mzXML",
 #'                                 package = "CluMSID"),
 #'                                 min_peaks = 4, RTlims = c(0,5))
 #'
-#' my_positive_spectra <- mergeMS2spectra(my_spectra, "positive")
+#' my_positive_spectra <- splitPolarities(my_spectra, "positive")
 #'
 #' @export
 splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
