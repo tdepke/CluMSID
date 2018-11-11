@@ -323,7 +323,7 @@ mergeMS2spectra <- function(ms2list,
             l1 <- abs(mz1[1, 1] - mz1[, 1]) <= mz1[1, 1] * mz_tolerance
             l2 <- matrix(mz1[c(l1, l1)], ncol = 2)
             l3 <- diff(l2[, 2])
-            l4 <- c(0, which(l3 > 30), nrow(l2))
+            l4 <- c(0, which(l3 > rt_tolerance), nrow(l2))
             l5 <- list()
             for (i in seq_len(length(l4) - 1)) {
                 l5[[i]] <- l2[(l4[i] + 1):(l4[i + 1]),]
