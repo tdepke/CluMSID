@@ -159,11 +159,8 @@ That can be done by CluMSID's `specplot` function:
 specplot(pslist[[27]])
 ```
 
-<<<<<<< HEAD
 In this example, we load the list of feature annotations from `CluMSIDdata`:
 
-=======
->>>>>>> f9804d772c8cdc99d70ee3ddd001ca25f4153db0
 ```{r annotate}
 apslist <- addAnnotations(featlist = pslist, 
                             annolist = system.file("extdata", 
@@ -232,7 +229,6 @@ phosphoenolpyruvic acid, glyceric acid-3-phosphate, glycerol-3-phosphate
 and phosphoric acid itself. It is also apparent that some features have
 a similarity of 1 and could therefore represent the same compound, like
 e.g. the features 98, 67 and 72. Those three features cluster together
-<<<<<<< HEAD
 with AMP and UMP, suggesting that they could be related to nucleotides.
 
 To illustrate the use of CluMSID's accessory function with this
@@ -255,12 +251,6 @@ investigated closer.
 
 In conclusion, every annotation method is extremely limited if only low 
 resolution data is available and so is CluMSID. Still, we see that the tool
-=======
-with AMP and UMP, suggesting that they could be nucleotides as well.
-
-Every annotation method is extremely limited if only low resolution
-data is available and so is CluMSID. Still, we see that the tool
->>>>>>> f9804d772c8cdc99d70ee3ddd001ca25f4153db0
 works independently of chromatography and mass spectrometry method
 and even has the potential to give some good hints for feature annotation
 in GC-EI-MS metabolomics.
