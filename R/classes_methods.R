@@ -124,7 +124,7 @@ convertSpectrum <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' cossim(annotatedSpeclist[[1]], annotatedSpeclist[[2]])
 #'

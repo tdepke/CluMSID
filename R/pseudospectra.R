@@ -27,7 +27,7 @@
 #' @examples
 #' pstable <- readr::read_delim(file = system.file("extdata",
 #'                                 "TD035_XCMS.annotated.diffreport.tsv",
-#'                                 package = "CluMSID"), delim = "\t")
+#'                                 package = "CluMSIDdata"), delim = "\t")
 #'
 #' pseudospeclist <- extractPseudospectra(pstable, min_peaks = 2)
 #'

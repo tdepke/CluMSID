@@ -17,7 +17,7 @@ NULL
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' access_id(annotatedSpeclist[[1]])
 #'
@@ -32,7 +32,7 @@ access_id <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' access_annotation(annotatedSpeclist[[1]])
 #'
@@ -47,7 +47,7 @@ access_annotation <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' access_precursor(annotatedSpeclist[[1]])
 #'
@@ -62,7 +62,7 @@ access_precursor <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'      "annotatedSpeclist.RData",
-#'      package = "CluMSID"))
+#'      package = "CluMSIDdata"))
 #'
 #' access_rt(annotatedSpeclist[[1]])
 #'
@@ -77,7 +77,7 @@ access_rt <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'      "annotatedSpeclist.RData",
-#'      package = "CluMSID"))
+#'      package = "CluMSIDdata"))
 #'
 #' access_polarity(annotatedSpeclist[[1]])
 #'
@@ -92,7 +92,7 @@ access_polarity <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' access_spectrum(annotatedSpeclist[[1]])
 #'
@@ -107,7 +107,7 @@ access_spectrum <- function(x){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' access_neutral_losses(annotatedSpeclist[[1]])
 #'

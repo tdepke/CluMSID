@@ -18,7 +18,7 @@
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' my_HCtbl <- CluMSID_HCtbl(distmat[1:50,1:50], h = 0.8)
 #'
@@ -55,7 +55,7 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' CluMSID_HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
 #'

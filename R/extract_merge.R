@@ -68,7 +68,7 @@ mergeTolerance <- function(x, y, tolerance = 1e-5) {
 #' @examples
 #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
 #'                                 "PoolA_R_SE.mzXML",
-#'                                 package = "CluMSID"),
+#'                                 package = "CluMSIDdata"),
 #'                                 min_peaks = 4, RTlims = c(0,10))
 #'
 #' @export
@@ -290,7 +290,7 @@ neutrallossPatterns <- function(x){
 #' @examples
 #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
 #'                                 "PoolA_R_SE.mzXML",
-#'                                 package = "CluMSID"),
+#'                                 package = "CluMSIDdata"),
 #'                                 min_peaks = 4, RTlims = c(0,5))
 #'
 #' my_merged_spectra <- mergeMS2spectra(my_spectra, rt_tolerance = 20)

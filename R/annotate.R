@@ -20,7 +20,7 @@
 #' @examples
 #' load(file = system.file("extdata",
 #'     "featlist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' pre_anno <- Featurelist(featlist)
 #'
@@ -64,7 +64,7 @@ Featurelist <- function(featlist){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "featlist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' writeFeaturelist(featlist, filename = "pre_anno.csv")
 #'
@@ -105,11 +105,11 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "featlist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' addAnnotations(featlist, system.file("extdata",
 #'                 "post_anno.csv",
-#'                 package = "CluMSID"),
+#'                 package = "CluMSIDdata"),
 #'                 annotationColumn = 4)
 #'
 #' @export

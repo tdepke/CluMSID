@@ -23,7 +23,7 @@
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' my_OTPICStbl <- CluMSID_OPTICStbl(distmat[1:50,1:50], eps_cl = 0.7)
 #'
@@ -68,7 +68,7 @@ CluMSID_OPTICStbl <- function(distmat, eps = 10000, minPts = 3, eps_cl = 0.5){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' CluMSID_OPTICSplot(distmat[1:50,1:50], eps_cl = 0.7)
 #'

@@ -28,7 +28,7 @@
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #' getSimilarities(annotatedSpeclist[[137]],
 #'                 annotatedSpeclist, hits_only = TRUE)
 #'
@@ -80,7 +80,7 @@ getSimilarities <- function(spec,
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #' putativeAQs <- findFragment(annotatedSpeclist, 159.068)
 #'
 #' @export
@@ -118,7 +118,7 @@ findFragment <- function(featlist, mz, tolerance = 1E-05){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #' findNL(annotatedSpeclist, 212.009)
 #'
 #' @export
@@ -168,7 +168,7 @@ findNL <- function(featlist, mz, tolerance = 1E-05){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' getSpectrum(annotatedSpeclist, "annotation", "pyocyanin")
 #'
@@ -227,7 +227,7 @@ getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
 #' @examples
 #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
 #'                                 "PoolA_R_SE.mzXML",
-#'                                 package = "CluMSID"),
+#'                                 package = "CluMSIDdata"),
 #'                                 min_peaks = 4, RTlims = c(0,5))
 #'
 #' my_positive_spectra <- splitPolarities(my_spectra, "positive")
@@ -256,7 +256,7 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' specplot(annotatedSpeclist[[1]])
 #'

@@ -30,7 +30,7 @@
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' distanceMatrix(annotatedSpeclist[1:20])
 #'
@@ -101,7 +101,7 @@ distanceMatrix <- function(speclist, distFun = "cossim",
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
-#'     package = "CluMSID"))
+#'     package = "CluMSIDdata"))
 #'
 #' CluMSID_MDS(distmat, highlight_annotated = TRUE)
 #'
