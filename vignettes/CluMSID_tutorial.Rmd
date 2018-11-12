@@ -1,7 +1,7 @@
 ---
 title: "CluMSID --- Clustering of MS^2^ Spectra for Metabolite Identification"
 author: "Tobias Depke"
-date: "18 April 2018"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output: rmarkdown::html_vignette
 vignette: >
     %\VignetteIndexEntry{CluMSID Tutorial}

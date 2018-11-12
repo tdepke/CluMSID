@@ -141,7 +141,7 @@ Adding annotations is not as easy as with LC-(DDA-)MS/MS data,
 because only the retention time and the spectrum itself describe the feature 
 and no precursor *m/z* is available. Thus, feature annotations/identifications 
 made in a different programme, in this case MetaboliteDetector, 
-have to be compared to the spectra is the `pslist` object.
+have to be compared to the spectra in the `pslist` object.
 
 Like with LC-(DDA-)MS/MS data, we can use `writeFeaturelist()` and 
 `addAnnotations()` to add external annotations. 
