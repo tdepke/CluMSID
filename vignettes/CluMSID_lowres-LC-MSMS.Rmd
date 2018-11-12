@@ -1,0 +1,171 @@
+---
+title: "Clustering Mass Spectra from Low Resolution LC-MS/MS Data Using CluMSID"
+author: "Tobias Depke"
+date: "05 September 2018"
+vignette: >
+    %\VignetteIndexEntry{CluMSID Tutorial}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    echo = TRUE,
+    warning = FALSE
+)
+```
+
+<style>
+p.caption {
+  font-size: 80%;
+  text-align: left;
+}
+</style>
+
+```{r captions, include=FALSE}
+fig1 <- paste("**Figure 1:**",
+                "Multidimensional scaling plot as a visualisation of",
+                "MS^2^ spectra similarities",
+                "of the low resolution LC-MS/MS example data set.",
+                "Black dots signify spectra from unknown metabolites.")
+fig2 <- paste("**Figure 2:**",
+                "Symmetric heat map of the distance matrix displaying",
+                "MS^2^ spectra similarities",
+                "of the low resolution LC-MS/MS example data set.",
+                "along with dendrograms resulting from",
+                "hierarchical clustering based on the distance matrix.",
+                "The colour encoding is shown in the top-left insert.")
+fig3 <- paste("**Figure 3:**",
+                "Circularised dendrogram as a result of",
+                "agglomerative hierarchical clustering with average linkage",
+                "as agglomeration criterion based on",
+                "MS^2^ spectra similarities",
+                "of the low resolution LC-MS/MS example data set.",
+                "Each leaf represents one feature and colours encode",
+                "cluster affiliation of the features.",
+                "Leaf labels display feature IDs.",
+                "Distance from the central point is indicative",
+                "of the height of the dendrogram.")
+```
+
+## Introduction
+
+As described in the GC-EI-MS tutorial, CluMSID can also be used to
+analyse low resolution data -- although using low resolution data
+comes at a cost.
+
+In this example, we will use a similar sample (1uL *Pseudomonas aeruginosa* 
+PA14 cell extract) as in the General Tutorial, measured with similar
+chromatography but on a different mass spectrometer, 
+a Bruker amaZon ion trap instrument operated in ESI-(+) mode with auto-MS/MS.
+In addition to introducing a workflow for low resolution LC-MS/MS data,
+this example also demonstrates that CluMSID can work with data from different
+types of mass spectrometers.
+
+## Data import
+
+We load the file from the `CluMSIDdata` package:
+
+```{r packages, message=FALSE, warning=FALSE}
+library(CluMSID)
+library(CluMSIDdata)
+
+lowresfile <- system.file("extdata", 
+                        "PA14_amazon_lowres.mzXML",
+                        package = "CluMSIDdata")
+```
+
+```{r load, include=FALSE}
+load(file = system.file("extdata", 
+                        "lowres-featlist.RData", 
+                        package = "CluMSIDdata"))
+load(file = system.file("extdata", 
+                        "lowres-distmat.RData", 
+                        package = "CluMSIDdata"))
+```
+
+## Data preprocessing
+
+The extraction of spectra works the same way as with 
+high resolution LC-MS/MS data:
+
+```{r extract}
+ms2list <- extractMS2spectra(lowresfile)
+length(ms2list)
+```
+
+Like in the GC-EI-MS example, we have to adjust `mz_tolerance` to a
+much higher value compared to high resolution data, while the retention
+time tolerance can remain unchanged.
+
+```{r merge, eval=FALSE}
+featlist <- mergeMS2spectra(ms2list, mz_tolerance = 0.02)
+```
+
+```{r length}
+length(featlist)
+```
+
+We see that we have similar numbers of spectra as in the General Tutorial,
+because we tried to keep all parameters except for the mass spectrometer
+type comparable.
+
+## Generation of distance matrix
+
+As we do not have low resolution spectral libraries at hand, we skip the 
+integration of previous knowledge on feature identities in this example and 
+generate a distance matrix right away:
+
+```{r distmat, eval=FALSE}
+distmat <- distanceMatrix(featlist)
+```
+
+## Data exploration
+
+Starting from this distance matrix, we can use all the data exploration 
+functions that `CluMSID` offers. 
+
+When we now make an MDS plot, we learn that the similarity data is very
+different from the comparable high resolution data:
+
+```{r MDS, fig.cap=fig1}
+CluMSID_MDS(distmat)
+```
+
+To get a better overview of the data and
+the general similarity behaviour, we create a heat map of the distance matrix:
+
+```{r heatmap, fig.width=12, fig.asp=1, fig.cap=fig2}
+CluMSID_HCplot(distmat, type = "heatmap", 
+                cexRow = 0.1, cexCol = 0.1,
+                margins = c(6,6))
+```
+
+We clearly see that the heat map is generally a lot "warmer" than in the
+General Tutorial (an intuition that is supported by the histogram in the 
+top-left corner), i.e. we have a higher general degree of similarity between
+spectra. That is not surprising as the *m/z* information has much fewer levels
+than in high resolution data and fragments of different sum formula are more
+likely to have indistinguishable mass-to-charge ratios.
+
+We also see that some more or less compact clusters can be identified.
+This is easier to inspect in the dendrogram visualisation:
+
+```{r dendro, fig.width=12, fig.asp=1, fig.cap=fig3}
+CluMSID_HCplot(distmat, h = 0.8, cex = 0.5)
+```
+
+In conclusion, CluMSID is capable of processing low resolution LC-MS/MS data
+and if high resolution data is not available, it can be very useful to provide 
+an overview of spectral similarities in low resolution data,
+thereby helping metabolite annotation if some individual metabolites can be 
+identified by comparison to authentic standards. However, 
+concerning feature annotation, high resolution methods should always be 
+favoured for the many benefits they provide.
+
+# Session Info
+```{r session}
+sessionInfo()
+```

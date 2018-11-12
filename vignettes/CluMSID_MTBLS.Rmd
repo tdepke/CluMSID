@@ -1,0 +1,276 @@
+---
+title: "Using CluMSID with a Publicly Available MetaboLights Data Set"
+author: "Tobias Depke"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+vignette: >
+    %\VignetteIndexEntry{CluMSID Tutorial}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    echo = TRUE,
+    warning = FALSE
+)
+```
+
+<style>
+p.caption {
+  font-size: 80%;
+  text-align: left;
+}
+</style>
+
+```{r captions, include=FALSE}
+fig1 <- paste("**Figure 1:**",
+                "Circularised dendrogram as a result of",
+                "agglomerative hierarchical clustering with average linkage",
+                "as agglomeration criterion based on",
+                "MS^2^ spectra similarities",
+                "of the MTBLS433 LC-MS/MS example data set.",
+                "Each leaf represents one feature and colours encode",
+                "cluster affiliation of the features.",
+                "Leaf labels display feature IDs.",
+                "Distance from the central point is indicative",
+                "of the height of the dendrogram.")
+fig2 <- paste("**Figure 2:**",
+                "Barplot for the feature M283.2642T14.62,",
+                "identified as stearic acid,",
+                "displaying fragment *m/z* on the x-axis",
+                "and intensity normalised to the maximum intensity",
+                "on the y-axis.")
+fig3 <- paste("**Figure 3:**",
+                "Barplot for the feature M311.3046T15.1,",
+                "identified as arachidic acid,",
+                "displaying fragment *m/z* on the x-axis",
+                "and intensity normalised to the maximum intensity",
+                "on the y-axis.")
+```
+
+# Introduction
+
+In this tutorial, we would like to demonstate the use of CluMSID with a 
+publicly available LC-MS/MS data set deposited on 
+[MetaboLights](https://www.ebi.ac.uk/metabolights/).
+We chose data set MTBLS433 that can be accessed on the MetaboLights
+web page (https://www.ebi.ac.uk/metabolights/MTBLS433) and which has
+been published in the following article:
+
+Kalogiouri, N. P., Alygizakis, N. A., Aalizadeh, R., & Thomaidis, N. S. (2016).
+Olive oil authenticity studies by target and nontarget LC–QTOF-MS combined 
+with advanced chemometric techniques. *Analytical and bioanalytical chemistry*,
+408(28), 7955-7970.
+
+The authors analysed olive oil of various providence using reversed-phase
+ultra high performance liquid chromatography–electrospray
+ionisation quadrupole time of flight tandem mass spectrometry 
+in negative mode
+with auto-MS/MS fragmentation.
+
+As a representative pooled sample is not provided, we will combine MS^2^
+data from several runs and use the peak picking done by the authors of the
+study for the merging of MS^2^ spectra. Some metabolite annotations are also 
+included in the MTBLS433 data set which we will integrate into our analysis.
+
+```{r load, eval=TRUE, message=FALSE}
+library(CluMSID)
+library(CluMSIDdata)
+library(tidyverse)
+```
+
+# Extract MS^2^ spectra from multiple *.mzML files
+
+For demonstration, not all files from the analysis will be included into 
+the analysis. Four data files from the data set have been chosen that 
+represent olive oil samples from different regions in Greece:
+
+* `YH1_GA7_01_10463.mzML`: YH1, from Komi
+* `AX1_GB5_01_10470.mzML`: AX1, from Megaloxori
+* `LP1_GB3_01_10467.mzML`: LP1, from Moria
+* `BR1_GB6_01_10471.mzML`: BR1, from Agia Paraskevi
+
+Note that these are mzML files that can be processed the exact same way
+as mzXML files.
+
+Furthermore, we would like to use the peak picking and annotation data
+from the original authors which we can read from the file
+`m_mtbls433_metabolite_profiling_mass_spectrometry_v2_maf.tsv`.
+
+First, we extract MS^2^ spectra from the respective files separately
+by using `extractMS2spectra()`. Then, we just combine the resulting
+lists into one list using base R functionality:
+
+```{r import}
+YH1 <- system.file("extdata", "YH1_GA7_01_10463.mzML",
+                    package = "CluMSIDdata")
+AX1 <- system.file("extdata", "AX1_GB5_01_10470.mzML",
+                    package = "CluMSIDdata")
+LP1 <- system.file("extdata", "LP1_GB3_01_10467.mzML",
+                    package = "CluMSIDdata")
+BR1 <- system.file("extdata", "BR1_GB6_01_10471.mzML",
+                    package = "CluMSIDdata")
+
+YH1list <- extractMS2spectra(YH1)
+AX1list <- extractMS2spectra(AX1)
+LP1list <- extractMS2spectra(LP1)
+BR1list <- extractMS2spectra(BR1)
+
+raw_oillist <- c(YH1list, AX1list, LP1list, BR1list)
+```
+
+# Merge spectra with external peak list
+
+First, we import the peak list by reading the respective table
+and filtering for the relevant information. 
+We only need the columns `metabolite_identification`,
+`mass_to_charge` and `rentention_time` and we would like
+to replace `"unknown"` with an empty field in the
+`metabolite_identification` column. Plus, the features
+do not have a unique identifier in the table but we
+can easily generate that from *m/z* and RT.
+Note that the retention time in the raw data is given in
+seconds and in the data table it is in minutes,
+so we have to convert.
+For the sake of consistency, we also change the column names.
+We use `tidyverse` syntax but users can do as they prefer.
+
+```{r peaks, message=FALSE}
+raw_mtbls_df <- system.file("extdata", 
+                "m_mtbls433_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
+                package = "CluMSIDdata")
+
+mtbls_df <- readr::read_delim(raw_mtbls_df, "\t") %>%
+    mutate(metabolite_identification = 
+               str_replace(metabolite_identification, "unknown", "")) %>%
+    mutate(id = paste0("M", mass_to_charge, "T", retention_time)) %>%
+    mutate(retention_time = retention_time * 60) %>%
+    select(id,
+           mass_to_charge, 
+           retention_time, 
+           metabolite_identification) %>%
+    rename(mz = mass_to_charge,
+           rt = retention_time,
+           annotation = metabolite_identification)
+```
+
+This peak list, or its first three columns,
+can now be used to merge spectra. We exclude spectra that
+do not match to any of the peaks in the peak list.
+As we are not very familiar with instrumental setup,
+we set the limits for retention time and *m/z*
+deviation a little wider. To make an educated guess
+on mass accuracy, we take a look at an identified metabolite,
+its measured *m/z* and its theoretical *m/z*.
+We use arachidic acid [M-H]^-^, whose theoretical *m/z*
+is 311.2956:
+
+```{r accuracy}
+## Define theoretical m/z
+th <- 311.2956
+
+## Get measured m/z for arachidic acid data from mtbls_df
+ac <- mtbls_df %>%
+    filter(annotation == "Arachidic acid") %>%
+    select(mz) %>%
+    as.numeric()
+
+## Calculate relative m/z difference in ppm
+abs(th - ac)/th * 1e6
+```
+
+So, we will work with an an *m/z* tolerance of 30ppm (which seems rather high
+for a high resolution mass spectrometer).
+
+A 30ppm mass accuracy necessitates an *m/z* tolerance of 60ppm,
+because deviations can go both ways:
+
+```{r merge}
+oillist <- mergeMS2spectra(raw_oillist, 
+                                peaktable = mtbls_df[,1:3],
+                                exclude_unmatched = TRUE,
+                                rt_tolerance = 60,
+                                mz_tolerance = 3e-5)
+```
+
+# Add annotations
+
+To add annotations, we use `mtbls_df` as well, as described in the
+General Tutorial:
+
+```{r annos}
+fl <- Featurelist(oillist)
+fl_annos <- dplyr::left_join(fl, mtbls_df, by = "id")
+
+annolist <- addAnnotations(oillist, fl_annos, annotationColumn = 6)
+```
+
+# Generate distance matrix
+
+For the generation of the distance matrix, too, we use
+an *m/z* tolerance of 30ppm:
+
+```{r distance}
+distmat <- distanceMatrix(annolist, mz_tolerance = 3e-5)
+```
+
+# Explore data
+
+To explore the data, we have a look at a cluster dendrogram:
+
+```{r dendro, fig.width=12, fig.asp=1.2, fig.cap=fig1}
+CluMSID_HCplot(distmat, h = 0.7, cex = 1)
+```
+
+Since it was not in the focus of their study, the authors identified 
+only a few metabolites. If we look at the positions of these
+metabolites in the cluster dendrogram, we see that the poly-unsaturated
+fatty acids alpha-linolenic acid  and alpha-linolenic acid are 
+nicely separated from the saturated
+fatty acids stearic acid and arachidic acid. We would expect the latter
+to cluster together but a look at the spectra reveals that stearic acid
+barely produces any fragment ions and mainly contains the unfragmented
+[M-H]^-^ parent ion:
+
+```{r stearate, out.width="60%", fig.cap=fig2}
+specplot(getSpectrum(annolist, "annotation", "Stearic acid"))
+```
+
+In contrast, arachidic acid produces a much richer spectrum:
+
+```{r arachidate, out.width="60%", fig.cap=fig3}
+specplot(getSpectrum(annolist, "annotation", "Arachidic acid"))
+```
+
+Inspecting the features that cluster close to arachidic acid shows that
+many of them have an exact *m/z* that conforms with other fatty acids
+of different chain length or saturation (within the *m/z* tolerance),
+e.g. the neighbouring feature M339.2125T15.32
+that could be arachidonic acid [M+Cl]^-^.
+
+Looking at oleic acid [M-H]^-^, we see that it clusters very closely to
+M563.5254T13.93, whose *m/z* is consistent with oleic acid [2M-H]^-^ and some
+other possible adducts.
+
+As a last example, the only identified metabolite that does not belong to the
+class of fatty acids is acetosyringone, a phenolic secondary plant metabolite.
+It forms part of a rather dense cluster in the dendrogram, suggesting high
+spectral similarities to the other members of the cluster. It would be 
+interesting to try to annotate more of these metabolite to find out if
+they are also phenolic compounds.
+
+In conclusion, we demonstrated how to use `CluMSID` with a publicly available
+data set from the MetaboLights repository and how to include external 
+information such as peak lists or feature annotations into a `CluMSID` 
+workflow.
+In doing so, we had a look on a few example findings that could help to
+annotate more of the features in the data set and thereby showed the
+usefulness of `CluMSID` for samples very different from the ones in
+the other tutorials.
+
+# Session Info
+```{r session}
+sessionInfo()
+```

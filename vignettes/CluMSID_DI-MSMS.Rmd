@@ -1,0 +1,148 @@
+---
+title: "Clustering Mass Spectra from High Resolution DI-MS/MS Data Using CluMSID"
+author: "Tobias Depke"
+date: "05 September 2018"
+vignette: >
+    %\VignetteIndexEntry{CluMSID Tutorial}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    echo = TRUE,
+    warning = FALSE
+)
+```
+
+<style>
+p.caption {
+  font-size: 80%;
+  text-align: left;
+}
+</style>
+
+```{r captions, include=FALSE}
+fig1 <- paste("**Figure 1:**",
+                "Circularised dendrogram as a result of",
+                "agglomerative hierarchical clustering with average linkage",
+                "as agglomeration criterion based on",
+                "MS^2^ spectra similarities",
+                "of the DI-MS/MS example data set.",
+                "Each leaf represents one feature and colours encode",
+                "cluster affiliation of the features.",
+                "Leaf labels display feature IDs, along with",
+                "feature annotations, if existent.",
+                "Distance from the central point is indicative",
+                "of the height of the dendrogram.")
+```
+
+## Introduction
+
+Although originally developed for liquid chromatography-tandem mass 
+spectrometry (LC-MS/MS) data, CluMSID can also be used with 
+direct infusion-tandem mass spectrometry (DI-MS/MS) data.
+
+Generally, the missing retention time dimension makes feature annotation
+in metabolomics harder but if only direct infusion data is at hand,
+CluMSID can help to get an overview of the chemodiversity of a sample
+measured by DI-MS/MS.
+
+In this example, we will use a similar sample (1uL *Pseudomonas aeruginosa* 
+PA14 cell extract) as in the General Tutorial, measured on the same machine,
+a Bruker maxis^HD^ qTOF operated in ESI-(+) mode with auto-MS/MS but without
+chromatographic separation.
+
+## Data import
+
+We load the file from the `CluMSIDdata` package:
+
+```{r packages, message=FALSE, warning=FALSE}
+library(CluMSID)
+library(CluMSIDdata)
+
+DIfile <- system.file("extdata", 
+                      "PA14_maxis_DI.mzXML",
+                      package = "CluMSIDdata")
+```
+
+## Data preprocessing
+
+The extraction of spectra works the same way as with LC-MS/MS data:
+
+```{r extract}
+ms2list <- extractMS2spectra(DIfile)
+length(ms2list)
+```
+
+Merging of redundant spectra is less straightforward when retention time 
+is not available. Depending on the MS/MS method it can be next to impossible 
+to decide whether two spectra with the same precursor *m/z* and similar
+fragmentation patterns derive from the same analyte or from two different 
+but structurally similar ones.
+
+In this example, we would like to merge spectra with identical precursor ions
+only if they were recorded one right after another. We can do so by setting
+`rt_tolerance` to 1 second:
+
+```{r merge}
+featlist <- mergeMS2spectra(ms2list, rt_tolerance = 1)
+length(featlist)
+```
+
+We see that we have hardly reduced the number of spectra in the list.
+If we would decide to merge all spectra with identical precursor *m/z*
+from the entire run, we could do so by setting `rt_tolerance` to the
+duration of the run, in this case approx. 250 seconds:
+
+```{r merge2}
+testlist <- mergeMS2spectra(ms2list, rt_tolerance = 250)
+length(testlist)
+```
+
+The resulting number of spectra is drastically lower but the danger of
+merging spectra that do not actually derive from the same analyte
+is also very big.
+
+## Generation of distance matrix
+
+In this very explorative example, we skip the integration of previous
+knowledge on feature identities and generate a distance matrix
+right away:
+
+```{r distmat, eval=FALSE}
+distmat <- distanceMatrix(featlist)
+```
+
+```{r distmat2, include=FALSE}
+load(file = system.file("extdata", "di-distmat.RData", package = "CluMSIDdata"))
+```
+
+## Data exploration
+
+Starting from this distance matrix, we can use all the data exploration 
+functions that `CluMSID` offers. In this example workflow, 
+we look at a cluster dendrogram:
+
+```{r dendrogram, fig.width=12, fig.asp=1, fig.cap=fig1}
+CluMSID_HCplot(distmat)
+```
+
+It is directly obvious that we have some spectra that are nearly identical
+and thus most likely derive from the same analyte, e.g. the many spectra with
+a precursor *m/z* of 270.19. But we still see nice clustering of similar
+spectra with different precursor *m/z*, e.g. the huge gray cluster that 
+contains a lot of different alkylquinolone type metabolites (see General
+Tutorial).
+
+In conclusion, CluMSID is very useful to provide an overview of spectral
+similarities within DI-MS/MS runs but wherever annotation is in the focus,
+one should not do without the additional layer of information created by
+chromatographic separation.
+
+# Session Info
+```{r session}
+sessionInfo()
+```
