@@ -28,3 +28,7 @@
 
 + added splitPolarities() function
 + added specplot() function
+
+0.1.11
+
++ added missing Suggests
