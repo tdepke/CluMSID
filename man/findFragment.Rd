@@ -29,7 +29,7 @@ neutral losses. Both functions work analogous to \code{\link{getSpectrum}}.
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 putativeAQs <- findFragment(annotatedSpeclist, 159.068)
 
 }

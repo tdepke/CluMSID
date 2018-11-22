@@ -36,7 +36,7 @@ files, e.g. mzXML files.
 \examples{
 my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
                                 "PoolA_R_SE.mzXML",
-                                package = "CluMSID"),
+                                package = "CluMSIDdata"),
                                 min_peaks = 4, RTlims = c(0,10))
 
 }

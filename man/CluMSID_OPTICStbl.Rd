@@ -31,7 +31,7 @@ package.
 \examples{
 load(file = system.file("extdata",
     "distmat.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 my_OTPICStbl <- CluMSID_OPTICStbl(distmat[1:50,1:50], eps_cl = 0.7)
 

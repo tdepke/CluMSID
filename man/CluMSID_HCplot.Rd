@@ -34,7 +34,7 @@ combination of dendrogram and heatmap.
 \examples{
 load(file = system.file("extdata",
     "distmat.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 CluMSID_HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
 

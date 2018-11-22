@@ -40,7 +40,7 @@ objects by their slot entries.
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 getSpectrum(annotatedSpeclist, "annotation", "pyocyanin")
 

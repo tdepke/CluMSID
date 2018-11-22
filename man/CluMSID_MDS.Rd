@@ -36,7 +36,7 @@ spectral similarity data. An interactive visualisation can be produced using
 \examples{
 load(file = system.file("extdata",
     "distmat.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 CluMSID_MDS(distmat, highlight_annotated = TRUE)
 

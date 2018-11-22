@@ -45,7 +45,7 @@ supplied peak table. Please see the vignette for more details.
 \examples{
 my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
                                 "PoolA_R_SE.mzXML",
-                                package = "CluMSID"),
+                                package = "CluMSIDdata"),
                                 min_peaks = 4, RTlims = c(0,5))
 
 my_merged_spectra <- mergeMS2spectra(my_spectra, rt_tolerance = 20)

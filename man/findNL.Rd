@@ -29,7 +29,7 @@ fragment ions. Both functions work analogous to \code{\link{getSpectrum}}.
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 findNL(annotatedSpeclist, 212.009)
 
 }

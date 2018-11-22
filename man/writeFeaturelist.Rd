@@ -33,7 +33,7 @@ Although originally designed for lists of \code{MS2spectrum}
 \examples{
 load(file = system.file("extdata",
     "featlist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 writeFeaturelist(featlist, filename = "pre_anno.csv")
 

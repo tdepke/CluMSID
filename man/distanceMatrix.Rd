@@ -40,7 +40,7 @@ CluMSID's data mining functions.
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 distanceMatrix(annotatedSpeclist[1:20])
 

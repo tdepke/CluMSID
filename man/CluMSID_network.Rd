@@ -51,7 +51,7 @@ spectral similarity data. An interactive visualisation can be produced using
 \examples{
 load(file = system.file("extdata",
     "distmat.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 CluMSID_network(distmat[1:50,1:50], show_labels = TRUE,
                 exclude_singletons = TRUE)

@@ -37,7 +37,7 @@ package.
 \examples{
 load(file = system.file("extdata",
     "distmat.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 CluMSID_OPTICSplot(distmat[1:50,1:50], eps_cl = 0.7)
 

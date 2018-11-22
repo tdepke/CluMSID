@@ -22,7 +22,7 @@ objects.
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 specplot(annotatedSpeclist[[1]])
 

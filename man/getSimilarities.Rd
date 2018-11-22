@@ -37,7 +37,7 @@ neutral loss pattern to a set of other spectra or neutral loss patterns.
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 getSimilarities(annotatedSpeclist[[137]],
                 annotatedSpeclist, hits_only = TRUE)
 

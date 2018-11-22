@@ -44,43 +44,43 @@ Accessor functions for individual slots of
 \examples{
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 access_id(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 access_annotation(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 access_precursor(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
      "annotatedSpeclist.RData",
-     package = "CluMSID"))
+     package = "CluMSIDdata"))
 
 access_rt(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
      "annotatedSpeclist.RData",
-     package = "CluMSID"))
+     package = "CluMSIDdata"))
 
 access_polarity(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 access_spectrum(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
-    package = "CluMSID"))
+    package = "CluMSIDdata"))
 
 access_neutral_losses(annotatedSpeclist[[1]])
 
