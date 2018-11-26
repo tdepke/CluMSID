@@ -50,3 +50,10 @@
 0.99.0
 
 + Bioconductor submission
+
+0.99.1
+
++ removed .RHistory
++ changed import for "show"
++ removed invalid character from GC_post.csv in CluMSIDdata
+    which caused errors on Linux and OS X
