@@ -5,7 +5,7 @@
 \title{Create distance matrix from list of spectra}
 \usage{
 distanceMatrix(speclist, distFun = "cossim", type = "spectrum",
-  mz_tolerance = 1e-05)
+    mz_tolerance = 1e-05)
 }
 \arguments{
 \item{speclist}{A list of \code{\linkS4class{MS2spectrum}} or
@@ -25,11 +25,11 @@ differ less than \emph{mz_tolerance}, they are assumed to have the same
 }
 \value{
 A numeric \code{length(speclist)} by \code{length(speclist)} matrix
-  containing pairwise distances (1 - similarity) between all features in
-  \code{speclist}. Row and column names are taken from the \code{id} slot
-  or, if present, pasted from the \code{id} and \code{annotation} slots of
-  the \code{\linkS4class{MS2spectrum}} or
-  \code{\linkS4class{pseudospectrum}} objects.
+    containing pairwise distances (1 - similarity) between all features in
+    \code{speclist}. Row and column names are taken from the \code{id} slot
+    or, if present, pasted from the \code{id} and \code{annotation} slots of
+    the \code{\linkS4class{MS2spectrum}} or
+    \code{\linkS4class{pseudospectrum}} objects.
 }
 \description{
 \code{distanceMatrix()} creates a distance matrix from a list of MS2

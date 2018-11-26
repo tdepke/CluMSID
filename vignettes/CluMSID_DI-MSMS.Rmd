@@ -1,5 +1,5 @@
 ---
-title: "Clustering Mass Spectra from High Resolution DI-MS/MS Data Using CluMSID"
+title: "Clustering Spectra from High Resolution DI-MS/MS Data Using CluMSID"
 author: "Tobias Depke"
 date: "05 September 2018"
 vignette: >
@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
 
 <style>
 p.caption {
-  font-size: 80%;
-  text-align: left;
+    font-size: 80%;
+    text-align: left;
 }
 </style>
 
@@ -65,8 +65,8 @@ library(CluMSID)
 library(CluMSIDdata)
 
 DIfile <- system.file("extdata", 
-                      "PA14_maxis_DI.mzXML",
-                      package = "CluMSIDdata")
+                        "PA14_maxis_DI.mzXML",
+                        package = "CluMSIDdata")
 ```
 
 ## Data preprocessing

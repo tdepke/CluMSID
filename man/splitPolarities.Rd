@@ -15,7 +15,7 @@ by \code{\link{extractMS2spectra}}.}
 }
 \value{
 A list of \code{\linkS4class{MS2spectrum}} objects that contains only
-  spectra with the given \code{polarity}.
+    spectra with the given \code{polarity}.
 }
 \description{
 Using \code{splitPolarities}, spectra with different polarities from the same

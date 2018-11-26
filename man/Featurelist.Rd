@@ -13,7 +13,7 @@ Featurelist(featlist)
 }
 \value{
 A \code{data.frame} that contains feature ID, precurosur \emph{m/z}
-  (if available) and retention time
+    (if available) and retention time
 }
 \description{
 \code{Featurelist} generates a \code{data.frame} that contains feature ID,
@@ -24,8 +24,8 @@ and \code{mergeSpecList}. \code{Featurelist} is used internally by
 }
 \details{
 Although originally designed for lists of \code{MS2spectrum}
-  objects, the function also works with lists of \code{pseudospectrum}
-  objects. In this case, \code{NA} is given for precursor \emph{m/z}.
+    objects, the function also works with lists of \code{pseudospectrum}
+    objects. In this case, \code{NA} is given for precursor \emph{m/z}.
 }
 \examples{
 load(file = system.file("extdata",

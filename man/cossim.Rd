@@ -10,10 +10,10 @@
 cossim(x, y, type = "spectrum", mzTolerance = 1e-05)
 
 \S4method{cossim}{MS2spectrum,MS2spectrum}(x, y, type = "spectrum",
-  mzTolerance = 1e-05)
+    mzTolerance = 1e-05)
 
 \S4method{cossim}{pseudospectrum,pseudospectrum}(x, y, type = "spectrum",
-  mzTolerance = 1e-05)
+    mzTolerance = 1e-05)
 }
 \arguments{
 \item{x, y}{MS2 spectra, either as \code{matrix},

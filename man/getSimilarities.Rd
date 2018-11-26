@@ -28,7 +28,7 @@ only similarities greater than zero.}
 }
 \value{
 A named vector with similarities of \code{spec} to all spectra or
-  neutral loss patterns in \code{speclist}.
+    neutral loss patterns in \code{speclist}.
 }
 \description{
 \code{getSimilarities} calculates the similarities of one spectrum or

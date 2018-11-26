@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
 
 <style>
 p.caption {
-  font-size: 80%;
-  text-align: left;
+    font-size: 80%;
+    text-align: left;
 }
 </style>
 
@@ -146,16 +146,17 @@ require(magrittr)
 
 mtbls_df <- readr::read_delim(raw_mtbls_df, "\t") %>%
     dplyr::mutate(metabolite_identification = 
-               stringr::str_replace(metabolite_identification, "unknown", "")) %>%
+                stringr::str_replace(metabolite_identification, 
+                                    "unknown", "")) %>%
     dplyr::mutate(id = paste0("M", mass_to_charge, "T", retention_time)) %>%
     dplyr::mutate(retention_time = retention_time * 60) %>%
     dplyr::select(id,
-           mass_to_charge, 
-           retention_time, 
-           metabolite_identification) %>%
+            mass_to_charge, 
+            retention_time, 
+            metabolite_identification) %>%
     dplyr::rename(mz = mass_to_charge,
-           rt = retention_time,
-           annotation = metabolite_identification)
+            rt = retention_time,
+            annotation = metabolite_identification)
 ```
 
 This peak list, or its first three columns,

@@ -12,7 +12,7 @@ specplot(spec)
 }
 \value{
 A plot of the MS2 spectrum saved in the \code{spectrum} slot of
-  \code{spec}.
+    \code{spec}.
 }
 \description{
 \code{specplot} creates a very basic plot of MS2 spectra from

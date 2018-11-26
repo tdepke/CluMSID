@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
 
 <style>
 p.caption {
-  font-size: 80%;
-  text-align: left;
+    font-size: 80%;
+    text-align: left;
 }
 </style>
 
@@ -120,7 +120,7 @@ to use to use the `metaMS` function `runCAMERA()` than actual `CAMERA`
 functions. `metaMS::runCAMERA` requires an `xcmsSet` object which we generate 
 by using `xcms::xcmsSet` on our netCDF file (we can do that in one go). 
 We used standard GC-MS settings for `runCAMERA()` as they are proposed in the 
-[`metaMS` vignette](https://www.bioconductor.org/packages/devel/bioc/vignettes/metaMS/inst/doc/runGC.pdf).
+[`metaMS` vignette](https://rdrr.io/bioc/metaMS/f/inst/doc/runGC.pdf).
 
 ```{r runCAMERA}
 xA <- metaMS::runCAMERA(xcms::xcmsSet(pool), 
@@ -146,7 +146,8 @@ have to be compared to the spectra in the `pslist` object.
 
 Like with LC-(DDA-)MS/MS data, we can use `writeFeaturelist()` and 
 `addAnnotations()` to add external annotations. 
-The table output from `writeFeaturelist()` will give `NA` for all precursor *m/z*.
+The table output from `writeFeaturelist()` will give `NA` 
+for all precursor *m/z*.
 
 ```{r Featurelist, eval=FALSE}
 writeFeaturelist(pslist, "GC_pre.csv")
@@ -189,8 +190,8 @@ we look at a cluster dendrogram:
 
 ```{r heatmap, fig.width=9, fig.asp=1, fig.cap=fig2}
 CluMSID_HCplot(pseudodistmat, type = "heatmap",
-               cexRow = 0.3, cexCol = 0.3,
-               margins = c(7,7))
+                cexRow = 0.3, cexCol = 0.3,
+                margins = c(7,7))
 ```
 
 It is directly visible that the resulting clusters are not as dense as with the

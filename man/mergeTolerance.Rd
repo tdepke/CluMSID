@@ -16,8 +16,8 @@ tolerance, they are regarded as the same. Defaults to \code{1e-5}, i.e.
 }
 \value{
 A matrix with m/z in the first column and separate columns for
-  intensities in the respective spectra. If peaks were merged, their m/z
-  corresponds to the mean of the two original m/z.
+    intensities in the respective spectra. If peaks were merged, their m/z
+    corresponds to the mean of the two original m/z.
 }
 \description{
 \code{mergeTolerance()} merges two spectra by identifying common peaks with

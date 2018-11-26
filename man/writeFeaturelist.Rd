@@ -15,8 +15,8 @@ writeFeaturelist(featlist, filename = "pre_anno.csv")
 }
 \value{
 A csv file that contains feature ID, precurosur \emph{m/z} and
-  retention time. The file has a header but no row names and is separated by
-  \code{','}.
+    retention time. The file has a header but no row names and is separated by
+    \code{','}.
 }
 \description{
 \code{writeFeaturelist} uses \code{\link{Featurelist}} to generate a
@@ -27,8 +27,8 @@ writes it to a csv file.
 }
 \details{
 Although originally designed for lists of \code{MS2spectrum}
-  objects, the function also works with lists of \code{pseudospectrum}
-  objects. In this case, \code{NA} is given for precursor \emph{m/z}.
+    objects, the function also works with lists of \code{pseudospectrum}
+    objects. In this case, \code{NA} is given for precursor \emph{m/z}.
 }
 \examples{
 load(file = system.file("extdata",

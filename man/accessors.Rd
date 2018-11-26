@@ -33,8 +33,8 @@ or \code{\linkS4class{pseudospectrum}}}
 }
 \value{
 The value of the respective slot of the object
-  (\code{id}, \code{annotation}, \code{precursor},
-  \code{rt}, \code{spectrum}, \code{neutral_losses})
+    (\code{id}, \code{annotation}, \code{precursor},
+    \code{rt}, \code{spectrum}, \code{neutral_losses})
 }
 \description{
 Accessor functions for individual slots of
@@ -61,14 +61,14 @@ load(file = system.file("extdata",
 access_precursor(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
-     "annotatedSpeclist.RData",
-     package = "CluMSIDdata"))
+    "annotatedSpeclist.RData",
+    package = "CluMSIDdata"))
 
 access_rt(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
-     "annotatedSpeclist.RData",
-     package = "CluMSIDdata"))
+    "annotatedSpeclist.RData",
+    package = "CluMSIDdata"))
 
 access_polarity(annotatedSpeclist[[1]])
 

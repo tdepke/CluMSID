@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
 
 <style>
 p.caption {
-  font-size: 80%;
-  text-align: left;
+    font-size: 80%;
+    text-align: left;
 }
 </style>
 
