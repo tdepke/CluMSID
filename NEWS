@@ -37,3 +37,12 @@
 0.1.12
 
 + updated vignette dependencies
+
+0.1.13
+
++ updated R version dependency to 3.6
++ code style changes
+
+0.1.14
+
++ deleted inst/extdata (now in CluMSIDdata)
