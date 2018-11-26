@@ -14,7 +14,7 @@ respective metainformation}
 }
 \value{
 Prints information from the object slots with exception of
-    'spectrum' and 'neutral_losses' where only a summary is given.
+  'spectrum' and 'neutral_losses' where only a summary is given.
 }
 \description{
 A custom S4 class for MS2 spectra, neutral loss patterns and

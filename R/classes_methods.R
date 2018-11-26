@@ -61,6 +61,8 @@ setClass("pseudospectrum",
 #' @return Prints information from the object slots with exception of
 #'   'spectrum' and 'neutral_losses' where only a summary is given.
 #'
+#' @importFrom methods show
+#'
 #' @exportMethod show
 setMethod("show",
             "MS2spectrum",
