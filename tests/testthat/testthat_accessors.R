@@ -3,7 +3,7 @@ context("Accessor functions for MS2spectrum objects")
 
 load(file = system.file("extdata",
                         "annotatedSpeclist.RData",
-                        package = "CluMSID"))
+                        package = "CluMSIDdata"))
 
 test_that("access_id gives a correct output", {
     expect_equal(access_id(annotatedSpeclist[[1]]), "M146.17T59.35")

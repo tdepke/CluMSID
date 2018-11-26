@@ -3,7 +3,7 @@ context("getSpectrum() and related accessory functions")
 
 load(file = system.file("extdata",
                         "annotatedSpeclist.RData",
-                        package = "CluMSID"))
+                        package = "CluMSIDdata"))
 
 test_that("getSpectrum gives a correct output if
           query matches several spectra", {
@@ -16,9 +16,9 @@ test_that("getSpectrum gives a correct output if
                                     mz.tol = 1E-03)),
                  4)
     expect_is(getSpectrum(annotatedSpeclist,
-                          "precursor", 286.18,
-                          mz.tol = 1E-03)[[1]],
-              "MS2spectrum")
+                            "precursor", 286.18,
+                            mz.tol = 1E-03)[[1]],
+                "MS2spectrum")
 })
 
 test_that("getSimilarities correctly excludes non-hits",{
