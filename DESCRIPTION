@@ -43,9 +43,11 @@ Suggests: knitr,
     testthat,
     dplyr,
     readr,
+    stringr,
     magrittr,
     MSnbase,
     CluMSIDdata,
     metaMS,
-    metaMSdata
+    metaMSdata,
+    xcms
 VignetteBuilder: knitr

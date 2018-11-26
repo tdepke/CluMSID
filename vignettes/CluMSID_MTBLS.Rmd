@@ -6,7 +6,7 @@ vignette: >
     %\VignetteIndexEntry{CluMSID Tutorial}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-    %\VignetteDepends{CluMSIDdata, readr, dplyr}
+    %\VignetteDepends{CluMSIDdata, readr, dplyr, stringr, magrittr}
 ---
 
 ```{r setup, include = FALSE}
@@ -79,7 +79,6 @@ included in the MTBLS433 data set which we will integrate into our analysis.
 ```{r load, eval=TRUE, message=FALSE}
 library(CluMSID)
 library(CluMSIDdata)
-library(tidyverse)
 ```
 
 # Extract MS^2^ spectra from multiple *.mzML files
@@ -143,16 +142,18 @@ raw_mtbls_df <- system.file("extdata",
                 "m_mtbls433_metabolite_profiling_mass_spectrometry_v2_maf.tsv",
                 package = "CluMSIDdata")
 
+require(magrittr)
+
 mtbls_df <- readr::read_delim(raw_mtbls_df, "\t") %>%
-    mutate(metabolite_identification = 
-               str_replace(metabolite_identification, "unknown", "")) %>%
-    mutate(id = paste0("M", mass_to_charge, "T", retention_time)) %>%
-    mutate(retention_time = retention_time * 60) %>%
-    select(id,
+    dplyr::mutate(metabolite_identification = 
+               stringr::str_replace(metabolite_identification, "unknown", "")) %>%
+    dplyr::mutate(id = paste0("M", mass_to_charge, "T", retention_time)) %>%
+    dplyr::mutate(retention_time = retention_time * 60) %>%
+    dplyr::select(id,
            mass_to_charge, 
            retention_time, 
            metabolite_identification) %>%
-    rename(mz = mass_to_charge,
+    dplyr::rename(mz = mass_to_charge,
            rt = retention_time,
            annotation = metabolite_identification)
 ```
@@ -174,8 +175,8 @@ th <- 311.2956
 
 ## Get measured m/z for arachidic acid data from mtbls_df
 ac <- mtbls_df %>%
-    filter(annotation == "Arachidic acid") %>%
-    select(mz) %>%
+    dplyr::filter(annotation == "Arachidic acid") %>%
+    dplyr::select(mz) %>%
     as.numeric()
 
 ## Calculate relative m/z difference in ppm
