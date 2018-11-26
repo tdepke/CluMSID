@@ -57,3 +57,8 @@
 + changed import for "show"
 + removed invalid character from GC_post.csv in CluMSIDdata
     which caused errors on Linux and OS X
+
+0.99.2
+
++ started avoiding class()==
++ minor code style change
