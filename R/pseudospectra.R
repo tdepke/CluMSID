@@ -84,7 +84,7 @@ extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
         names(pseudospeclist) <- seq_along(pseudospeclist)
         pseudospeclist <- Filter(Negate(is.null), pseudospeclist)
 
-    } else if(class(x) == "xsAnnotate"){
+    } else if(is(x, "xsAnnotate")){
 
         ##xsAnnotate objects have a different structure depending on whether
         ##they were generated from single or multiple mzXML files
