@@ -46,3 +46,7 @@
 0.1.14
 
 + deleted inst/extdata (now in CluMSIDdata)
+
+0.99.0
+
++ Bioconductor submission
