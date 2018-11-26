@@ -6,7 +6,7 @@ vignette: >
     %\VignetteIndexEntry{CluMSID Tutorial}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
-    %\VignetteDepends{metaMS, metaMSdata}
+    %\VignetteDepends{metaMS, metaMSdata, CluMSIDdata, xcms}
 ---
 
 ```{r setup, include = FALSE}
@@ -123,9 +123,9 @@ We used standard GC-MS settings for `runCAMERA()` as they are proposed in the
 [`metaMS` vignette](https://www.bioconductor.org/packages/devel/bioc/vignettes/metaMS/inst/doc/runGC.pdf).
 
 ```{r runCAMERA}
-xA <- runCAMERA(xcmsSet(pool), 
+xA <- metaMS::runCAMERA(xcms::xcmsSet(pool), 
                 chrom = "GC", 
-                settings = metaSetting(TSQXLS.GC, "CAMERA"))
+                settings = metaMS::metaSetting(TSQXLS.GC, "CAMERA"))
 ```
 
 ## Extraction and annotation of spectra

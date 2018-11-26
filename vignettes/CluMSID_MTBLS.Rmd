@@ -6,6 +6,7 @@ vignette: >
     %\VignetteIndexEntry{CluMSID Tutorial}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
+    %\VignetteDepends{CluMSIDdata, readr, dplyr}
 ---
 
 ```{r setup, include = FALSE}

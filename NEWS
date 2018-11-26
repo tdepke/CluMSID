@@ -33,3 +33,7 @@
 
 + added missing Suggests
 + updated documentation and GC-EI-MS vignette
+
+0.1.12
+
++ updated vignette dependencies
