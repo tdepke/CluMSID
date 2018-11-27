@@ -110,7 +110,7 @@ CluMSID_MDS <- function(distmat,
                         interactive = FALSE,
                         highlight_annotated = FALSE,
                         ...){
-    if(!is(distmat, "dist")) distmat <- stats::as.dist(distmat)
+    if(!methods::is(distmat, "dist")) distmat <- stats::as.dist(distmat)
     fit <- stats::cmdscale(distmat, k = 2)
     fitx <- fity <- anno <- NULL #only to appease CRAN check
     fit <- data.frame(fitx = fit[,1], fity = fit[,2], anno = row.names(fit))

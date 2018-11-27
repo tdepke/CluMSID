@@ -60,5 +60,9 @@
 
 0.99.2
 
-+ started avoiding class()==
++ started avoiding class() function to check for class
 + minor code style change
+
+0.99.3
+
++ added missing dependency for is()
