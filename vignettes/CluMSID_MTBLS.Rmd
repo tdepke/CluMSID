@@ -224,7 +224,7 @@ an *m/z* tolerance of 30ppm:
 distmat <- distanceMatrix(annolist, mz_tolerance = 3e-5)
 ```
 
-```{r distance, include=FALSE}
+```{r distance2, include=FALSE}
 load(file = system.file("extdata", "oil-distmat.RData", package = "CluMSIDdata"))
 ```
 

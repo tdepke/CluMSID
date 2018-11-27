@@ -74,3 +74,7 @@
 0.99.5
 
 + modified data import for CluMSID MTBLS vignette
+
+0.99.6
+
++ bugfix in MTBLS vignette
