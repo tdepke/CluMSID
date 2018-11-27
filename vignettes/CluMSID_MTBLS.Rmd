@@ -2,8 +2,9 @@
 title: "Using CluMSID with a Publicly Available MetaboLights Data Set"
 author: "Tobias Depke"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: rmarkdown::html_vignette
 vignette: >
-    %\VignetteIndexEntry{CluMSID Tutorial}
+    %\VignetteIndexEntry{CluMSID MTBLS Tutorial}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
     %\VignetteDepends{CluMSIDdata, readr, dplyr, stringr, magrittr}

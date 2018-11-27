@@ -66,3 +66,7 @@
 0.99.3
 
 + added missing dependency for is()
+
+0.99.4
+
++ reduced size of vignettes

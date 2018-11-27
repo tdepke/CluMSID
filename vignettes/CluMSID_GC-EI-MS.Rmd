@@ -1,9 +1,10 @@
 ---
 title: "Clustering Mass Spectra from Low Resolution GC-EI-MS Data Using CluMSID"
 author: "Tobias Depke"
-date: "20 August 2018"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: rmarkdown::html_vignette
 vignette: >
-    %\VignetteIndexEntry{CluMSID Tutorial}
+    %\VignetteIndexEntry{CluMSID GC-EI-MS Tutorial}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
     %\VignetteDepends{metaMS, metaMSdata, CluMSIDdata, xcms}

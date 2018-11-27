@@ -1,9 +1,10 @@
 ---
 title: "Clustering Mass Spectra from Low Resolution LC-MS/MS Data Using CluMSID"
 author: "Tobias Depke"
-date: "05 September 2018"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output: rmarkdown::html_vignette
 vignette: >
-    %\VignetteIndexEntry{CluMSID Tutorial}
+    %\VignetteIndexEntry{CluMSID LowRes Tutorial}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
     %\VignetteDepends{CluMSIDdata}
