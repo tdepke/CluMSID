@@ -225,15 +225,16 @@ distmat <- distanceMatrix(annolist, mz_tolerance = 3e-5)
 ```
 
 ```{r distance2, include=FALSE}
-load(file = system.file("extdata", "oil-distmat.RData", package = "CluMSIDdata"))
+load(file = system.file("extdata", "oil-distmat.RData", 
+                        package = "CluMSIDdata"))
 ```
 
 # Explore data
 
 To explore the data, we have a look at a cluster dendrogram:
 
-```{r dendro, fig.width=12, fig.asp=1.2, fig.cap=fig1}
-CluMSID_HCplot(distmat, h = 0.7, cex = 1)
+```{r dendro, fig.width=7, fig.asp=1.2, fig.cap=fig1}
+CluMSID_HCplot(distmat, h = 0.7, cex = 0.7)
 ```
 
 Since it was not in the focus of their study, the authors identified 
@@ -246,13 +247,13 @@ to cluster together but a look at the spectra reveals that stearic acid
 barely produces any fragment ions and mainly contains the unfragmented
 [M-H]^-^ parent ion:
 
-```{r stearate, out.width="60%", fig.cap=fig2}
+```{r stearate, fig.width=5, fig.asp=0.85, fig.cap=fig2}
 specplot(getSpectrum(annolist, "annotation", "Stearic acid"))
 ```
 
 In contrast, arachidic acid produces a much richer spectrum:
 
-```{r arachidate, out.width="60%", fig.cap=fig3}
+```{r arachidate, fig.width=5, fig.asp=0.85, fig.cap=fig3}
 specplot(getSpectrum(annolist, "annotation", "Arachidic acid"))
 ```
 

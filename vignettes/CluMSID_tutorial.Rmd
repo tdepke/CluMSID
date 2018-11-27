@@ -496,12 +496,12 @@ generate an interactive plot using `plotly`.
 Standard MDS plots are generated as follows:
 
 For MS^2^ spectra:
-```{r CluMSID_MDSplot_1, fig.width=7, fig.asp=1, fig.cap=fig1}
+```{r CluMSID_MDSplot_1, fig.width=5, fig.asp=1, fig.cap=fig1, message=FALSE}
 CluMSID_MDS(distmat, highlight_annotated = TRUE)
 ```
 
 For neutral loss patterns:
-```{r CluMSID_MDSplot_2, fig.width=7, fig.asp=1, fig.cap=fig2}
+```{r CluMSID_MDSplot_2, fig.width=5, fig.asp=1, fig.cap=fig2, message=FALSE}
 CluMSID_MDS(nlmat, highlight_annotated = TRUE)
 ```
 
@@ -627,7 +627,7 @@ dev.off()
 ```
 The plot from our example data looks like this:
 
-```{r CluMSID_HCplot_3, echo=FALSE, out.width="100%", fig.cap=fig8}
+```{r CluMSID_HCplot_3, echo=FALSE, out.width="100%", fig.asp=1, fig.cap=fig8}
 knitr::include_graphics(system.file("extdata", 
                                     "CluMSID_dendro2.png", 
                                     package = "CluMSIDdata"))
@@ -1060,7 +1060,7 @@ The distance matrix can now be used for MDS, clustering and
 correlation networks just like described above. For demonstration, 
 we generate a correlation network:
 
-```{r Pseudospectra_4, , fig.width=7, fig.asp=1, fig.cap=fig12}
+```{r Pseudospectra_4, , fig.width=5, fig.asp=1, fig.cap=fig12}
 CluMSID_network(pseudodistmat, show_labels = TRUE, exclude_singletons = TRUE)
 ```
 
