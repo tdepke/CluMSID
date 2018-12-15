@@ -31,6 +31,10 @@
 #'
 #' pseudospeclist <- extractPseudospectra(pstable, min_peaks = 2)
 #'
+#' @importFrom methods new is
+#' @importFrom Biobase rowMax
+#' @importFrom stats median
+#'
 #' @export
 extractPseudospectra <- function(x, min_peaks = 1, intensity_columns = NULL){
     ##different actions depending on class of x

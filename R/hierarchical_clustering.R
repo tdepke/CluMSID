@@ -1,6 +1,6 @@
 #' Hierarchical clustering of spectral similarity data
 #'
-#' \code{CluMSID_HCtbl()} performs hierarchical clustering
+#' \code{HCtbl()} performs hierarchical clustering
 #' of spectral similarity data using average linkage
 #' as agglomeration criterion.
 #'
@@ -13,17 +13,19 @@
 #' @return A \code{data.frame} with name and cluster ID for each
 #' feature in \code{distmat}.
 #'
-#' @seealso \code{\link{CluMSID_HCplot}}
+#' @seealso \code{\link{HCplot}}
+#'
+#' @import stats
 #'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' my_HCtbl <- CluMSID_HCtbl(distmat[1:50,1:50], h = 0.8)
+#' my_HCtbl <- HCtbl(distmat[1:50,1:50], h = 0.8)
 #'
 #' @export
-CluMSID_HCtbl <- function(distmat, h = 0.95){
+HCtbl <- function(distmat, h = 0.95){
     clust <- stats::hclust(stats::as.dist(distmat), method = "average")
     hclusttree <- stats::cutree(clust, h = h)
     hclustmat <- data.frame(feature = names(hclusttree),
@@ -34,13 +36,13 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 
 #' Generate cluster dendrogram or heatmap from spectral similarity data
 #'
-#' \code{CluMSID_HCtbl()} performs hierarchical clustering
+#' \code{HCplot()} performs hierarchical clustering
 #' of spectral similarity data using average linkage
-#' as agglomeration criterion like \code{\link{CluMSID_HCtbl}}
+#' as agglomeration criterion like \code{\link{HCtbl}}
 #' and generates either a circular dendrogram or a
 #' combination of dendrogram and heatmap.
 #'
-#' @inheritParams CluMSID_HCtbl
+#' @inheritParams HCtbl
 #'
 #' @param type Specifies which visualisation is to be generated:
 #' \code{"dendrogram"} (default) for a circular dendrogram or
@@ -52,15 +54,22 @@ CluMSID_HCtbl <- function(distmat, h = 0.95){
 #'
 #' @return A plot as specified by \code{type}.
 #'
+#' @importFrom gplots heatmap.2
+#' @importFrom RColorBrewer brewer.pal
+#' @importFrom graphics plot
+#' @importFrom ape as.phylo
+#'
+#' @import stats
+#'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' CluMSID_HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
+#' HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
 #'
 #' @export
-CluMSID_HCplot <- function(distmat, h = 0.95, type = "dendrogram", ...){
+HCplot <- function(distmat, h = 0.95, type = "dendrogram", ...){
     clust <- stats::hclust(stats::as.dist(distmat), method = "average")
     hclusttree <- stats::cutree(clust, h = h)
     hclustmat <- cbind(names(hclusttree), hclusttree)

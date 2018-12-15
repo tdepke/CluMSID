@@ -190,7 +190,7 @@ functions that `CluMSID` offers. In this example workflow,
 we look at a cluster dendrogram:
 
 ```{r heatmap, fig.width=7, fig.asp=1, fig.cap=fig2}
-CluMSID_HCplot(pseudodistmat, type = "heatmap",
+HCplot(pseudodistmat, type = "heatmap",
                 cexRow = 0.4, cexCol = 0.4,
                 margins = c(7,7))
 ```
@@ -201,7 +201,7 @@ This also shows in the correlation network, resulting in a chaotic plot
 when used with the default minimal similarity of `0.1`:
 
 ```{r network, fig.width=4.5, fig.asp=1, fig.cap=fig3}
-CluMSID_network(pseudodistmat, highlight_annotated = TRUE, 
+networkplot(pseudodistmat, highlight_annotated = TRUE, 
                 show_labels = TRUE, exclude_singletons = TRUE)
 ```
 
@@ -209,7 +209,7 @@ By choosing a higher similarity threshold of e.g. `0.4`, it is far easier
 to identify clusters:
 
 ```{r network2, fig.width=4.5, fig.asp=1, fig.cap=fig4}
-CluMSID_network(pseudodistmat, highlight_annotated = TRUE, 
+networkplot(pseudodistmat, highlight_annotated = TRUE, 
                 show_labels = TRUE, exclude_singletons = TRUE,
                 min_similarity = 0.4)
 ```
@@ -223,7 +223,7 @@ We can also use hierarchical clustering to identify clusters of similar
 higher between-cluster similarities:
 
 ```{r dendrogram, fig.width=7, fig.asp=1, fig.cap=fig5}
-CluMSID_HCplot(pseudodistmat, h = 0.7, cex = 0.5)
+HCplot(pseudodistmat, h = 0.7, cex = 0.5)
 ```
 
 We see that e.g. octadecanoic acid, hexadecanoic acid and dodecanoic acid
@@ -246,7 +246,7 @@ which we can do by setting `tolerance = 0.5/315`:
 ```{r fragment}
 fragmentlist <- findFragment(apslist, mz = 315, tolerance = 0.5/315)
 
-vapply(X = fragmentlist, FUN = access_id, FUN.VALUE = integer(1))
+vapply(X = fragmentlist, FUN = accessID, FUN.VALUE = integer(1))
 ```
 
 We find four more spectra that contain a 315 fragment that could be 

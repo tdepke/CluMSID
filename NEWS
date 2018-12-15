@@ -82,3 +82,11 @@
 0.99.7
 
 + further reduced size of vignettes
+
+0.99.8
+
++ Bioconductor review I: DESCRIPTION and NAMESPACE
++ added URL and BugReports to DESCRIPTION
++ started importing all packages into NAMESPACE
++ abandoned "CluMSID_" prefix and renamed respective functions
++ changed all function names to camel case starting with lower case letters

@@ -34,6 +34,8 @@
 #'
 #' distanceMatrix(annotatedSpeclist[1:20])
 #'
+#' @importFrom S4Vectors isEmpty
+#'
 #' @export
 distanceMatrix <- function(speclist, distFun = "cossim",
                             type = "spectrum", mz_tolerance = 1e-5){
@@ -75,7 +77,7 @@ distanceMatrix <- function(speclist, distFun = "cossim",
 
 #' Multidimensional scaling of spectral similarity data
 #'
-#' \code{CluMSID_MDS()} is used to generate multidimensional scaling plots from
+#' \code{MDSplot()} is used to generate multidimensional scaling plots from
 #' spectral similarity data. An interactive visualisation can be produced using
 #' \pkg{plotly}.
 #'
@@ -98,18 +100,24 @@ distanceMatrix <- function(speclist, distFun = "cossim",
 #'   \code{\link[ggplot2]{ggplot}} and, if interactive,
 #'   \code{\link[plotly]{ggplotly}}.
 #'
+#' @importFrom methods is
+#' @importFrom stats cmdscale as.dist
+#' @importFrom plotly ggplotly
+#'
+#' @import ggplot2
+#'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "distmat.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' CluMSID_MDS(distmat, highlight_annotated = TRUE)
+#' MDSplot(distmat, highlight_annotated = TRUE)
 #'
 #' @export
-CluMSID_MDS <- function(distmat,
-                        interactive = FALSE,
-                        highlight_annotated = FALSE,
-                        ...){
+MDSplot <- function(distmat,
+                    interactive = FALSE,
+                    highlight_annotated = FALSE,
+                    ...){
     if(!methods::is(distmat, "dist")) distmat <- stats::as.dist(distmat)
     fit <- stats::cmdscale(distmat, k = 2)
     fitx <- fity <- anno <- NULL #only to appease CRAN check

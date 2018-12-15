@@ -133,14 +133,14 @@ When we now make an MDS plot, we learn that the similarity data is very
 different from the comparable high resolution data:
 
 ```{r MDS, fig.cap=fig1}
-CluMSID_MDS(distmat)
+MDSplot(distmat)
 ```
 
 To get a better overview of the data and
 the general similarity behaviour, we create a heat map of the distance matrix:
 
 ```{r heatmap, fig.width=6, fig.asp=1, fig.cap=fig2}
-CluMSID_HCplot(distmat, type = "heatmap", 
+HCplot(distmat, type = "heatmap", 
                 cexRow = 0.1, cexCol = 0.1,
                 margins = c(6,6))
 ```
@@ -156,7 +156,7 @@ We also see that some more or less compact clusters can be identified.
 This is easier to inspect in the dendrogram visualisation:
 
 ```{r dendro, fig.width=6, fig.asp=1, fig.cap=fig3}
-CluMSID_HCplot(distmat, h = 0.8, cex = 0.3)
+HCplot(distmat, h = 0.8, cex = 0.3)
 ```
 
 In conclusion, CluMSID is capable of processing low resolution LC-MS/MS data

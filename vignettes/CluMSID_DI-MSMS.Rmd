@@ -129,7 +129,7 @@ functions that `CluMSID` offers. In this example workflow,
 we look at a cluster dendrogram:
 
 ```{r dendrogram, fig.width=7, fig.asp=1, fig.cap=fig1}
-CluMSID_HCplot(distmat, cex = 0.5)
+HCplot(distmat, cex = 0.5)
 ```
 
 It is directly obvious that we have some spectra that are nearly identical

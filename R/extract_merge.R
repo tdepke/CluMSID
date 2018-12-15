@@ -65,6 +65,10 @@ mergeTolerance <- function(x, y, tolerance = 1e-5) {
 #' @return A \code{list} with objects of class \code{MS2spectrum}, containing
 #'   MS2 spectra extracted from the raw data.
 #'
+#' @importFrom methods new
+#'
+#' @import mzR
+#'
 #' @examples
 #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",
 #'                                 "PoolA_R_SE.mzXML",
@@ -166,7 +170,7 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
                                     spectrum = ms2list[[e]])
     }
     return(output)
-    close(aa)
+    mzR::close(aa)
 }
 
 #' Merge list of spectra
@@ -183,6 +187,8 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
 #'   contribute to one consensus spectrum, than this consensus spectrum is
 #'   contained in the list multiple times at the respective positions of the
 #'   contributing spectra.
+#'
+#' @importFrom methods new
 #'
 #' @keywords internal
 mergeSpecList <- function(speclist, tolerance = 1e-5) {
@@ -286,6 +292,8 @@ neutrallossPatterns <- function(x){
 #'   the resulting list?
 #'
 #' @return A merged list of \code{\linkS4class{MS2spectrum}} objects.
+#'
+#' @importFrom stats median
 #'
 #' @examples
 #' my_spectra <- extractMS2spectra(MSfile = system.file("extdata",

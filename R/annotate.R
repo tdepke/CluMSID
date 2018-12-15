@@ -1,10 +1,10 @@
 #' Generate a \code{data.frame} with feature information from list of
 #' \code{MS2spectrum} objects
 #'
-#' \code{Featurelist} generates a \code{data.frame} that contains feature ID,
+#' \code{featureList} generates a \code{data.frame} that contains feature ID,
 #' precurosur \emph{m/z} and retention time for all features contained in a
 #' list of \code{MS2spectrum} objects as produced by \code{extractMS2spectra}
-#' and \code{mergeSpecList}. \code{Featurelist} is used internally by
+#' and \code{mergeSpecList}. \code{featureList} is used internally by
 #' \code{\link{writeFeaturelist}}.
 #'
 #' @param featlist A list of \code{MS2spectrum} objects as produced by
@@ -17,15 +17,17 @@
 #' @return A \code{data.frame} that contains feature ID, precurosur \emph{m/z}
 #'   (if available) and retention time
 #'
+#' @importFrom methods .hasSlot
+#'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "featlist.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' pre_anno <- Featurelist(featlist)
+#' pre_anno <- featureList(featlist)
 #'
 #' @export
-Featurelist <- function(featlist){
+featureList <- function(featlist){
     id <- c(); mz <- c(); rt <- c()
     for(i in seq_along(featlist)){
         id[i] <- featlist[[i]]@id
@@ -42,13 +44,13 @@ Featurelist <- function(featlist){
 
 #' Write feature information from list of \code{MS2spectrum} objects
 #'
-#' \code{writeFeaturelist} uses \code{\link{Featurelist}} to generate a
+#' \code{writeFeaturelist} uses \code{\link{featureList}} to generate a
 #' \code{data.frame} that contains feature ID, precurosur \emph{m/z} and
 #' retention time for all features contained in a list of \code{MS2spectrum}
 #' objects as produced by \code{extractMS2spectra} and \code{mergeSpecList} and
 #' writes it to a csv file.
 #'
-#' @inheritParams Featurelist
+#' @inheritParams featureList
 #'
 #' @param filename The desired file name of the csv file, default is
 #'   \code{"pre_anno.csv"}
@@ -61,6 +63,8 @@ Featurelist <- function(featlist){
 #'   retention time. The file has a header but no row names and is separated by
 #'   \code{','}.
 #'
+#' @importFrom utils write.table
+#'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "featlist.RData",
@@ -70,7 +74,7 @@ Featurelist <- function(featlist){
 #'
 #' @export
 writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
-    df <- Featurelist(featlist)
+    df <- featureList(featlist)
     df$annotation <- rep("", length(featlist))
     utils::write.table(
         df,
@@ -86,7 +90,7 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
 #' externally, e.g. by library search, to a list of \code{MS2spectrum} objects
 #' as produced by \code{extractMS2spectra} and \code{mergeSpecList}.
 #'
-#' @inheritParams Featurelist
+#' @inheritParams featureList
 #'
 #' @param annolist A list of annotations, either as a \code{data.frame} or csv
 #'   file. The order of features must be the same as in \code{featlist}. Please
@@ -101,6 +105,8 @@ writeFeaturelist <- function(featlist, filename = "pre_anno.csv"){
 #'   \code{extractMS2spectra} and \code{mergeSpecList} with external
 #'   annotations added to the \code{annotation} slot of each \code{MS2spectrum}
 #'   object.
+#'
+#' @importFrom utils read.csv
 #'
 #' @examples
 #' load(file = system.file("extdata",

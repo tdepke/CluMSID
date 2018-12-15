@@ -19,10 +19,10 @@ NULL
 #'     "annotatedSpeclist.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' access_id(annotatedSpeclist[[1]])
+#' accessID(annotatedSpeclist[[1]])
 #'
 #' @export
-access_id <- function(x){
+accessID <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@id)
 }
@@ -34,10 +34,10 @@ access_id <- function(x){
 #'     "annotatedSpeclist.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' access_annotation(annotatedSpeclist[[1]])
+#' accessAnnotation(annotatedSpeclist[[1]])
 #'
 #' @export
-access_annotation <- function(x){
+accessAnnotation <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@annotation)
 }
@@ -49,10 +49,10 @@ access_annotation <- function(x){
 #'     "annotatedSpeclist.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' access_precursor(annotatedSpeclist[[1]])
+#' accessPrecursor(annotatedSpeclist[[1]])
 #'
 #' @export
-access_precursor <- function(x){
+accessPrecursor <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@precursor)
 }
@@ -64,10 +64,10 @@ access_precursor <- function(x){
 #'      "annotatedSpeclist.RData",
 #'      package = "CluMSIDdata"))
 #'
-#' access_rt(annotatedSpeclist[[1]])
+#' accessRT(annotatedSpeclist[[1]])
 #'
 #' @export
-access_rt <- function(x){
+accessRT <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@rt)
 }
@@ -79,10 +79,10 @@ access_rt <- function(x){
 #'      "annotatedSpeclist.RData",
 #'      package = "CluMSIDdata"))
 #'
-#' access_polarity(annotatedSpeclist[[1]])
+#' accessPolarity(annotatedSpeclist[[1]])
 #'
 #' @export
-access_polarity <- function(x){
+accessPolarity <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@polarity)
 }
@@ -94,10 +94,10 @@ access_polarity <- function(x){
 #'     "annotatedSpeclist.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' access_spectrum(annotatedSpeclist[[1]])
+#' accessSpectrum(annotatedSpeclist[[1]])
 #'
 #' @export
-access_spectrum <- function(x){
+accessSpectrum <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@spectrum)
 }
@@ -109,10 +109,10 @@ access_spectrum <- function(x){
 #'     "annotatedSpeclist.RData",
 #'     package = "CluMSIDdata"))
 #'
-#' access_neutral_losses(annotatedSpeclist[[1]])
+#' accessNeutralLosses(annotatedSpeclist[[1]])
 #'
 #' @export
-access_neutral_losses <- function(x){
+accessNeutralLosses <- function(x){
     stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
     return(x@neutral_losses)
 }

@@ -1,7 +1,7 @@
 Package: CluMSID
 Type: Package
 Title: Clustering of MS2 Spectra for Metabolite Identification
-Version: 0.99.7
+Version: 0.99.8
 Authors@R: c(person("Tobias", "Depke", email = "tobias.depke@helmholtz-hzi.de", 
     role = c("aut", "cre")),
     person("Raimo", "Franke", email = "raimo.franke@helmholtz-hzi.de",
@@ -16,6 +16,8 @@ Description: CluMSID is a tool that aids the identification of features
     interfaceable with the xmcs family of preprocessing packages.
 License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://github.com/tdepke/CluMSID
+BugReports: https://github.com/tdepke/CluMSID/issues
 LazyData: true
 Depends:
     R (>= 3.6)
@@ -31,6 +33,7 @@ Imports:
     ggplot2,
     plotly,
     methods,
+    utils,
     stats,
     sna,
     grDevices,

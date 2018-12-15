@@ -191,8 +191,17 @@ precursor *m/z* and therefore no neutral loss pattern, either. By default, the
 The individual slots of `MS2spectrum` and `pseudospectrum` objects can be 
 accessed via the standard S4 way using `object@slot`, e.g. `object@annotation`
 or by using an accessor function. These exist for all slots and are called
-`access_foo()`, where `foo` is the slot name, e.g. `access_id(object)`
-or `access_neutral_losses(object)`.
+`accessFoo()`, where `Foo` is the slot name (not exactly, though, because 
+`Bioconductor` does not allow to mix `snake_case` and `camelCase` in 
+function names): 
+
+* `accessID(object)` 
+* `accessAnnotation(object)`
+* `accessPrecursor(object)`
+* `accessRT(object)`
+* `accessPolarity(object)`
+* `accessSpectrum(object)`
+* `accessNeutralLosses(object)`.
 
 # Extract MS^2^ spectra from *.mzXML file
 
@@ -283,7 +292,7 @@ raw list are now merged to one consensus spectrum (#1 in the merged list).
 In this step, neutral loss patterns have been generated that look like this:
 
 ```{r mergeMS2spectra_4}
-access_neutral_losses(featlist[[1]])
+accessNeutralLosses(featlist[[1]])
 ```
 
 ## Merge spectra with external peaktable, e.g. from XCMS
@@ -399,7 +408,7 @@ of the features in your list of features (`featlist`) and your list of
 annotations (`annolist`) is different, you will get nonsense results.
 
 The savest ways to `addAnnotations()` with a `data.frame` is to use 
-`Featurelist()` to generate a `data.frame` that is formatted in the same 
+`featureList()` to generate a `data.frame` that is formatted in the same 
 way as the file output from `writeFeaturelist()` and then match your 
 identifications against this `data.frame` and use the result as argument 
 for `addAnnotations()`.
@@ -427,7 +436,7 @@ head(annos)
 because `featlist` and `annos` are of different length. 
 Instead, you need to do the following:
 ```{r addAnnotations_4}
-fl <- Featurelist(featlist)
+fl <- featureList(featlist)
 
 fl_annos <- dplyr::left_join(fl, annos, by = "id")
 ```
@@ -438,7 +447,7 @@ An analogous procedure works if you have your annotations stored
 in a peaktable that you have used for `mergeMSspectra()`. 
 As the order of spectra in the list will not be same as the order 
 of features in your peaktable, you need to do a matching with the 
-output of `Featurelist()` as well.
+output of `featureList()` as well.
 
 # Generate distance matrices
 
@@ -496,13 +505,13 @@ generate an interactive plot using `plotly`.
 Standard MDS plots are generated as follows:
 
 For MS^2^ spectra:
-```{r CluMSID_MDSplot_1, fig.width=5, fig.asp=1, fig.cap=fig1, message=FALSE}
-CluMSID_MDS(distmat, highlight_annotated = TRUE)
+```{r MDSplotplot_1, fig.width=5, fig.asp=1, fig.cap=fig1, message=FALSE}
+MDSplot(distmat, highlight_annotated = TRUE)
 ```
 
 For neutral loss patterns:
-```{r CluMSID_MDSplot_2, fig.width=5, fig.asp=1, fig.cap=fig2, message=FALSE}
-CluMSID_MDS(nlmat, highlight_annotated = TRUE)
+```{r MDSplotplot_2, fig.width=5, fig.asp=1, fig.cap=fig2, message=FALSE}
+MDSplot(nlmat, highlight_annotated = TRUE)
 ```
 
 Interactive plots are zoomable and show feature names upon mouse-over. 
@@ -510,8 +519,8 @@ They are generated like normal MDS plots and can be viewed within
 RStudio or---after saving as html file using `htmlwidgets`---displayed 
 in a normal web browser.
 
-```{r CluMSID_MDSplot_3, eval=FALSE}
-my_mds <- CluMSID_MDS(distmat, interactive = TRUE, highlight_annotated = TRUE)
+```{r MDSplotplot_3, eval=FALSE}
+my_mds <- MDSplot(distmat, interactive = TRUE, highlight_annotated = TRUE)
 
 htmlwidgets::saveWidget(my_mds, "mds.html")
 ```
@@ -519,7 +528,7 @@ htmlwidgets::saveWidget(my_mds, "mds.html")
 This is how it looks like if you open the html file in 
 Firefox and mouse over a feature:
 
-```{r CluMSID_MDSplot_4, echo=FALSE, out.width="100%", fig.cap=fig3}
+```{r MDSplotplot_4, echo=FALSE, out.width="100%", fig.cap=fig3}
 knitr::include_graphics(system.file("extdata", 
                                     "interactive_mds.png", 
                                     package = "CluMSIDdata"))
@@ -556,25 +565,25 @@ and `dbscan::extractDBSCAN` functions.
 If the default parameters are used, the generation of an OPTICS reachability 
 plots is very simple, shown here for MS^2^ spectra and neutral loss patterns:
 
-```{r CluMSID_OPTICSplot, fig.width=7, fig.asp=0.6, fig.cap=c(fig4, fig5)}
-CluMSID_OPTICSplot(distmat)
-CluMSID_OPTICSplot(nlmat, eps_cl = 0.7)
+```{r OPTICSplot, fig.width=7, fig.asp=0.6, fig.cap=c(fig4, fig5)}
+OPTICSplot(distmat)
+OPTICSplot(nlmat, eps_cl = 0.7)
 ```
 
 In the reachability plots, every line represents a feature and the height of 
 the line is the reachability distance to the next feature in the OPTICS order. 
 Thus, valleys represent groups of similar spectra or neutral loss patterns. 
 The order and the cluster assignment can be studied using the 
-`CluMSID_OPTICStbl` function that outputs a three-column `data.frame` with 
+`OPTICStbl` function that outputs a three-column `data.frame` with 
 feature id, cluster assignment and OPTICS order. The order of features in the 
 `data.frame` corresponds to the original order in the input distance matrix. 
 Features that were not assigned to a cluster are black in the reachability 
-plot and have the cluster ID 0. `CluMSID_OPTICStbl` takes the same arguments 
-as `CluMSID_OPTICSplot`. The two functions have to be run with exactly the 
+plot and have the cluster ID 0. `OPTICStbl` takes the same arguments 
+as `OPTICSplot`. The two functions have to be run with exactly the 
 same parameters to assure compatibility of results.
 
-```{r CluMSID_OPTICStbl}
-OPTICStbl <- CluMSID_OPTICStbl(distmat)
+```{r OPTICStbl}
+OPTICStbl <- OPTICStbl(distmat)
 
 head(OPTICStbl)
 ```
@@ -602,11 +611,11 @@ are created as follows (with reduced label font size by changing
 `cexRow` and `cexCol` as well as `margins` of the underlying 
 `heatmap.2` function):
 
-```{r CluMSID_HCplot_1, fig.width=7, fig.asp=1, fig.cap=c(fig6, fig7)}
-CluMSID_HCplot(distmat, type = "heatmap", 
+```{r HCplot_1, fig.width=7, fig.asp=1, fig.cap=c(fig6, fig7)}
+HCplot(distmat, type = "heatmap", 
                 cexRow = 0.1, cexCol = 0.1,
                 margins = c(6,6))
-CluMSID_HCplot(nlmat, type = "heatmap", 
+HCplot(nlmat, type = "heatmap", 
                 cexRow = 0.1, cexCol = 0.1,
                 margins = c(6,6))
 ```
@@ -620,14 +629,14 @@ the feature names remain searchable (`Ctrl+F` in Windows).
 With the dendrogram, too, it is advisable to export is to pdf 
 in a large format, e.g. as follows:
 
-```{r CluMSID_HCplot_2, eval=FALSE}
+```{r HCplot_2, eval=FALSE}
 pdf(file = "CluMSID_dendro.pdf", width = 20, height = 20)
-CluMSID_HCplot(distmat)
+HCplot(distmat)
 dev.off()
 ```
 The plot from our example data looks like this:
 
-```{r CluMSID_HCplot_3, echo=FALSE, out.width="100%", fig.asp=1, fig.cap=fig8}
+```{r HCplot_3, echo=FALSE, out.width="100%", fig.asp=1, fig.cap=fig8}
 knitr::include_graphics(system.file("extdata", 
                                     "CluMSID_dendro2.png", 
                                     package = "CluMSIDdata"))
@@ -643,12 +652,12 @@ Depke *et al.* 2017, where `CluMSID` helped to identify new members
 of several classes of secondary metabolites in *Pseudomonas aeruginosa*.
 
 Like with density-based clustering, it is also possible to generate a 
-list of features with respective cluster assignments using `CluMSID_HCtbl`. 
-As mentioned above for `CluMSID_OPTISplot` and `CluMSID_OPTICStbl`, it is 
-crucial to run `CluMSID_HCplot` and `CluMSID_HCtbl` using the same parameters.
+list of features with respective cluster assignments using `HCtbl`. 
+As mentioned above for `CluMSID_OPTISplot` and `OPTICStbl`, it is 
+crucial to run `HCplot` and `HCtbl` using the same parameters.
 
-```{r CluMSID_HCtbl}
-HCtbl <- CluMSID_HCtbl(distmat)
+```{r HCtbl}
+HCtbl <- HCtbl(distmat)
 
 head(HCtbl)
 ```
@@ -668,11 +677,11 @@ belong to the same cluster in order to examine their spectra closely but we
 have to go back to the correlation network visualisation and search for 
 connected features manually.
 
-`CluMSID_network` requires some arguments:
+`networkplot` requires some arguments:
 
 * `distmat`: *matrix*; a distance matrix like for all other functions 
 described above
-* `interactive`: *logical*; Similar to `CluMSID_MDSplot`, 
+* `interactive`: *logical*; Similar to `MDSplotplot`, 
 correlation network can be generate as interactive plots that are zoomable 
 and display feature IDs on mouse-over. If that is desired, set `interactive` 
 to `TRUE` (default is `FALSE`).
@@ -681,7 +690,7 @@ to `TRUE` (default is `FALSE`).
 * `label_size`: *numeric*; font size of feature ID labels (default is `1.5`, 
 which is way smaller than the default in `GGally::ggnet2`, `4.5`)
 * `highlight_annotated`: *logical*; whether to plot dots for features 
-with annotation in a different colour (same as in `CluMSID_MDSplot`, 
+with annotation in a different colour (same as in `MDSplotplot`, 
 default is `FALSE`)
 * `min_similarity`: *numeric*; the minimum similarity (1 -- distance) 
 threshold (similarities below this threshold will be ignored, default is `0.1`)
@@ -693,17 +702,17 @@ or MS^1^ pseudospectra (default is `FALSE`)
 A standard non-interactive correlation network for the MS^2^ example data 
 can be plotted like this:
 
-```{r CluMSID_network_1, message=FALSE, fig.width=7, fig.asp=1, fig.cap=fig9}
-CluMSID_network(distmat, highlight_annotated = TRUE, 
+```{r networkplot_1, message=FALSE, fig.width=7, fig.asp=1, fig.cap=fig9}
+networkplot(distmat, highlight_annotated = TRUE, 
                 show_labels = TRUE, interactive = FALSE)
 ```
 
 As you can guess from this plot, it makes sense to use the interactive 
-visualisation. Just like with `CluMSID_MDSplot`, you can view the 
+visualisation. Just like with `MDSplotplot`, you can view the 
 interactive plot within RStudio or save it as html and view it in web browser.
 
-```{r CluMSID_network_2, eval=FALSE}
-my_net <- CluMSID_network(distmat, interactive = TRUE, 
+```{r networkplot_2, eval=FALSE}
+my_net <- networkplot(distmat, interactive = TRUE, 
                             highlight_annotated = TRUE)
 
 htmlwidgets::saveWidget(my_net, "net.html")
@@ -712,7 +721,7 @@ htmlwidgets::saveWidget(my_net, "net.html")
 This is how it looks like if you open the html file in Firefox, 
 zoom in on a cluster and mouse over a feature:
 
-```{r CluMSID_network_3, echo=FALSE, out.width="95%", fig.cap=fig10}
+```{r networkplot_3, echo=FALSE, out.width="95%", fig.cap=fig10}
 knitr::include_graphics(system.file("extdata", 
                                     "interactive_net.png", 
                                     package = "CluMSIDdata"))
@@ -738,8 +747,8 @@ This expectation justifies the exclusion of these 'singletons' from the
 correlation network analysis. 
 To do so, just set `exclude_singletons` to `TRUE`:
 
-```{r CluMSID_network_4, message=FALSE, fig.width=7, fig.asp=1, fig.cap=fig11}
-CluMSID_network(nlmat, highlight_annotated = TRUE, 
+```{r networkplot_4, message=FALSE, fig.width=7, fig.asp=1, fig.cap=fig11}
+networkplot(nlmat, highlight_annotated = TRUE, 
                 show_labels = TRUE, exclude_singletons = TRUE)
 ```
 
@@ -1061,7 +1070,7 @@ correlation networks just like described above. For demonstration,
 we generate a correlation network:
 
 ```{r Pseudospectra_4, , fig.width=5, fig.asp=1, fig.cap=fig12}
-CluMSID_network(pseudodistmat, show_labels = TRUE, exclude_singletons = TRUE)
+networkplot(pseudodistmat, show_labels = TRUE, exclude_singletons = TRUE)
 ```
 
 With the exclusion of singletons, we get a much less busy plot than for 

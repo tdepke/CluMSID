@@ -25,6 +25,8 @@
 #' @return A named vector with similarities of \code{spec} to all spectra or
 #'   neutral loss patterns in \code{speclist}.
 #'
+#' @importFrom methods new
+#'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
@@ -165,6 +167,8 @@ findNL <- function(featlist, mz, tolerance = 1E-05){
 #'   spectrum matches, the output is a list of \code{\linkS4class{MS2spectrum}}
 #'   objects.
 #'
+#' @importFrom methods slot
+#'
 #' @examples
 #' load(file = system.file("extdata",
 #'     "annotatedSpeclist.RData",
@@ -235,7 +239,7 @@ getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
 #' @export
 splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
     stopifnot(polarity %in% c("positive", "negative"))
-    subvec <- vapply(FUN = access_polarity,
+    subvec <- vapply(FUN = accessPolarity,
                         X = ms2list,
                         FUN.VALUE = character(1)) == polarity
     return(ms2list[subvec])
@@ -252,6 +256,8 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #'
 #' @return A plot of the MS2 spectrum saved in the \code{spectrum} slot of
 #'   \code{spec}.
+#'
+#' @importFrom graphics plot text
 #'
 #' @examples
 #' load(file = system.file("extdata",

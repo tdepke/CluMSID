@@ -209,7 +209,7 @@ To add annotations, we use `mtbls_df` as well, as described in the
 General Tutorial:
 
 ```{r annos}
-fl <- Featurelist(oillist)
+fl <- featureList(oillist)
 fl_annos <- dplyr::left_join(fl, mtbls_df, by = "id")
 
 annolist <- addAnnotations(oillist, fl_annos, annotationColumn = 6)
@@ -234,7 +234,7 @@ load(file = system.file("extdata", "oil-distmat.RData",
 To explore the data, we have a look at a cluster dendrogram:
 
 ```{r dendro, fig.width=7, fig.asp=1.2, fig.cap=fig1}
-CluMSID_HCplot(distmat, h = 0.7, cex = 0.7)
+HCplot(distmat, h = 0.7, cex = 0.7)
 ```
 
 Since it was not in the focus of their study, the authors identified 

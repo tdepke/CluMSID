@@ -2,30 +2,30 @@
 % Please edit documentation in R/accessors.R
 \name{accessors}
 \alias{accessors}
-\alias{access_id}
-\alias{access_annotation}
-\alias{access_precursor}
-\alias{access_rt}
-\alias{access_polarity}
-\alias{access_spectrum}
-\alias{access_neutral_losses}
+\alias{accessID}
+\alias{accessAnnotation}
+\alias{accessPrecursor}
+\alias{accessRT}
+\alias{accessPolarity}
+\alias{accessSpectrum}
+\alias{accessNeutralLosses}
 \title{Accessor functions for individual slots of
 \code{\linkS4class{MS2spectrum}} and
 \code{\linkS4class{pseudospectrum}} objects}
 \usage{
-access_id(x)
+accessID(x)
 
-access_annotation(x)
+accessAnnotation(x)
 
-access_precursor(x)
+accessPrecursor(x)
 
-access_rt(x)
+accessRT(x)
 
-access_polarity(x)
+accessPolarity(x)
 
-access_spectrum(x)
+accessSpectrum(x)
 
-access_neutral_losses(x)
+accessNeutralLosses(x)
 }
 \arguments{
 \item{x}{An object of class \code{\linkS4class{MS2spectrum}}
@@ -46,42 +46,42 @@ load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_id(annotatedSpeclist[[1]])
+accessID(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_annotation(annotatedSpeclist[[1]])
+accessAnnotation(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_precursor(annotatedSpeclist[[1]])
+accessPrecursor(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_rt(annotatedSpeclist[[1]])
+accessRT(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_polarity(annotatedSpeclist[[1]])
+accessPolarity(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_spectrum(annotatedSpeclist[[1]])
+accessSpectrum(annotatedSpeclist[[1]])
 
 load(file = system.file("extdata",
     "annotatedSpeclist.RData",
     package = "CluMSIDdata"))
 
-access_neutral_losses(annotatedSpeclist[[1]])
+accessNeutralLosses(annotatedSpeclist[[1]])
 
 }

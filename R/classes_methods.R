@@ -22,6 +22,8 @@
 #'   product ion mass-to-charge ratios from the precursor \emph{m/z} in a
 #'   matrix format analogous to the \code{spectrum} slot
 #'
+#' @importFrom methods setClass
+#'
 #' @export
 setClass("MS2spectrum",
         slots = list(   id = "character",
@@ -47,6 +49,8 @@ setClass("MS2spectrum",
 #'   matrix (column 1 is (median) \emph{m/z}, column 2 is (median)
 #'   intensity of the ions)
 #'
+#' @importFrom methods setClass
+#'
 #' @export
 setClass("pseudospectrum",
         slots = list(   id = "numeric",
@@ -61,7 +65,7 @@ setClass("pseudospectrum",
 #' @return Prints information from the object slots with exception of
 #'   'spectrum' and 'neutral_losses' where only a summary is given.
 #'
-#' @importFrom methods show
+#' @importFrom methods setMethod show
 #'
 #' @exportMethod show
 setMethod("show",
@@ -88,6 +92,8 @@ setMethod("show",
 #'   or \code{\link[MSnbase:Spectrum-class]{Spectrum2}}
 #'
 #' @return An object of class \code{\linkS4class{MS2spectrum}}
+#'
+#' @importFrom methods new
 #'
 #' @examples
 #' #Load a "Spectrum2" object from MSnbase
@@ -143,6 +149,8 @@ setGeneric("cossim")
 #' @describeIn cossim \code{cossim} method for
 #'   \code{\linkS4class{MS2spectrum}} objects
 #'
+#' @importFrom methods setMethod
+#'
 #' @exportMethod cossim
 setMethod("cossim",
             c(x = "MS2spectrum", y = "MS2spectrum"),
@@ -159,6 +167,8 @@ setMethod("cossim",
 
 #' @describeIn cossim \code{cossim} method for
 #'   \code{\linkS4class{pseudospectrum}} objects
+#'
+#' @importFrom methods setMethod
 #'
 #' @exportMethod cossim
 setMethod(  "cossim",

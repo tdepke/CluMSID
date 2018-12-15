@@ -19,7 +19,7 @@ A csv file that contains feature ID, precurosur \emph{m/z} and
     \code{','}.
 }
 \description{
-\code{writeFeaturelist} uses \code{\link{Featurelist}} to generate a
+\code{writeFeaturelist} uses \code{\link{featureList}} to generate a
 \code{data.frame} that contains feature ID, precurosur \emph{m/z} and
 retention time for all features contained in a list of \code{MS2spectrum}
 objects as produced by \code{extractMS2spectra} and \code{mergeSpecList} and
