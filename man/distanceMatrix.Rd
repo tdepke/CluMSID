@@ -4,8 +4,8 @@
 \alias{distanceMatrix}
 \title{Create distance matrix from list of spectra}
 \usage{
-distanceMatrix(speclist, distFun = "cossim", type = "spectrum",
-    mz_tolerance = 1e-05)
+distanceMatrix(speclist, distFun = "cossim", type = c("spectrum",
+    "neutral_losses"), mz_tolerance = 1e-05)
 }
 \arguments{
 \item{speclist}{A list of \code{\linkS4class{MS2spectrum}} or

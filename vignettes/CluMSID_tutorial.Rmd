@@ -970,13 +970,15 @@ similarity of our unknown feature seems to be specific to pyocyanin
 The `MSnbase` package---which is commonly used for proteomics applications 
 and is also associated with XCMS3---has two classes for (MS^2^) spectra, 
 `Spectrum` and `Spectrum2` which contain spectra along with metainformation. 
-This metainformation differ from those contained in `MS2spectrum` objects and 
+These metainformation differ from those contained in `MS2spectrum` objects and 
 are not very well suited for metabolomics applications. Still, it is possible 
 to use `CluMSID` functions with objects of those two classes by converting 
-them to `MS2spectrum` objects using `convertSpectrum()`:
+them to `MS2spectrum` objects using `as.MS2spectrum()`:
 
 ```{r convertSpectrum_1, eval=FALSE}
-CluMSID_object <- convertSpectrum(MSnbase_object)
+CluMSID_object <- as.MS2spectrum(MSnbase_object)
+# or alternatively
+CluMSID_object <- as(MSnbase_object, "MS2spectrum")
 ```
 
 ## Split polarities from polarity-switching runs

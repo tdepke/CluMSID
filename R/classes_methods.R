@@ -85,7 +85,6 @@ setMethod("show",
                 )
             })
 
-
 #' Convert spectra from \pkg{MSnbase} classes
 #'
 #' @param x An object of class \code{\link[MSnbase:Spectrum-class]{Spectrum}}
@@ -94,22 +93,37 @@ setMethod("show",
 #' @return An object of class \code{\linkS4class{MS2spectrum}}
 #'
 #' @importFrom methods new
+#' @importClassesFrom MSnbase Spectrum Spectrum2
 #'
 #' @examples
 #' #Load a "Spectrum2" object from MSnbase
 #' library(MSnbase)
 #' sp <- itraqdata[["X1"]]
 #' #Convert this object to "MS2spectrum" class
-#' new_sp <- convertSpectrum(sp)
+#' new_sp <- as.MS2spectrum(sp)
+#' #Or alternatively:
+#' new_sp <- as(sp, "MS2spectrum")
 #'
 #' @export
-convertSpectrum <- function(x){
-    stopifnot(class(x) %in% c("Spectrum", "Spectrum2"))
-    methods::new("MS2spectrum",
-                precursor = x@precursorMz,
-                rt = x@rt,
-                spectrum = cbind(x@mz, x@intensity))
-}
+as.MS2spectrum <- function(x) as(x, "MS2spectrum")
+setAs("Spectrum", "MS2spectrum",
+        function(from) {
+            methods::new(
+                "MS2spectrum",
+                precursor = from@precursorMz,
+                rt = from@rt,
+                spectrum = cbind(from@mz, from@intensity)
+            )
+        })
+setAs("Spectrum2", "MS2spectrum",
+        function(from) {
+            methods::new(
+                "MS2spectrum",
+                precursor = from@precursorMz,
+                rt = from@rt,
+                spectrum = cbind(from@mz, from@intensity)
+            )
+        })
 
 #' Calculate cosine similarity between two spectra
 #'
@@ -137,7 +151,8 @@ convertSpectrum <- function(x){
 #' cossim(annotatedSpeclist[[1]], annotatedSpeclist[[2]])
 #'
 #' @export
-cossim <- function(x, y, type = "spectrum", mzTolerance = 1e-5) {
+cossim <- function(x, y, type = c("spectrum", "neutral_losses"),
+                    mzTolerance = 1e-5) {
     colnames(x) <- NULL
     colnames(y) <- NULL
     mm <- mergeTolerance(x, y, tolerance = mzTolerance)
@@ -155,6 +170,7 @@ setGeneric("cossim")
 setMethod("cossim",
             c(x = "MS2spectrum", y = "MS2spectrum"),
             function(x, y, type, mzTolerance){
+                type <- match.arg(type)
                 if(type == "spectrum"){
                     cossim(x@spectrum, y@spectrum, type = type,
                             mzTolerance = mzTolerance)
@@ -174,6 +190,7 @@ setMethod("cossim",
 setMethod(  "cossim",
             c(x = "pseudospectrum", y = "pseudospectrum"),
             function(x, y, type, mzTolerance){
+                type <- match.arg(type)
                 if(type == "spectrum"){
                     cossim(x@spectrum, y@spectrum,
                             type = type, mzTolerance = mzTolerance)

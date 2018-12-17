@@ -28,7 +28,7 @@
 #'
 #' @export
 featureList <- function(featlist){
-    id <- c(); mz <- c(); rt <- c()
+    id <- mz <- rt <- c()
     for(i in seq_along(featlist)){
         id[i] <- featlist[[i]]@id
         if(methods::.hasSlot(featlist[[i]], "precursor")){

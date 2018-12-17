@@ -4,7 +4,8 @@
 \alias{getSimilarities}
 \title{Match one spectrum against a set of spectra}
 \usage{
-getSimilarities(spec, speclist, type = "spectrum", hits_only = FALSE)
+getSimilarities(spec, speclist, type = c("spectrum", "neutral_losses"),
+    hits_only = FALSE)
 }
 \arguments{
 \item{spec}{The spectrum to be compared to other spectra. Can be either an

@@ -69,7 +69,7 @@ HCtbl <- function(distmat, h = 0.95){
 #' HCplot(distmat[1:50,1:50], h = 0.8, type = "heatmap")
 #'
 #' @export
-HCplot <- function(distmat, h = 0.95, type = "dendrogram", ...){
+HCplot <- function(distmat, h = 0.95, type = c("dendrogram", "heatmap"), ...){
     clust <- stats::hclust(stats::as.dist(distmat), method = "average")
     hclusttree <- stats::cutree(clust, h = h)
     hclustmat <- cbind(names(hclusttree), hclusttree)
@@ -77,6 +77,7 @@ HCplot <- function(distmat, h = 0.95, type = "dendrogram", ...){
 
     nc <- round(max(hclusttree)/8)
 
+    type <- match.arg(type)
     if(type == "heatmap") {
         params <- list(...)
         params$Rowv <- rev(stats::as.dendrogram(clust))

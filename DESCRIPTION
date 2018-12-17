@@ -1,7 +1,7 @@
 Package: CluMSID
 Type: Package
 Title: Clustering of MS2 Spectra for Metabolite Identification
-Version: 0.99.8
+Version: 0.99.9
 Authors@R: c(person("Tobias", "Depke", email = "tobias.depke@helmholtz-hzi.de", 
     role = c("aut", "cre")),
     person("Raimo", "Franke", email = "raimo.franke@helmholtz-hzi.de",
@@ -39,7 +39,8 @@ Imports:
     grDevices,
     graphics,
     Biobase,
-    gplots
+    gplots,
+    MSnbase
 RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown,
@@ -48,7 +49,6 @@ Suggests: knitr,
     readr,
     stringr,
     magrittr,
-    MSnbase,
     CluMSIDdata,
     metaMS,
     metaMSdata,

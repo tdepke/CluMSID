@@ -4,11 +4,13 @@
 \alias{specplot}
 \title{Create a basic plot of MS2 spectra}
 \usage{
-specplot(spec)
+specplot(spec, ...)
 }
 \arguments{
 \item{spec}{An object of class \code{\linkS4class{MS2spectrum}} or
 \code{\linkS4class{pseudospectrum}}}
+
+\item{...}{Additional graphical parameters to be passed to \code{plot()}}
 }
 \value{
 A plot of the MS2 spectrum saved in the \code{spectrum} slot of

@@ -90,3 +90,12 @@
 + started importing all packages into NAMESPACE
 + abandoned "CluMSID_" prefix and renamed respective functions
 + changed all function names to camel case starting with lower case letters
+
+0.99.9
+
++ Bioconductor review II: R, part one
++ provided all 'type' argument options as vector
++ added '...' argument to specplot()
++ changed function to convert MSnbase objects from 'convertSpectrum(x)' to
+    'as.MS2spectrum(x)' / 'as(x, "MS2spectrum")'
++ various minor code changes with no visible effect for users

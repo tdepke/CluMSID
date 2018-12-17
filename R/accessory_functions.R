@@ -25,7 +25,7 @@
 #' @return A named vector with similarities of \code{spec} to all spectra or
 #'   neutral loss patterns in \code{speclist}.
 #'
-#' @importFrom methods new
+#' @importFrom methods new is
 #'
 #' @examples
 #' load(file = system.file("extdata",
@@ -37,11 +37,15 @@
 #' @export
 getSimilarities <- function(spec,
                             speclist,
-                            type = "spectrum",
+                            type = c("spectrum", "neutral_losses"),
                             hits_only = FALSE){
-    if(!(type %in% c("spectrum", "neutral_losses"))){
-        stop("'type' must be either 'spectrum' (default) or 'neutral_losses'!")
-    }
+    stopifnot((is(spec, "MS2spectrum") |
+                is(spec, "pseudospectrum") |
+                is.matrix(spec)) & is.list(speclist) &
+                all(vapply(X = speclist,
+                FUN = function(x) is(x, "MS2spectrum")|is(x, "pseudospectrum"),
+                FUN.VALUE = logical(1L))))
+    type <- match.arg(type)
     if(is.matrix(spec)){
         if(type == "spectrum"){
             spec <- methods::new("MS2spectrum", spectrum = spec)
@@ -54,8 +58,8 @@ getSimilarities <- function(spec,
         simvec[k] <- cossim(spec, speclist[[k]], type = type)
         names(simvec)[k] <- speclist[[k]]@id
     }
-    if(hits_only == TRUE){
-        simvec <- simvec[simvec > 0]
+    if(hits_only){
+        simvec <- simvec[simvec > 0 & !is.na(simvec)]
     }
     return(simvec)
 }
@@ -87,14 +91,13 @@ getSimilarities <- function(spec,
 #'
 #' @export
 findFragment <- function(featlist, mz, tolerance = 1E-05){
-    subsetter <- c()
-    for(i in seq_along(featlist)){
-        m <- featlist[[i]]@spectrum
-        subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
-    }
-    message(cat(sum(subsetter),
-                "spectra were found that contain a fragment of m/z",
-                mz, "+/-", tolerance * 1E06, "ppm."))
+    subsetter <- vapply(X = featlist,
+                        FUN = function(x) any(abs(accessSpectrum(x)[,1]
+                                                - mz) <= mz * tolerance),
+                        FUN.VALUE = logical(1L))
+    message(paste(sum(subsetter),
+                    "spectra were found that contain a fragment of m/z",
+                    mz, "+/-", tolerance * 1E06, "ppm."))
     return(featlist[subsetter])
 }
 
@@ -125,15 +128,14 @@ findFragment <- function(featlist, mz, tolerance = 1E-05){
 #'
 #' @export
 findNL <- function(featlist, mz, tolerance = 1E-05){
-    subsetter <- c()
-    for(i in seq_along(featlist)){
-        m <- featlist[[i]]@neutral_losses
-        subsetter[i] <- any(abs(m[,1] - mz) <= mz * tolerance)
-    }
-    message(cat(sum(subsetter),
-                "neutral loss patterns were found that
-                contain a neutral loss of m/z",
-                mz, "+/-", tolerance * 1E06, "ppm."))
+    subsetter <- vapply(X = featlist,
+                        FUN = function(x) any(abs(accessNeutralLosses(x)[,1]
+                                                    - mz) <= mz * tolerance),
+                        FUN.VALUE = logical(1L))
+    message(paste(sum(subsetter),
+                    "neutral loss patterns were found that",
+                    "contain a neutral loss of m/z",
+                    mz, "+/-", tolerance * 1E06, "ppm."))
     return(featlist[subsetter])
 }
 
@@ -184,32 +186,23 @@ findNL <- function(featlist, mz, tolerance = 1E-05){
 #'
 #' @export
 getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
-    subsetter <- c()
-
-    if(slot %in% c("id", "annotation")){
-        for(i in seq_along(featlist)){
-            m <- methods::slot(featlist[[i]], slot)
-            subsetter[i] <- what %in% m
-        }
-    } else if(slot == "precursor"){
-        for(i in seq_along(featlist)){
-            m <- methods::slot(featlist[[i]], slot)
-            subsetter[i] <- abs(what - m) <= mz.tol
-        }
-    } else if(slot == "rt"){
-        for(i in seq_along(featlist)){
-            m <- methods::slot(featlist[[i]], slot)
-            subsetter[i] <- abs(what - m) <= rt.tol
-        }
-    } else stop("invalid slot selected")
-
-
+    stopifnot(slot %in% c("id", "annotation", "precursor", "rt"))
+    qexp <- switch(
+        slot,
+        "id" = quote(what %in% methods::slot(e, slot)),
+        "annotation" = quote(what %in% methods::slot(e, slot)),
+        "precursor" = quote(abs(what - methods::slot(e, slot)) <= mz.tol),
+        "rt" = quote(abs(what - methods::slot(e, slot)) <= rt.tol)
+    )
+    subsetter <- vapply(X = featlist,
+                        FUN = function(e) eval(qexp),
+                        FUN.VALUE = logical(1L))
     if(sum(subsetter) == 0){
-        cat("No spectrum with that ", slot, ".", sep = "")
+        message("No spectrum with that ", slot, ".", sep = "")
     } else if(sum(subsetter) == 1){
-        return(featlist[subsetter][[1]])
+        return(featlist[subsetter][[1]]) # return as MS2spectrum object
     } else {
-        return(featlist[subsetter])
+        return(featlist[subsetter]) # return as list
     }
 }
 
@@ -239,9 +232,9 @@ getSpectrum <- function(featlist, slot, what, mz.tol = 1E-05, rt.tol = 30){
 #' @export
 splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
     stopifnot(polarity %in% c("positive", "negative"))
-    subvec <- vapply(FUN = accessPolarity,
+    subvec <- vapply(FUN = function (x) accessPolarity(x) == polarity,
                         X = ms2list,
-                        FUN.VALUE = character(1)) == polarity
+                        FUN.VALUE = logical(1L))
     return(ms2list[subvec])
 }
 
@@ -253,6 +246,8 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #'
 #' @param spec An object of class \code{\linkS4class{MS2spectrum}} or
 #'   \code{\linkS4class{pseudospectrum}}
+#'
+#' @param ... Additional graphical parameters to be passed to \code{plot()}
 #'
 #' @return A plot of the MS2 spectrum saved in the \code{spectrum} slot of
 #'   \code{spec}.
@@ -267,32 +262,36 @@ splitPolarities <- function(ms2list, polarity = c("positive", "negative")){
 #' specplot(annotatedSpeclist[[1]])
 #'
 #' @export
-specplot <- function(spec) {
-    stopifnot(class(spec) %in% c("MS2spectrum", "pseudospectrum"))
-    graphics::plot(
-        x = spec@spectrum[, 1],
-        y = spec@spectrum[, 2] / max(spec@spectrum[, 2]),
-        type = "h",
-        xlim = c(0, (max(spec@spectrum[, 1]) * 1.1)),
-        xaxs = "i",
-        xlab = expression(italic(m / z)),
-        ylim = c(0, 1.1),
-        yaxs = "i",
-        ylab = "intensity relative to base peak",
-        main = paste("id:", spec@id, " - ", "rt:", spec@rt),
-        sub = spec@annotation
-    )
-    graphics::text(
-        x = (spec@spectrum[, 1])[(spec@spectrum[, 2] /
-                                    max(spec@spectrum[, 2])) > 0.1],
-        y = (spec@spectrum[, 2] /
-                max(spec@spectrum[, 2]))[
-                    (spec@spectrum[, 2] /
-                        max(spec@spectrum[, 2])) > 0.1],
-        labels = round((spec@spectrum[, 1])[
-            (spec@spectrum[, 2] /
-                max(spec@spectrum[, 2])) > 0.1], 4),
-        pos = 3,
-        cex = 0.75
-    )
+specplot <- function(spec, ...) {
+    stopifnot(is(spec, "MS2spectrum") | is(spec, "pseudospectrum"))
+    params <- list(...)
+    if(!("main" %in% names(params))) {
+        params$main <- paste("id:", spec@id, " - ", "rt:", spec@rt)
+    }
+    if(!("sub" %in% names(params))) params$sub <- spec@annotation
+    params$x <- spec@spectrum[, 1]
+    params$y <- spec@spectrum[, 2] / max(spec@spectrum[, 2])
+    params$type <- "h"
+    params$xlim <- c(0, (max(spec@spectrum[, 1]) * 1.1))
+    params$xaxs <- "i"
+    params$xlab <- expression(italic(m / z))
+    params$ylim <- c(0, 1.1)
+    params$yaxs <- "i"
+    params$ylab <- "intensity relative to base peak"
+    do.call(graphics::plot, params)
+    params$x <- (spec@spectrum[, 1])[(spec@spectrum[, 2] /
+                                        max(spec@spectrum[, 2])) > 0.1]
+    params$y <- (spec@spectrum[, 2] /
+                    max(spec@spectrum[, 2]))[
+                        (spec@spectrum[, 2] /
+                            max(spec@spectrum[, 2])) > 0.1]
+    if(!("labels" %in% names(params))) {
+        params$labels <- round((spec@spectrum[, 1])
+                                [(spec@spectrum[, 2] /
+                                    max(spec@spectrum[, 2])) > 0.1], 4)
+    }
+    if(!("pos" %in% names(params))) params$pos <- 3
+    if(!("cex" %in% names(params))) params$cex <- 0.75
+    params$type <- NULL
+    do.call(graphics::text, params)
 }

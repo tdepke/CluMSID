@@ -23,7 +23,7 @@ NULL
 #'
 #' @export
 accessID <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@id)
 }
 
@@ -38,7 +38,7 @@ accessID <- function(x){
 #'
 #' @export
 accessAnnotation <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@annotation)
 }
 
@@ -53,7 +53,7 @@ accessAnnotation <- function(x){
 #'
 #' @export
 accessPrecursor <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@precursor)
 }
 
@@ -68,7 +68,7 @@ accessPrecursor <- function(x){
 #'
 #' @export
 accessRT <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@rt)
 }
 
@@ -83,7 +83,7 @@ accessRT <- function(x){
 #'
 #' @export
 accessPolarity <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@polarity)
 }
 
@@ -98,7 +98,7 @@ accessPolarity <- function(x){
 #'
 #' @export
 accessSpectrum <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@spectrum)
 }
 
@@ -113,6 +113,6 @@ accessSpectrum <- function(x){
 #'
 #' @export
 accessNeutralLosses <- function(x){
-    stopifnot(class(x) %in% c("MS2spectrum", "pseudospectrum"))
+    stopifnot(is(x, "MS2spectrum") | is(x, "pseudospectrum"))
     return(x@neutral_losses)
 }

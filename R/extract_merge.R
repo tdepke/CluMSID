@@ -103,9 +103,9 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
 
     pmz <- mzR::header(aa)$precursorMZ
 
-    if(recalibrate_precursor == TRUE){
+    if(recalibrate_precursor){
         new.pmz <- 0
-        for (i in 2:length(pmz)) {
+        for (i in seq_along(pmz)[-1]) {
             if (pmz[i] == 0) {
                 x <-
                     0
@@ -206,7 +206,7 @@ mergeSpecList <- function(speclist, tolerance = 1e-5) {
             z0[j] <- ident[z] == ident[j]
         }
         if (z != 1 & any(z0)) {
-            mrgls[[z]] <- mrgls[[which(z0 == TRUE)[1]]]
+            mrgls[[z]] <- mrgls[[which(z0)[1]]]
         } else {
             if (sum(ident == ident[z]) > 1) {
                 zl <- speclist[ident == ident[z]]
@@ -453,7 +453,7 @@ mergeMS2spectra <- function(ms2list,
         shortlist[[u]] <- neutrallossPatterns(shortlist[[u]])
     }
 
-    if(exclude_unmatched == TRUE){
+    if(exclude_unmatched){
         w <- 1
         while(w <= length(shortlist)){
             if(grepl(pattern = "xM", x = shortlist[[w]]@id)){

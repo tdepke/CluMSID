@@ -58,7 +58,7 @@ networkplot <- function(distmat, interactive = FALSE, show_labels = FALSE,
                             min_similarity = 0.1, exclude_singletons = FALSE){
     simmat <- 1 - distmat
     simmat[simmat < min_similarity] <- 0
-    if(exclude_singletons == TRUE){
+    if(exclude_singletons){
         subvec <- colSums(simmat) >= 1 + min_similarity
         simmat <- simmat[subvec, subvec]
     }
@@ -82,13 +82,14 @@ networkplot <- function(distmat, interactive = FALSE, show_labels = FALSE,
     elist <- network::as.edgelist(spec_net)
     eweights <- c()
     for (i in seq_len(nrow(elist))){
-        x <- elist[i,1]; y <- elist[i,2]
+        x <- elist[i,1]
+        y <- elist[i,2]
         eweights[i] <- simmat[x,y]
     }
     network::set.edge.attribute(spec_net, "weight",
                                 round(eweights, digits = 4))
 
-    if(interactive == TRUE){
+    if(interactive){
         show_labels <- FALSE
     }
 
@@ -111,7 +112,7 @@ networkplot <- function(distmat, interactive = FALSE, show_labels = FALSE,
         suppressMessages(
             netplotly <- plotly::ggplotly(netplot, tooltip = "~factor(color)")
         )
-        for(i in 2:length(netplotly$x$data)){
+        for(i in seq_along(netplotly$x$data)[-1]){
             netplotly$x$data[[i]]$text <- strsplit(netplotly$x$data[[i]]$text,
                                                     split = ": ")[[1]][2]
         }

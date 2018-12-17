@@ -38,12 +38,10 @@
 #'
 #' @export
 distanceMatrix <- function(speclist, distFun = "cossim",
-                            type = "spectrum", mz_tolerance = 1e-5){
+                            type = c("spectrum", "neutral_losses"),
+                            mz_tolerance = 1e-5){
     if(distFun == "cossim"){
-        if(!(type %in% c("spectrum", "neutral_losses"))) {
-            stop("'type' must be either 'spectrum' (default)
-                or 'neutral_losses'")
-        }
+        type <- match.arg(type)
         distmat <-
             matrix(nrow = length(speclist), ncol = length(speclist))
         for (m in seq_along(speclist)) {
@@ -127,7 +125,7 @@ MDSplot <- function(distmat,
     if(!("pch" %in% names(params))) params$pch <- 16
     if(!("size" %in% names(params))) params$size <- 2
     if(!("alpha" %in% names(params))) params$alpha <- 0.5
-    if(highlight_annotated == TRUE){
+    if(highlight_annotated){
         params$colour <- as.numeric(
             grepl(pattern = " - ",
                     x = fit$anno))+1
