@@ -99,3 +99,8 @@
 + changed function to convert MSnbase objects from 'convertSpectrum(x)' to
     'as.MS2spectrum(x)' / 'as(x, "MS2spectrum")'
 + various minor code changes with no visible effect for users
+
+0.99.10
+
++ Bioconductor review II: R, part two
++ replaced nested for-loop inside distanceMatrix()

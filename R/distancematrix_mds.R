@@ -42,33 +42,33 @@ distanceMatrix <- function(speclist, distFun = "cossim",
                             mz_tolerance = 1e-5){
     if(distFun == "cossim"){
         type <- match.arg(type)
-        distmat <-
-            matrix(nrow = length(speclist), ncol = length(speclist))
-        for (m in seq_along(speclist)) {
-            for (l in m:length(speclist)) {
-                if (is.na(distmat[m, l])) {
-                    distmat[m, l] <- 1 - cossim(speclist[[m]],
-                                                speclist[[l]],
-                                                type = type,
-                                                mzTolerance = mz_tolerance)
-                    distmat[l, m] <- distmat[m, l]
-                }
-            }
-        }
+        dists <- vapply(
+            X = combn(speclist, 2, simplify = FALSE),
+            FUN = function(x)
+                1-cossim(x[[1]], x[[2]], type = type,
+                         mzTolerance = mz_tolerance),
+            FUN.VALUE = numeric(1)
+        )
+        distmat <- matrix(nrow = length(speclist),
+                          ncol = length(speclist))
+        distmat[lower.tri(distmat)] <- dists
+        distmat[upper.tri(distmat)] <- t(distmat)[upper.tri(distmat)]
+        diag(distmat) <- vapply(X = speclist,
+                                FUN = function(x)
+                                    1-cossim(x, x, type = type,
+                                                mzTolerance = mz_tolerance),
+                                FUN.VALUE = numeric(1))
     }
-    featnames <- c()
-    for(e in seq_along(speclist)){
-        if(S4Vectors::isEmpty(speclist[[e]]@annotation)
-            || speclist[[e]]@annotation == ""){
-            featnames[e] <- speclist[[e]]@id
-        } else {
-            featnames[e] <- paste(speclist[[e]]@id,
-                                    speclist[[e]]@annotation,
-                                    sep = " - ")
-        }
-    }
-    row.names(distmat) <- featnames
-    colnames(distmat) <- featnames
+    featnames <- vapply(
+        X = speclist,
+        FUN = function(e) {
+            if (S4Vectors::isEmpty(e@annotation) || e@annotation == "") {
+                return(e@id)
+            } else return(paste(e@id, e@annotation, sep = " - "))
+        },
+        FUN.VALUE = character(1)
+    )
+    dimnames(distmat) <- list(featnames, featnames)
     distmat[is.na(distmat)] <- 1
     return(distmat)
 }
