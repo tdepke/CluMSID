@@ -104,3 +104,7 @@
 
 + Bioconductor review II: R, part two
 + replaced nested for-loop inside distanceMatrix()
+
+0.99.11
+
++ fixed bug in new distanceMatrix(), now coerces numeric IDs to character

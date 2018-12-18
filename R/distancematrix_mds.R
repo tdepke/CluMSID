@@ -35,6 +35,7 @@
 #' distanceMatrix(annotatedSpeclist[1:20])
 #'
 #' @importFrom S4Vectors isEmpty
+#' @importFrom utils combn
 #'
 #' @export
 distanceMatrix <- function(speclist, distFun = "cossim",
@@ -43,14 +44,14 @@ distanceMatrix <- function(speclist, distFun = "cossim",
     if(distFun == "cossim"){
         type <- match.arg(type)
         dists <- vapply(
-            X = combn(speclist, 2, simplify = FALSE),
+            X = utils::combn(speclist, 2, simplify = FALSE),
             FUN = function(x)
                 1-cossim(x[[1]], x[[2]], type = type,
-                         mzTolerance = mz_tolerance),
+                            mzTolerance = mz_tolerance),
             FUN.VALUE = numeric(1)
         )
         distmat <- matrix(nrow = length(speclist),
-                          ncol = length(speclist))
+                            ncol = length(speclist))
         distmat[lower.tri(distmat)] <- dists
         distmat[upper.tri(distmat)] <- t(distmat)[upper.tri(distmat)]
         diag(distmat) <- vapply(X = speclist,
@@ -63,7 +64,7 @@ distanceMatrix <- function(speclist, distFun = "cossim",
         X = speclist,
         FUN = function(e) {
             if (S4Vectors::isEmpty(e@annotation) || e@annotation == "") {
-                return(e@id)
+                return(as.character(e@id))
             } else return(paste(e@id, e@annotation, sep = " - "))
         },
         FUN.VALUE = character(1)
