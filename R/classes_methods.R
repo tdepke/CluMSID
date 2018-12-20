@@ -196,3 +196,68 @@ setMethod(  "cossim",
                             type = type, mzTolerance = mzTolerance)
                 } else stop("with pseudospectra, 'type' must be 'spectrum'!")
             })
+
+#' @describeIn MS2spectrum Method for\code{MSnbase::precursorMz}
+#'   for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{precursor}
+#'   slot and returns precursor \emph{m/z} as a numeric.
+#'
+#' @importFrom MSnbase precursorMz
+#'
+#' @exportMethod precursorMz
+setMethod("precursorMz",
+            "MS2spectrum",
+            function(object) {
+                return(object@precursor)
+            })
+
+#' @describeIn MS2spectrum Method for\code{MSnbase::rtime}
+#'   for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{rt}
+#'   slot and returns retention time as a numeric.
+#'
+#' @importFrom MSnbase rtime
+#'
+#' @exportMethod rtime
+setMethod("rtime",
+            "MS2spectrum",
+            function(object) {
+                return(object@rt)
+            })
+
+#' @describeIn MS2spectrum Method for\code{MSnbase::intensity}
+#'   for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{spectrum}
+#'   slot and returns the intensity column as a numeric vector.
+#'
+#' @importFrom MSnbase intensity
+#'
+#' @exportMethod intensity
+setMethod("intensity",
+            "MS2spectrum",
+            function(object) {
+                return(object@spectrum[,2])
+            })
+
+#' @describeIn MS2spectrum Method for\code{MSnbase::mz}
+#'   for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{spectrum}
+#'   slot and returns the \emph{m/z} column as a numeric vector.
+#'
+#' @importFrom MSnbase mz
+#'
+#' @exportMethod mz
+setMethod("mz",
+            "MS2spectrum",
+            function(object) {
+                return(object@spectrum[,1])
+            })
+
+#' @describeIn MS2spectrum Method for\code{MSnbase::mz}
+#'   for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{spectrum}
+#'   slot and returns the number of peaks as a numeric.
+#'
+#' @importFrom MSnbase peaksCount
+#'
+#' @exportMethod peaksCount
+setMethod("peaksCount",
+            "MS2spectrum",
+            function(object) {
+                return(nrow(object@spectrum))
+            })

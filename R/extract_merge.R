@@ -86,7 +86,7 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
         mslvl[z] <- mzR::header(aa, z)$msLevel
     }
     try(if(length(mslvl[mslvl == 2]) < 1) stop("The file does not
-                                            contain MS2 spectra."))
+                                                contain MS2 spectra."))
 
     spectra <- list()
     for (z in seq_along(aa)) {
@@ -103,50 +103,26 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
 
     pmz <- mzR::header(aa)$precursorMZ
 
-    if(recalibrate_precursor){
+    if(recalibrate_precursor) {
+        rp <- function(n) {
+            mzR::peaks(aa, (i - n))[which.min(
+                abs(pmz[i] - mzR::peaks(aa, (i - n))[, 1])), 1]
+        }
         new.pmz <- 0
         for (i in seq_along(pmz)[-1]) {
-            if (pmz[i] == 0) {
-                x <-
-                    0
-            } else {
-                if (pmz[(i - 1)] == 0) {
-                    x <-
-                        mzR::peaks(aa, (i - 1))[which.min(
-                            abs(pmz[i] - mzR::peaks(aa,
-                                                    (i - 1))[, 1])), 1]
-                } else {
-                    if (pmz[(i - 2)] == 0) {
-                        x <-
-                            mzR::peaks(aa, (i - 2))[which.min(
-                                abs(pmz[i] - mzR::peaks(aa,
-                                                        (i - 2))[, 1])), 1]
-                    } else {
-                        if (pmz[(i - 3)] == 0) {
-                            x <-
-                                mzR::peaks(aa, (i - 3))[which.min(
-                                    abs(pmz[i] - mzR::peaks(aa,
-                                                            (i - 3))[, 1])), 1]
-                        } else {
-                            x <- NA
-                        }
-                    }
-                }
-            }
-            if (x == 0 ||
-                ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 200) {
+            if (pmz[i] == 0) x <- 0
+            else if (pmz[(i - 1)] == 0) x <- rp(1)
+            else if (pmz[(i - 2)] == 0) x <- rp(2)
+            else if (pmz[(i - 3)] == 0) x <- rp(3)
+            else x <- NA
+            if (x == 0 || ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 200) {
                 new.pmz[i] <- x
-            } else {
-                new.pmz[i] <- NA
-            }
+            } else new.pmz[i] <- NA
         }
-    } else {
-        new.pmz <- pmz
-    }
+    } else new.pmz <- pmz
 
     pol <- ifelse(mzR::header(aa)$polarity == 1, "positive",
                     ifelse(mzR::header(aa)$polarity == 0, "negative", ""))
-
 
     precursor <- data.frame(new.pmz, mzR::header(aa)$retentionTime, pol)
     precursor2 <- precursor[ms2log,][vec,]

@@ -4,10 +4,25 @@
 \name{MS2spectrum-class}
 \alias{MS2spectrum-class}
 \alias{show,MS2spectrum-method}
+\alias{precursorMz,MS2spectrum-method}
+\alias{rtime,MS2spectrum-method}
+\alias{intensity,MS2spectrum-method}
+\alias{mz,MS2spectrum-method}
+\alias{peaksCount,MS2spectrum,ANY-method}
 \title{A custom S4 class for MS2 spectra, neutral loss patterns and
 respective metainformation}
 \usage{
 \S4method{show}{MS2spectrum}(object)
+
+\S4method{precursorMz}{MS2spectrum}(object)
+
+\S4method{rtime}{MS2spectrum}(object)
+
+\S4method{intensity}{MS2spectrum}(object)
+
+\S4method{mz}{MS2spectrum}(object)
+
+\S4method{peaksCount}{MS2spectrum,ANY}(object)
 }
 \arguments{
 \item{object}{An object of class \code{\linkS4class{MS2spectrum}}}
@@ -23,6 +38,26 @@ respective metainformation
 \section{Methods (by generic)}{
 \itemize{
 \item \code{show}: A show generic for \code{MS2spectra}.
+
+\item \code{precursorMz}: Method for\code{MSnbase::precursorMz}
+for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{precursor}
+slot and returns precursor \emph{m/z} as a numeric.
+
+\item \code{rtime}: Method for\code{MSnbase::rtime}
+for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{rt}
+slot and returns retention time as a numeric.
+
+\item \code{intensity}: Method for\code{MSnbase::intensity}
+for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{spectrum}
+slot and returns the intensity column as a numeric vector.
+
+\item \code{mz}: Method for\code{MSnbase::mz}
+for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{spectrum}
+slot and returns the \emph{m/z} column as a numeric vector.
+
+\item \code{peaksCount}: Method for\code{MSnbase::mz}
+for \code{\linkS4class{MS2spectrum}} objects. Accesses \code{spectrum}
+slot and returns the number of peaks as a numeric.
 }}
 
 \section{Slots}{
