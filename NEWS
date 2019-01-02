@@ -114,3 +114,7 @@
 + Bioconductor review II: R, part three
 + added MS2spectrum methods for MSnbase/ProtGenerics generics
 + minor code changes with no visible effect for users
+
+0.99.13
+
++ changed download instructions to BiocManager::install()

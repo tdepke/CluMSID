@@ -145,18 +145,13 @@ auto-MS/MS on a Bruker maxis^HD^ qTOF after reversed phase separation by UPLC.
 For details, please refer to the Depke *et al.* 2017 publication 
 (doi: 10.1016/j.jchromb.2017.06.002.).
 
-The package can be loaded as follows:
+To be able to access the example data, we also need the related package
+`CluMSIDdata`. The packages can be loaded as follows:
 
 ```{r load_package_0, eval=FALSE}
-devtools::install_github(   "tdepke/CluMSID", 
-                            ref = "package", 
-                            build_vignettes = TRUE)
-```
-To be able to access the example data, we also need the related package
-`CluMSIDdata` which can be installed from GitHub as well:
-
-```{r load_package_1, eval=FALSE}
-devtools::install_github("tdepke/CluMSIDdata")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("CluMSIDdata", "CluMSID"))
 ```
 
 ```{r load_package_2, eval=TRUE}
