@@ -361,8 +361,8 @@ mergeMS2spectra <- function(ms2list,
 
         matr <- matrix(data = NA, ncol = 3, nrow = nrow(mz1))
         for(e in seq_len(nrow(mz1))){
-            l1 <- abs(mz1[e, 1] - peaktable[,2]) <= mz1[e, 1] * mz_tolerance &
-                abs(mz1[e, 2] - peaktable[, 3]) <= rt_tolerance
+            l1 <- as.vector(abs(mz1[e, 1] - peaktable[,2]) <= mz1[e, 1] * mz_tolerance &
+                abs(mz1[e, 2] - peaktable[, 3]) <= rt_tolerance)
             if(sum(l1) == 0){
                 matr[e,] <- c(paste0("no_match_", e), mz1[e, 1], mz1[e, 2])
             } else if(sum(l1) == 1){
