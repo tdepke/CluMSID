@@ -79,7 +79,7 @@ mergeTolerance <- function(x, y, tolerance = 1e-5) {
 extractMS2spectra <- function(  MSfile, min_peaks = 2,
                                 recalibrate_precursor = FALSE,
                                 RTlims = NULL){
-    aa <- mzR::openMSfile(MSfile, backend = "Ramp")
+    aa <- mzR::openMSfile(MSfile, backend = "pwiz")
 
     mslvl <- c()
     for (z in seq_along(aa)) {
@@ -110,10 +110,10 @@ extractMS2spectra <- function(  MSfile, min_peaks = 2,
         }
         new.pmz <- 0
         for (i in seq_along(pmz)[-1]) {
-            if (pmz[i] == 0) x <- 0
-            else if (pmz[(i - 1)] == 0) x <- rp(1)
-            else if (pmz[(i - 2)] == 0) x <- rp(2)
-            else if (pmz[(i - 3)] == 0) x <- rp(3)
+            if (pmz[i] == 0 | is.na(pmz[i])) x <- 0
+            else if (pmz[(i - 1)] == 0 | is.na(pmz[i - 1])) x <- rp(1)
+            else if (pmz[(i - 2)] == 0 | is.na(pmz[i - 2])) x <- rp(2)
+            else if (pmz[(i - 3)] == 0 | is.na(pmz[i - 3])) x <- rp(3)
             else x <- NA
             if (x == 0 || ((abs(x - pmz[i]) / pmz[i]) * 1e06) <= 200) {
                 new.pmz[i] <- x
